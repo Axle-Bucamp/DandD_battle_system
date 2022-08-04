@@ -2,7 +2,7 @@ from BattleSystem.Effect import Effect
 from BattleSystem.Dice import Dice
 
 
-class Dot_effect(Effect):
+class Buff_effect(Effect):
     def __init__(self, scale_type=None, resist_type=None, damage=None, name="Unknown", description="Unknown",
                  is_fixed_targeting=False, turn_left=0, max_target=1, buff_stat="stren"):
         super().__init__(scale_type, resist_type, damage, name, description,

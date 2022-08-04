@@ -3,6 +3,7 @@ from kivy.uix.button import Button
 from kivy.uix.accordion import Accordion, AccordionItem
 from GUI import popup_generation_battle
 from GUI import Main_window
+from GUI import popup_create_entity
 
 
 class Action_menu(Accordion):
@@ -21,11 +22,16 @@ class Action_menu(Accordion):
         battle_options = GridLayout(cols=1)
         self.battle_delete_option = Button(text="remove entities", size_hint_y=None, height=44)
         battle_options.add_widget(self.battle_delete_option)
+
         self.battle_add_option = Button(text="create entity", size_hint_y=None, height=44)
+        self.popup_create_entity = popup_create_entity.popup_create_entity(Main_window.refresh)
+        self.battle_add_option.bind(on_press=self.popup_create_entity.open)
+
         battle_options.add_widget(self.battle_add_option)
         self.battle_generate_option = Button(text="generate entities", size_hint_y=None, height=44)
         self.pop_generation = popup_generation_battle.popup_generation_battle(Main_window.refresh)
         self.battle_generate_option.bind(on_press=self.pop_generation.open)
+
         battle_options.add_widget(self.battle_generate_option)
         self.battle_load_option = Button(text="load entities", size_hint_y=None, height=44)
         battle_options.add_widget(self.battle_load_option)

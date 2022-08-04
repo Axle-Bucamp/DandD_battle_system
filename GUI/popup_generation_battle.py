@@ -11,6 +11,9 @@ from kivy.uix.slider import Slider
 class popup_generation_battle(Popup):
     def __init__(self, call_on_generate=lambda: True, **kwargs):
         super().__init__(**kwargs)
+        self.size_hint = (None, None)
+        self.size = (600, 600)
+        self.title = "Generate entities"
         self.call_on_generate = call_on_generate
         self.mob_type = 0
         popup_main_grid = GridLayout(cols=1)
@@ -25,14 +28,18 @@ class popup_generation_battle(Popup):
         layout.add_widget(name_entity)
 
         layout.add_widget(Label(text="number :"))
-        layout.add_widget(Label(text="level of the fight :"))
-        number_of_attacker = Slider(min=0, max=10, value=1)
+        number_of_attacker = Slider(min=0, max=10, value=1, step=1)
+        number_of_attacker.bind(value=self.quantity_slide)
         layout.add_widget(number_of_attacker)
-        ilevel = Slider(min=0, max=15, value=1)
+
+        layout.add_widget(Label(text="level of the fight :"))
+        ilevel = Slider(min=0, max=15, value=1, step=1)
+        ilevel.bind(value=self.quantity_slide)
         layout.add_widget(ilevel)
 
         layout.add_widget(Label(text="party id :"))
-        party_id = Slider(min=0, max=10, value=1)
+        party_id = Slider(min=0, max=10, value=1, step=1)
+        party_id.bind(value=self.quantity_slide)
         layout.add_widget(party_id)
 
         # mob_type drop down
@@ -54,6 +61,9 @@ class popup_generation_battle(Popup):
 
         layout.add_widget(select_button)
 
+        self.quantity_on_select = Label(text="")
+        layout.add_widget(self.quantity_on_select)
+
         # cancel and validate button
         cancel = Button(text="generate")
         action.add_widget(cancel)
@@ -70,10 +80,10 @@ class popup_generation_battle(Popup):
     def generate(self, btn):
         # for child in btn.parent.parent.children[1].children:
         #    print(child)
-        name = btn.parent.parent.children[1].children[7].text
-        nb = int(btn.parent.parent.children[1].children[4].value)
-        lv = int(btn.parent.parent.children[1].children[3].value)
-        party_id = int(btn.parent.parent.children[1].children[1].value)
+        name = btn.parent.parent.children[1].children[8].text
+        nb = int(btn.parent.parent.children[1].children[6].value)
+        lv = int(btn.parent.parent.children[1].children[4].value)
+        party_id = int(btn.parent.parent.children[1].children[2].value)
         battle_field.generate_group(nb_mob=nb, mob_type=self.mob_type, ilevel_to_fight=lv,
                                     difficulty=1, party_id=party_id, name=name)
         self.call_on_generate()
@@ -81,3 +91,6 @@ class popup_generation_battle(Popup):
 
     def set(self, set_value):
         self.mob_type = set_value
+
+    def quantity_slide(self, slide, value):
+        self.quantity_on_select.text = str(value)

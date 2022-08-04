@@ -13,8 +13,10 @@ class Main_window(GridLayout):
     def refresh_turn(self):
         self.clear_widgets()
         self.add_widget(player_turn.player_turn())
-        self.add_widget(party_member.party_member() )
+        self.add_widget(party_member.party_member())
         for child in self.parent.children:
             if isinstance(child, mob_list.mob_list):
                 self.parent.remove_widget(child)
                 self.parent.add_widget(mob_list.mob_list(), len(self.parent.children))
+
+        Main_window.refresh = self.refresh_turn

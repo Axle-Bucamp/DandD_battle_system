@@ -9,7 +9,7 @@ class battle_field:
     dead_list = []
     current_player = None
 
-    def __init__(self, battle_list = None):
+    def __init__(self, battle_list=None):
         """
 
         :type battle_list: List
@@ -103,7 +103,7 @@ class battle_field:
         with open(path + ".pickle", 'wb') as handle:
             pickle.dump(self, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    def load_entity(self,path="./save/entity/default.pickle"):
+    def load_entity(self, path="./save/entity/default.pickle"):
         with open(path, 'rb') as handle:
             b = pickle.load(handle)
         if isinstance(b, Entity):

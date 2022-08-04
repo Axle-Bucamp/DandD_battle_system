@@ -15,21 +15,21 @@ class player_turn(GridLayout):
         self.padding = 0.05
         # self.size_hint_y= 2
 
-
         self.pop = None
         self.target = None
         self.ability = None
 
         self.add_widget(
-            Label(text=battle_field.current_player.name  + " party :" + str(battle_field.current_player.party_id)
-                       + " init :" + str(battle_field.entities.index(battle_field.current_player))
-                  , size_hint_y=None, height=50))
+            Label(text=battle_field.current_player.name + " party :" + str(
+                battle_field.current_player.party_id) + " init :" + str(
+                battle_field.entities.index(battle_field.current_player)), size_hint_y=None, height=50))
 
         life_box = GridLayout(size_hint_y=None, height=50)
         life_box.cols = 2
-        life_box.add_widget(Label(text=str(battle_field.current_player.hit_point)
-                                       + "/" + str(battle_field.current_player.max_life),
+        life_box.add_widget(Label(text=str(battle_field.current_player.hit_point) + "/" +
+                                  str(battle_field.current_player.max_life),
                                   size_hint_x=None, width=200))
+
         life_box.add_widget(ProgressBar(max=battle_field.current_player.max_life,
                                         value=battle_field.current_player.max_life))
 
@@ -67,9 +67,11 @@ class player_turn(GridLayout):
             list1.append(ability)
         for entity in battle_field.entities:
             list2.append(entity)
-
-        self.pop = popup_battle_draw.popup_battle_draw( title="Main Action", action_name="Cast", list1=list1,
-                                name1="Ability", name2="Target", list2=list2, call=self.cast_primary)
+        description = "you can only cast on the max target \n number of your wildest AOE effect \n" \
+                      " rest will not be afflitected"
+        self.pop = popup_battle_draw.popup_battle_draw(title="Main Action", action_name="Cast", list1=list1,
+                                                       name1="Ability", name2="Target", list2=list2,
+                                                       call=self.cast_primary, with_description=True, default_description=description)
         self.pop.open()
 
     def on_second_action(self, button):
@@ -81,9 +83,12 @@ class player_turn(GridLayout):
                 list1.append(ability)
         for entity in battle_field.entities:
             list2.append(entity)
-
-        self.pop = popup_battle_draw.popup_battle_draw(title="Second Action", action_name="Cast", list1=list1, name1="Ability", name2="Target",
-                               list2=list2, call=self.cast_secondary)
+        description = "you can only cast on the max target number of your wildest AOE effect" \
+                      " rest will not be afflitected"
+        self.pop = popup_battle_draw.popup_battle_draw(title="Second Action", action_name="Cast", list1=list1,
+                                                       name1="Ability", name2="Target",
+                                                       list2=list2, call=self.cast_secondary,
+                                                       with_description=True, default_description=description)
         self.pop.open()
 
     def action_widget(self, entity):
@@ -115,17 +120,18 @@ class player_turn(GridLayout):
             self.target = selected_target
             self.pop.dismiss()
 
-    def end_turn(self,btn):
-        if self.target is not None :
-            if battle_field.current_player.main_action is not None :
-                damage_done, resistance_target, accuracy_score = battle_field.current_player.cast_to_target(self.target, True)
+    def end_turn(self, btn):
+        if self.target is not None:
+            if battle_field.current_player.main_action is not None:
+                damage_done, resistance_target, accuracy_score = battle_field.current_player.cast_to_target(self.target,
+                                                                                                            True)
             if battle_field.current_player.second_action is not None:
-                damage_done, resistance_target, accuracy_score = battle_field.current_player.cast_to_target(self.target, False)
+                damage_done, resistance_target, accuracy_score = battle_field.current_player.cast_to_target(self.target,
+                                                                                                            False)
             # do animation for casting
         # do animation to end turn on win ...
         state, party_list = battle_field.end_turn()
         self.update()
-
 
     @staticmethod
     def charact_panel(entity):

@@ -1,9 +1,8 @@
 import pickle
-from BattleSystem import Ability_manager
 
 
 class Ability:
-    def __init__(self, effects=None, name="Unknown", description="Unknown",is_principal=False):
+    def __init__(self, effects=None, name="Unknown", description="Unknown", is_principal=False):
         if effects is None:
             effects = []
         self.effects = effects
@@ -15,7 +14,7 @@ class Ability:
         damage_done, resistance_target, accuracy_score = [], [], []
         for effect in self.effects:
             print("first effect : ")
-            d,r,c = effect.cast(from_entity, to_entity)
+            d, r, c = effect.cast(from_entity, to_entity)
             damage_done.append(d)
             resistance_target.append(r)
             accuracy_score.append(c)
@@ -26,4 +25,7 @@ class Ability:
             pickle.dump(self, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
     def __str__(self):
-        return self.name + " : " + self.description
+        description_effect = "\ncasting the effects :"
+        for effect in self.effects:
+            description_effect += "\n" + str(effect)
+        return self.name + " : \n" + self.description + "\n" + description_effect

@@ -2,11 +2,12 @@ from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.dropdown import DropDown
 from kivy.uix.popup import Popup
+from kivy.uix.textinput import TextInput
 
 
 class popup_battle_draw(Popup):
     def __init__(self, title, action_name, list1=None, name1="", name2="", list2=None,
-                 call=lambda selected1, all_selected2: True, **kwargs):
+                 call=lambda selected1, all_selected2: True, with_description=False, default_description="", **kwargs):
         super().__init__(**kwargs)
         self.list1 = list1
         self.list2 = list2
@@ -25,16 +26,19 @@ class popup_battle_draw(Popup):
             colone = 2
 
         container = GridLayout(cols=colone)
-        layout = GridLayout(cols=1, size_hint=(None, 1), width=400)
+        layout = GridLayout(cols=1, size_hint=(None, 1), width=600)
         self.add_widget(container)
         adding = container
 
         if colone > 1:
             container.add_widget(layout)
             adding = layout
+        self.description = TextInput(text=default_description, size_hint=(1, 1), readonly=True)
 
         if self.list1 is not None:
-            self.draw_dropdown(self.list1, self.name1, adding, False)
+            self.draw_dropdown(self.list1, self.name1, adding, False, with_description)
+            if with_description:
+                adding.add_widget(self.description)
 
         if self.list2 is not None:
             self.draw_dropdown(self.list2, self.name2, adding, True)
@@ -83,29 +87,37 @@ class popup_battle_draw(Popup):
             self.all_selected2.append(self.selected2)
             selected_options.add_widget(button_option)
 
-    def draw_dropdown(self, list_drop, default_name, layout, is_multiple):
+    def draw_dropdown(self, list_drop, default_name, layout, is_multiple, with_description=False):
         x = DropDown()
         self.choices.append(x)
         x = self.choices.index(x)
         for elem in list_drop:
             btn = Button(text=elem.name, size_hint_y=None, height=60)
             btn.value = elem
-            btn.bind(on_release=lambda btn: self.choices[x].select(btn))
+            btn.bind(on_release=lambda btn_call: self.choices[x].select(btn_call))
             self.choices[x].add_widget(btn)
         select_button: Button = Button(text=default_name, size_hint=(1, None), height=50)
         select_button.value = None
         if is_multiple:
-            self.choices[x].bind(on_select=lambda instance, x: [
-                setattr(select_button, 'value', x.value),
-                setattr(select_button, 'text', x.text),
-                self.set('selected2', x.value)
+            self.choices[x].bind(on_select=lambda instance, values_selected: [
+                setattr(select_button, 'value', values_selected.value),
+                setattr(select_button, 'text', values_selected.text),
+                self.set('selected2', values_selected.value)
             ])
         else:
-            self.choices[x].bind(on_select=lambda instance, x: [
-                setattr(select_button, 'value', x.value),
-                setattr(select_button, 'text', x.text),
-                self.set('selected1', x.value)
-            ])
+            if with_description:
+                self.choices[x].bind(on_select=lambda instance, value_selected: [
+                    setattr(select_button, 'value', value_selected.value),
+                    setattr(select_button, 'text', value_selected.text),
+                    setattr(self.description, 'text', str(value_selected.value)),
+                    self.set('selected1', value_selected.value)
+                ])
+            else:
+                self.choices[x].bind(on_select=lambda instance, value_selected: [
+                    setattr(select_button, 'value', value_selected.value),
+                    setattr(select_button, 'text', value_selected.text),
+                    self.set('selected1', value_selected.value)
+                ])
 
         select_button.name = default_name
         select_button.bind(on_release=self.choices[x].open)

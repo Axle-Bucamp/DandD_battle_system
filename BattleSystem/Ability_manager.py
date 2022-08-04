@@ -4,7 +4,7 @@ from BattleSystem.Dice import Dice
 import pickle
 
 
-class Ability_manager():
+class Ability_manager:
     abilities = []
 
     def __init__(self, list_abil=None):
@@ -30,7 +30,7 @@ class Ability_manager():
         with open(path + ".pickle", 'wb') as handle:
             pickle.dump(self, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    def load_ability(self,path="./save/ability/default.pickle"):
+    def load_ability(self, path="./save/ability/default.pickle"):
         with open(path, 'rb') as handle:
             b = pickle.load(handle)
         if isinstance(b, Ability):

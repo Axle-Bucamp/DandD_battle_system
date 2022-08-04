@@ -31,7 +31,7 @@ class Effect:
 
         if self.scale_type is not None:
             accuracy_stat = (accuracy_stat - 10) / 2
-        else :
+        else:
             accuracy_stat = 0
         accuracy_stat += Dice.dice20()
         damage = 0
@@ -45,7 +45,7 @@ class Effect:
             else:
                 resist_stat = 0
             resist_stat += entity.armor_class
-            print("accuracy test :" + str(accuracy_stat) + "/" + str(resist_stat) )
+            print("accuracy test :" + str(accuracy_stat) + "/" + str(resist_stat))
             if accuracy_stat > resist_stat:
                 damage = self.compute()
                 print("damage :" + str(damage))
@@ -53,7 +53,7 @@ class Effect:
         return damage, resist_stat, accuracy_stat
 
     def __str__(self):
-        return self.name + " : " + self.description
+        return self.name + "[" + " max target: " + str(self.max_target) + "]\n" + self.description
 
 
 if __name__ == '__main__':

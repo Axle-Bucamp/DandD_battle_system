@@ -6,15 +6,21 @@ import pickle
 
 class Ability_manager:
     abilities = []
+    effects = []
 
-    def __init__(self, list_abil=None):
+    def __init__(self, list_abil=None, effects=None):
         """
 
         :type list_abil: List
         """
         if list_abil is None:
             list_abil = []
+
+        if effects is None:
+            effects = []
+
         Ability_manager.abilities = list_abil
+        Ability_manager.effects = effects
 
     @classmethod
     def basic(cls):
@@ -24,7 +30,7 @@ class Ability_manager:
                         is_fixed_targeting=True, turn_left=0, max_target=1)
         ability = [Ability([effect], name="just smash", description="one dice attack")]
 
-        return cls(ability)
+        return cls(ability, [effect])
 
     def save_abilities(self, path="./save/abilities"):
         with open(path + ".pickle", 'wb') as handle:

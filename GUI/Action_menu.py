@@ -2,13 +2,13 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.uix.accordion import Accordion, AccordionItem
 from GUI import popup_generation_battle
-from kivy.app import App
 from GUI import Main_window
+
+
 class Action_menu(Accordion):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.orientation = 'vertical'
-        app = App.get_running_app()
 
         battle_management = AccordionItem(title="Battle")
         self.add_widget(battle_management)

@@ -17,8 +17,6 @@ class Battle_application(App):
 
     def build(self):
 
-
-
         container_app = GridLayout(cols=4)
         container_app.add_widget(mob_list.mob_list())
         main_container = Main_window.Main_window(cols=1)
@@ -32,6 +30,8 @@ class Battle_application(App):
         container_app.add_widget(action_panel)
 
         return container_app
+
+
 
 
 if __name__ == '__main__':

@@ -181,6 +181,6 @@ class popup_effect_creation(Popup):
         effect = self.generation_type(scale_type=self.caster_type, resist_type=self.resist_type,
                                       damage=dice, name=name, description=desc, is_fixed_targeting=False,
                                       turn_left=0, max_target=aoe)
-        print(str(effect))
+
         Ability_manager.effects.append(effect)
         self.dismiss()

@@ -23,7 +23,6 @@ class Action_menu(Accordion):
         file_management = AccordionItem(title="File")
         self.add_widget(file_management)
 
-
         # drawing battle pannel :
         battle_options = GridLayout(cols=1)
         self.battle_delete_option = Button(text="remove entities", size_hint_y=None, height=44)
@@ -33,7 +32,8 @@ class Action_menu(Accordion):
             if entity != battle_field.current_player:
                 list1.append(entity)
 
-        self.popup_remove_entity = popup_battle_draw.popup_battle_draw(title="Remove Entity", action_name="Remove", call=self.remove_entity, list1=list1)
+        self.popup_remove_entity = popup_battle_draw.popup_battle_draw(title="Remove Entity", action_name="Remove",
+                                                                       call=self.remove_entity, list1=list1)
         self.battle_delete_option.bind(on_press=self.popup_remove_entity.open)
         battle_options.add_widget(self.battle_delete_option)
 
@@ -55,12 +55,10 @@ class Action_menu(Accordion):
         # drawing Ability pannel :
         ability_options = GridLayout(cols=1)
         self.ability_delete_option = Button(text="remove ability", size_hint_y=None, height=44)
-        func_remove = lambda select1, select2 : [
-            Ability_manager.abilities.remove(select1),
-            self.popup_remove_ability.dismiss()
-        ]
+
         self.popup_remove_ability = popup_battle_draw.popup_battle_draw(title="Remove Ability", action_name="Remove",
-                                                                       call=func_remove, list1=Ability_manager.abilities)
+                                                                        call=self.remove_ability,
+                                                                        list1=Ability_manager.abilities)
         self.ability_delete_option.bind(on_press=self.popup_remove_ability.open)
         ability_options.add_widget(self.ability_delete_option)
 
@@ -99,3 +97,7 @@ class Action_menu(Accordion):
             Main_window.refresh()
 
         self.popup_remove_entity.dismiss()
+
+    def remove_ability(self, select1, select2):
+        Ability_manager.abilities.remove(select1)
+        self.popup_remove_ability.dismiss()

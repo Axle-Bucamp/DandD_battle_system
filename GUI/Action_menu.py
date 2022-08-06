@@ -5,6 +5,7 @@ from GUI import popup_generation_battle
 from GUI import Main_window
 from GUI import popup_create_entity
 from GUI import popup_effect_creation
+from GUI import popup_ability_creation
 
 
 class Action_menu(Accordion):
@@ -45,10 +46,12 @@ class Action_menu(Accordion):
         ability_options.add_widget(self.ability_delete_option)
 
         self.ability_create_option = Button(text="create ability", size_hint_y=None, height=44)
+        self.popup_ability_creation = popup_ability_creation.popup_ability_creation()
+        self.ability_create_option.bind(on_press=self.popup_ability_creation.open)
         ability_options.add_widget(self.ability_create_option)
 
         self.effect_create_option = Button(text="create effect", size_hint_y=None, height=44)
-        self.popup_effect_creation = popup_effect_creation.popup_effect_creation(Main_window.refresh)
+        self.popup_effect_creation = popup_effect_creation.popup_effect_creation()
         self.effect_create_option.bind(on_press=self.popup_effect_creation.open)
         ability_options.add_widget(self.effect_create_option)
 

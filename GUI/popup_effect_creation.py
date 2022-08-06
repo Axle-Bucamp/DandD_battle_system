@@ -12,12 +12,11 @@ from BattleSystem.Dice import Dice
 
 
 class popup_effect_creation(Popup):
-    def __init__(self, call_on_generate=lambda: True, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.size_hint = (None, None)
         self.size = (1200, 800)
         self.title = "Create effect"
-        self.call_on_generate = call_on_generate
         self.generation_type = Effect
         self.caster_type = None
         self.resist_type = None
@@ -41,7 +40,7 @@ class popup_effect_creation(Popup):
             btn.bind(on_release=lambda btn_call: self.drop_type.select(btn_call))
             self.drop_type.add_widget(btn)
 
-        select_button: Button = Button(text="type of entity", size_hint=(1, None), height=50)
+        select_button: Button = Button(text="type of effect", size_hint=(1, None), height=50)
         select_button.bind(on_release=self.drop_type.open)
         self.drop_type.bind(on_select=lambda instance, values_selected: [
             self.draw_options(values_selected),

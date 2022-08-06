@@ -4,6 +4,7 @@ from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
 from BattleSystem.BattleField import battle_field
+from BattleSystem.Ability_manager import Ability_manager
 from GUI import popup_battle_draw
 
 
@@ -16,6 +17,7 @@ class player_turn(GridLayout):
         # self.size_hint_y= 2
 
         self.pop = None
+        self.ability_list_pop = None
         self.target = None
         self.ability = None
 
@@ -27,37 +29,61 @@ class player_turn(GridLayout):
         life_box = GridLayout(size_hint_y=None, height=50)
         life_box.cols = 2
         life_box.add_widget(Label(text=str(battle_field.current_player.hit_point) + "/" +
-                                  str(battle_field.current_player.max_life),
+                                       str(battle_field.current_player.max_life),
                                   size_hint_x=None, width=200))
 
         life_box.add_widget(ProgressBar(max=battle_field.current_player.max_life,
                                         value=battle_field.current_player.max_life))
 
-        main_content = GridLayout(cols=2, rows=1)
+        self.main_content = GridLayout(cols=2, rows=1)
         charac = self.charact_panel(battle_field.current_player)
-        ability = self.ability_list(battle_field.current_player)
+        self.ability = self.ability_list(battle_field.current_player)
 
-        main_content.add_widget(charac)
-        main_content.add_widget(ability)
+        self.main_content.add_widget(charac)
+        self.main_content.add_widget(self.ability)
 
         action_button = self.action_widget(battle_field.current_player)
 
         self.add_widget(life_box)
-        self.add_widget(main_content)
+        self.add_widget(self.main_content)
         self.add_widget(action_button)
 
     def update(self):
         self.parent.refresh_turn()
 
-    @staticmethod
-    def ability_list(entity):
+    def ability_list(self, entity):
         ability_list = GridLayout(cols=1)
         ability_list.add_widget(Label(text="ability :", size_hint_y=None, height=50))
         for ability in entity.ability:
             button_abil = Button(text=ability.name, size_hint_y=None, height=50)
+            button_abil.value = ability
+            button_abil.bind(on_release=self.draw_ability_details_popup)
             ability_list.add_widget(button_abil)
 
+        add_abil_button = Button(text="Learn new ability", size_hint=(1,None), height=50)
+        add_abil_button.bind(on_release=self.draw_choice_ability_popup)
+        ability_list.add_widget(add_abil_button)
+
         return ability_list
+
+    def draw_ability_details_popup(self, btn):
+        pass
+
+    def draw_choice_ability_popup(self, btn):
+        list1 = Ability_manager.abilities
+        func = self.learn_ability
+        self.ability_list_pop = popup_battle_draw.popup_battle_draw(title="learn ability", action_name="learn", list1=list1,
+                                            name1="Ability", name2=None, list2=None,
+                                            call=func, with_description=True,
+                                            default_description="choose one ability to describe it")
+        self.ability_list_pop.open()
+
+    def learn_ability(self, selected1, selected2):
+        battle_field.current_player.ability.append(selected1)
+        self.ability_list_pop.dismiss()
+        self.main_content.remove_widget(self.ability)
+        self.ability = self.ability_list(battle_field.current_player)
+        self.main_content.add_widget(self.ability)
 
     def on_main_action(self, button):
         entity = button.parent.entity
@@ -71,7 +97,8 @@ class player_turn(GridLayout):
                       " rest will not be afflitected"
         self.pop = popup_battle_draw.popup_battle_draw(title="Main Action", action_name="Cast", list1=list1,
                                                        name1="Ability", name2="Target", list2=list2,
-                                                       call=self.cast_primary, with_description=True, default_description=description)
+                                                       call=self.cast_primary, with_description=True,
+                                                       default_description=description)
         self.pop.open()
 
     def on_second_action(self, button):

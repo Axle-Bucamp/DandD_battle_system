@@ -20,6 +20,7 @@ class Action_menu(Accordion):
         file_management = AccordionItem(title="File")
         self.add_widget(file_management)
 
+
         # drawing battle pannel :
         battle_options = GridLayout(cols=1)
         self.battle_delete_option = Button(text="remove entities", size_hint_y=None, height=44)
@@ -59,11 +60,6 @@ class Action_menu(Accordion):
         ability_options.add_widget(self.ability_load_option)
 
         ability_management.add_widget(ability_options)
-
-        # drawing entity panel :
-        # remove dot, buff, gear, ability
-        # add buff, curse , gear, ability
-        # update entity stats
 
         # drawing gear panel :
         # create

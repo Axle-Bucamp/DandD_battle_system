@@ -30,7 +30,7 @@ class player_turn(GridLayout):
         life_box = GridLayout(size_hint_y=None, height=50)
         life_box.cols = 2
         life_box.add_widget(Label(text=str(battle_field.current_player.hit_point) + "/" +
-                                       str(battle_field.current_player.max_life),
+                                  str(battle_field.current_player.max_life),
                                   size_hint_x=None, width=200))
 
         life_box.add_widget(ProgressBar(max=battle_field.current_player.max_life,
@@ -61,7 +61,7 @@ class player_turn(GridLayout):
             button_abil.bind(on_release=self.draw_ability_details_popup)
             ability_list.add_widget(button_abil)
 
-        add_abil_button = Button(text="Learn new ability", size_hint=(1,None), height=50)
+        add_abil_button = Button(text="Learn new ability", size_hint=(1, None), height=50)
         add_abil_button.bind(on_release=self.draw_choice_ability_popup)
         ability_list.add_widget(add_abil_button)
 
@@ -74,10 +74,12 @@ class player_turn(GridLayout):
     def draw_choice_ability_popup(self, btn):
         list1 = Ability_manager.abilities
         func = self.learn_ability
-        self.ability_list_pop = popup_battle_draw.popup_battle_draw(title="learn ability", action_name="learn", list1=list1,
-                                            name1="Ability", name2=None, list2=None,
-                                            call=func, with_description=True,
-                                            default_description="choose one ability to describe it")
+        self.ability_list_pop = popup_battle_draw.popup_battle_draw(title="learn ability", action_name="learn",
+                                                                    list1=list1,
+                                                                    name1="Ability", name2=None, list2=None,
+                                                                    call=func, with_description=True,
+                                                                    default_description="choose one ability to "
+                                                                                        "describe it")
         self.ability_list_pop.open()
 
     def learn_ability(self, selected1, selected2):

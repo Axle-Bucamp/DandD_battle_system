@@ -6,6 +6,8 @@ from GUI import Main_window
 from GUI import popup_create_entity
 from GUI import popup_effect_creation
 from GUI import popup_ability_creation
+from GUI import popup_battle_draw
+from BattleSystem.BattleField import battle_field
 
 
 class Action_menu(Accordion):
@@ -24,6 +26,14 @@ class Action_menu(Accordion):
         # drawing battle pannel :
         battle_options = GridLayout(cols=1)
         self.battle_delete_option = Button(text="remove entities", size_hint_y=None, height=44)
+
+        list1 = []
+        for entity in battle_field.entities:
+            if entity != battle_field.current_player:
+                list1.append(entity)
+
+        self.popup_remove_entity = popup_battle_draw.popup_battle_draw(title="Remove Entity", action_name="Remove", call=self.remove_entity, list1=list1)
+        self.battle_delete_option.bind(on_press=self.popup_remove_entity.open)
         battle_options.add_widget(self.battle_delete_option)
 
         self.battle_add_option = Button(text="create entity", size_hint_y=None, height=44)
@@ -74,3 +84,10 @@ class Action_menu(Accordion):
         file_options.add_widget(self.file_save_option)
 
         file_management.add_widget(file_options)
+
+    def remove_entity(self, select1, select2):
+        if select1 is not None:
+            battle_field.entities.remove(select1)
+            Main_window.refresh()
+
+        self.popup_remove_entity.dismiss()

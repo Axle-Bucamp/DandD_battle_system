@@ -8,6 +8,7 @@ from GUI import popup_effect_creation
 from GUI import popup_ability_creation
 from GUI import popup_battle_draw
 from BattleSystem.BattleField import battle_field
+from BattleSystem.Ability_manager import Ability_manager
 
 
 class Action_menu(Accordion):
@@ -54,6 +55,13 @@ class Action_menu(Accordion):
         # drawing Ability pannel :
         ability_options = GridLayout(cols=1)
         self.ability_delete_option = Button(text="remove ability", size_hint_y=None, height=44)
+        func_remove = lambda select1, select2 : [
+            Ability_manager.abilities.remove(select1),
+            self.popup_remove_ability.dismiss()
+        ]
+        self.popup_remove_ability = popup_battle_draw.popup_battle_draw(title="Remove Ability", action_name="Remove",
+                                                                       call=func_remove, list1=Ability_manager.abilities)
+        self.ability_delete_option.bind(on_press=self.popup_remove_ability.open)
         ability_options.add_widget(self.ability_delete_option)
 
         self.ability_create_option = Button(text="create ability", size_hint_y=None, height=44)

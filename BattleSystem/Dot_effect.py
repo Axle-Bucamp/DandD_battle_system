@@ -7,6 +7,7 @@ class Dot_effect(Effect):
                  is_fixed_targeting=False, turn_left=0, max_target=1):
         super().__init__(scale_type, resist_type, damage, name, description,
                          is_fixed_targeting, turn_left, max_target)
+        self.accuracy_stat = None
 
     def cast(self, from_entity, to_entities):
         nb_targ = 0

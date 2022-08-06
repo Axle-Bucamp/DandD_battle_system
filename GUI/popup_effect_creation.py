@@ -169,11 +169,11 @@ class popup_effect_creation(Popup):
         i = 0
         for child in self.layout.children[1].children:
             if isinstance(child, TextInput):
-                if i == 0:
+                if i == 2:
                     name = child.text
                 if i == 1:
                     desc = child.text
-                if i == 3:
+                if i == 0:
                     if child.text.isdigit():
                         aoe = int(child.text)
                 i += 1
@@ -181,5 +181,6 @@ class popup_effect_creation(Popup):
         effect = self.generation_type(scale_type=self.caster_type, resist_type=self.resist_type,
                                       damage=dice, name=name, description=desc, is_fixed_targeting=False,
                                       turn_left=0, max_target=aoe)
+        print(str(effect))
         Ability_manager.effects.append(effect)
         self.dismiss()

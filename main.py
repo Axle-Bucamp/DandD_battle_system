@@ -37,28 +37,47 @@ class Battle_application(App):
         generate_entity = Button(text="add character", size_hint=(1, None), height=80)
         generate_battle = Button(text="Generate Battle", size_hint=(1, None), height=80)
         load_battle = Button(text="Load file", size_hint=(1, None), height=80)
-        join_battle = Button(text="enter the Battlefield", size_hint=(1, None), height=80)
+        self.join_battle = Button(text="enter the Battlefield", size_hint=(1, None), height=80, disabled=True)
 
-        battle_generation = popup_generation_battle.popup_generation_battle()
-        entity_generation = popup_create_entity.popup_create_entity()
+        battle_generation = popup_generation_battle.popup_generation_battle(self.check_operationnal_battle)
+        entity_generation = popup_create_entity.popup_create_entity(self.check_operationnal_battle)
         generate_entity.bind(on_release=entity_generation.open)
         generate_battle.bind(on_release=battle_generation.open)
-
 
         text_side.add_widget(Label(text="This is a battle game interface for D&D style game \n" +
                                                  "you can generate battle from basic setup \n" +
                                                  "or create your own one. \n" +
                                                  "this tool is done to simplify battle for MJ online. \n" +
                                                   "be aware that You need to generate at least two \n" +
-                                                  " party group to use it."
+                                                  " party group to use it.", size_hint=(1, None), height=300
                                             ))
 
-        join_battle.bind(on_release=self.draw_main_app)
+        self.battle_grid = GridLayout(cols=1)
+        text_side.add_widget(self.battle_grid)
 
+        self.join_battle.bind(on_release=self.draw_main_app)
+
+        button_side.add_widget(Label(text="D&D Battle System Tool"))
         button_side.add_widget(generate_entity)
         button_side.add_widget(generate_battle)
         button_side.add_widget(load_battle)
-        button_side.add_widget(join_battle)
+        button_side.add_widget(self.join_battle)
+
+    def check_operationnal_battle(self, btn=None):
+        self.join_battle.disabled = True
+        self.battle_grid.clear_widgets()
+        i = 0
+        y = self.battle.entities[0].party_id if self.battle.entities else 0
+        for child in self.battle.entities:
+            i = child.party_id
+            if i != y:
+                self.join_battle.disabled = False
+
+            btn = Button(text=child.name + " " + child.description, size_hint=(1, None), height=50)
+            btn.value = child
+            btn.bind(on_release=lambda x: [self.battle.entities.remove(x.value),
+                                           self.battle_grid.remove_widget(x)])
+            self.battle_grid.add_widget(btn)
 
     def generate_battle(self, btn=None):
         self.battle.generate_group(nb_mob=2, mob_type=1, ilevel_to_fight=4, difficulty=1, party_id=0, name="wolf")

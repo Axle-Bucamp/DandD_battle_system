@@ -11,6 +11,8 @@ class Dot_effect(Effect):
 
     def cast(self, from_entity, to_entities):
         nb_targ = 0
+        resist = 0
+        accuracy_stat = 0
         for entity in to_entities:
             if nb_targ > self.max_target:
                 break

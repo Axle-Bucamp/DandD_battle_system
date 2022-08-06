@@ -5,6 +5,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
 from BattleSystem.BattleField import battle_field
 from BattleSystem.Ability_manager import Ability_manager
+from GUI import popup_details_ability
 from GUI import popup_battle_draw
 
 
@@ -67,7 +68,8 @@ class player_turn(GridLayout):
         return ability_list
 
     def draw_ability_details_popup(self, btn):
-        pass
+        popup_details = popup_details_ability.popup_details_ability(btn.value, self.refresh_ability)
+        popup_details.open()
 
     def draw_choice_ability_popup(self, btn):
         list1 = Ability_manager.abilities
@@ -81,6 +83,9 @@ class player_turn(GridLayout):
     def learn_ability(self, selected1, selected2):
         battle_field.current_player.ability.append(selected1)
         self.ability_list_pop.dismiss()
+        self.refresh_ability()
+
+    def refresh_ability(self):
         self.main_content.remove_widget(self.ability)
         self.ability = self.ability_list(battle_field.current_player)
         self.main_content.add_widget(self.ability)

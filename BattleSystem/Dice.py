@@ -11,33 +11,33 @@ class Dice:
 
     @staticmethod
     def to_simple_dict(obj):
-        dice_max_int = 0
+        dice_max_int = "0"
         if obj == Dice.dice12:
-            dice_max_int = 12
+            dice_max_int = "12"
         if obj == Dice.dice20:
-            dice_max_int = 20
+            dice_max_int = "20"
         if obj == Dice.dice100:
-            dice_max_int = 100
+            dice_max_int = "100"
         if obj == Dice.dice8:
-            dice_max_int = 8
+            dice_max_int = "8"
         if obj == Dice.dice6:
-            dice_max_int = 6
+            dice_max_int = "6"
         if obj == Dice.dice4:
-            dice_max_int = 4
+            dice_max_int = "4"
         my_dict = {"dice": dice_max_int}
         return my_dict
 
     @staticmethod
     def from_simple_dict(dict):
         damage = Dice.dice4
-        if dict["damage"] == 6:
+        if dict["dice"] == "6":
             damage = Dice.dice6
-        if dict["damage"] == 8:
+        if dict["dice"] == "8":
             damage = Dice.dice8
-        if dict["damage"] == 12:
+        if dict["dice"] == "12":
             damage = Dice.dice12
-        if dict["damage"] == 20:
+        if dict["dice"] == "20":
             damage = Dice.dice20
-        if dict["damage"] == 100:
+        if dict["dice"] == "100":
             damage = Dice.dice100
         return damage

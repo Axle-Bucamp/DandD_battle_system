@@ -187,14 +187,14 @@ class Entity:
 
     @staticmethod
     def to_simple_dict(obj):
-        my_dict = {"hit_point": obj.hit_point, "armor_class": obj.armor_class,
-                   "intelligence":obj.intelligence, "charisma": obj.charisma,
-                   "dexterity": obj.dexterity, "strength": obj.strength,
-                   "constitution": obj.constitution, "ilevel": obj.level, "gear": [],
-                   "ability": [], "party_id": obj.party_id, "name": obj.name,
-                   "description": obj.description, "max_life": obj.max_life,
+        my_dict = {"hit_point": str(obj.hit_point), "armor_class": str(obj.armor_class),
+                   "intelligence":str(obj.intelligence), "charisma": str(obj.charisma),
+                   "dexterity": str(obj.dexterity), "strength": str(obj.strength),
+                   "constitution": str(obj.constitution), "ilevel": str(obj.level), "gear": [],
+                   "ability": [], "party_id": str(obj.party_id), "name": str(obj.name),
+                   "description": str(obj.description), "max_life": str(obj.max_life),
                    "dot_list": [], "buff_list": [], "main_action": None,
-                   "second_action": None, "initiative": obj.initiative}
+                   "second_action": None, "initiative": str(obj.initiative)}
 
         for ability in obj.ability:
             my_dict["ability"].append(Ability.to_simple_dict(ability))
@@ -219,11 +219,11 @@ class Entity:
         for cap in dict["ability"]:
             ability.append(Ability.from_simple_dict(cap))
 
-        ent = Entity(hit_point=dict["hit_point"], armor_class=dict["armor_class"],
-                     intelligence=dict["intelligence"], charisma=dict["charisma"],
-                     dexterity=dict["dexterity"], strength=dict["strength"],
-                     constitution=dict["constitution"], ilevel=dict["level"],
-                     gear=dict["gear"], ability=ability, party_id=dict["party_id"],
+        ent = Entity(hit_point=int(dict["hit_point"]), armor_class=int(dict["armor_class"]),
+                     intelligence=int(dict["intelligence"]), charisma=int(dict["charisma"]),
+                     dexterity=int(dict["dexterity"]), strength=int(dict["strength"]),
+                     constitution=int(dict["constitution"]), ilevel=int(dict["ilevel"]),
+                     gear=dict["gear"], ability=ability, party_id=int(dict["party_id"]),
                      name=dict["name"], description=dict["description"])
 
         if dict["main_action"]:
@@ -235,5 +235,5 @@ class Entity:
             ent.buff_list.append(Ability.from_simple_dict(buff))
         for dot in dict["dot_list"]:
             ent.dot_list = Ability.from_simple_dict(dot)
-
+        ent.max_life = int(dict["max_life"])
         return ent

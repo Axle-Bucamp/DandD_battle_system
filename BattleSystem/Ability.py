@@ -32,16 +32,15 @@ class Ability:
 
     @staticmethod
     def to_simple_dict(obj):
-        my_dict = {"effects": [], "name": obj.name, "description": obj.description, "is_principal": obj.is_principal}
+        my_dict = {"effects": [], "name": obj.name, "description": obj.description, "is_principal": str(obj.is_principal)}
         for effect in obj.effects:
             my_dict["effects"].append(Effect.to_simple_dict(effect))
         return my_dict
+
     @staticmethod
     def from_simple_dict(dict):
-        # {"effects": [], "name": obj.name, "description": obj.description, "is_principal": obj.is_principal}
-        # (self, effects=None, name="Unknown", description="Unknown", is_principal=False)
         effect_list = []
         for effect in dict["effects"]:
             effect_list.append(Effect.from_simple_dict(effect))
 
-        return Ability(effects=effect_list, name=dict["name"],description=dict["description"], is_principal=dict["is_principal"])
+        return Ability(effects=effect_list, name=dict["name"],description=dict["description"], is_principal=bool(dict["is_principal"]))

@@ -41,3 +41,21 @@ class Ability_manager:
             b = pickle.load(handle)
         if isinstance(b, Ability):
             self.abilities.append(b)
+
+    @staticmethod
+    def from_simple_json(dict):
+        for ability in dict["abilities"]:
+            Ability_manager.abilities.append(Ability.from_simple_dict(ability))
+        for effect in dict["effects"]:
+            Ability_manager.abilities.append(Effect.from_simple_dict(effect))
+
+    @staticmethod
+    def to_simple_dict(obj):
+        my_dict = {"abilities":[], "effects":[]}
+        for ability in obj.abilities:
+            my_dict["abilities"].append(Ability.to_simple_dict(ability))
+
+        for effect in obj.effects:
+            my_dict["effects"].append(Ability.to_simple_dict(effect))
+
+        return my_dict

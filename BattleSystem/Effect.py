@@ -59,27 +59,22 @@ class Effect:
     def to_simple_dict(obj):
         my_dict = {"scale_type": obj.scale_type, "resist_type": obj.resist_type,
                    "damage": [], "name": obj.name, "description": obj.description,
-                   "is_fixed_targeting": obj.is_fixed_targeting, "turn_left": obj.turn_left,
-                   "caster_stat": obj.caster_stat, "max_target": obj.max_target}
+                   "is_fixed_targeting": str(obj.is_fixed_targeting), "turn_left": str(obj.turn_left),
+                   "caster_stat": str(obj.caster_stat), "max_target": str(obj.max_target)}
         for dice in obj.damage:
             my_dict["damage"].append(Dice.to_simple_dict(dice))
         return my_dict
 
     @staticmethod
     def from_simple_dict(dict):
-        """scale_type=None, resist_type=None, damage=None, name="Unknown", description="Unknown",
-                 is_fixed_targeting=False, turn_left=0, max_target=1"""
-        """{"scale_type": obj.scale_type, "resist_type": obj.resist_type,
-                   "damage": [], "name": obj.name, "description": obj.description,
-                   "is_fixed_targeting": obj.is_fixed_targeting, "turn_left": obj.turn_left,
-                   "caster_stat": obj.caster_stat, "max_target": obj.max_target}"""
         damage_list = []
         for damage in dict["damage"]:
             damage_list.append(Dice.from_simple_dict(damage))
+
         eff = Effect(scale_type=dict["scale_type"], resist_type=dict["resist_type"],
                      damage=damage_list, name=dict["name"], description=dict["description"],
-                     is_fixed_targeting=dict["is_fixed_targeting"], turn_left=dict["turn_left"],
-                     max_target=dict["max_target"])
+                     is_fixed_targeting=bool(dict["is_fixed_targeting"]), turn_left=int(dict["turn_left"]),
+                     max_target=int(dict["max_target"]))
 
         if dict["caster_stat"]:
             eff.caster_stat = dict["caster_stat"]

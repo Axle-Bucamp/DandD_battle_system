@@ -12,6 +12,7 @@ from GUI import Action_menu
 from kivy.config import Config
 from GUI import popup_generation_battle
 from GUI import popup_create_entity
+from GUI import popup_load_json
 import json
 
 Config.set('graphics', 'width', '1800')
@@ -39,6 +40,8 @@ class Battle_application(App):
         generate_entity = Button(text="add character", size_hint=(1, None), height=80)
         generate_battle = Button(text="Generate Battle", size_hint=(1, None), height=80)
         load_battle = Button(text="Load file", size_hint=(1, None), height=80)
+        loading_file = popup_load_json.popup_load_json(call_on_generate=self.check_operationnal_battle)
+        load_battle.bind(on_release=loading_file.open) #self.load_battle
         self.join_battle = Button(text="enter the Battlefield", size_hint=(1, None), height=80, disabled=True)
 
         battle_generation = popup_generation_battle.popup_generation_battle(self.check_operationnal_battle)
@@ -87,15 +90,19 @@ class Battle_application(App):
             entity.learn_ability(self.spell_manager.abilities[0])
         self.draw_main_app()
 
-    def draw_main_app(self, btn=None):
+    def load_battle(self, btn=None):
+        with open("save.json", "r") as jsonsave:
+            dict = json.load(jsonsave)
+        self.battle = battle_field.from_simple_json(dict)
         self.battle.sort_init()
+        self.check_operationnal_battle()
 
-        #with open("save.json", "w") as outfile:
-        #    json.dump(battle_field.to_simple_dict(self.battle), outfile)
-        #
-        #with open("save.json") as jsonsave:
-        #    dict = json.load(jsonsave)
-        #self.battle = battle_field.from_simple_json(dict)
+    def draw_main_app(self, btn=None):
+        if self.battle.current_player is None:
+            self.battle.sort_init()
+
+        with open("save.json", "w") as outfile:
+            json.dump(battle_field.to_simple_dict(self.battle), outfile)
 
         self.container_app.cols = 4
         self.container_app.clear_widgets()

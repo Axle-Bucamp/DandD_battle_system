@@ -6,7 +6,7 @@ from BattleSystem.BattleField import battle_field
 from BattleSystem.Entity import Entity
 from kivy.uix.label import Label
 from kivy.uix.slider import Slider
-
+import numpy as np
 
 class popup_create_entity(Popup):
     def __init__(self, call_on_generate=lambda: True, **kwargs):
@@ -95,15 +95,22 @@ class popup_create_entity(Popup):
         intelligence = btn.parent.parent.children[1].children[12].value
         armor_class = btn.parent.parent.children[1].children[14].value
         hit_point = btn.parent.parent.children[1].children[16].text
+
         if hit_point.isdigit():
             hit_point = int(hit_point)
         else:
-            hit_point = 6 * (lv + (const - 10 / 2))
+            hit_point = 0
+
         description = btn.parent.parent.children[1].children[18].text
         name = btn.parent.parent.children[1].children[20].text
         entity = Entity(hit_point=hit_point, armor_class=armor_class, intelligence=intelligence, charisma=charisma,
                         dexterity=dexterity, strength=strength, constitution=const, ilevel=lv, gear=None,
                         ability=None, party_id=party_id, name=name, description=description)
+
+        if entity.hit_point <= 0:
+            entity.hit_point = entity.compute_health(lv, const)
+            entity.max_life = entity.hit_point
+
         battle_field.entities.append(entity)
         self.call_on_generate()
         self.dismiss()

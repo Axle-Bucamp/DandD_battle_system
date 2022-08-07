@@ -24,14 +24,14 @@ class popup_load_json(Popup):
         popup_main_grid.add_widget(layout)
         popup_main_grid.add_widget(action)
         self.drop_type = None
-        self.type = None
+        self.type = "Battle"
         self.select_button = None
 
         if type_init is None:
-            #dropdown
+
             self.title = "Load File "
             self.drop_type = DropDown()
-            name = ["Battle", "Ability", "Entity", "Effect"]
+            name = ["Battle", "Ability"]
             for elem in name:
                 btn = Button(text=elem, size_hint_y=None, height=60)
                 btn.value = elem
@@ -40,13 +40,15 @@ class popup_load_json(Popup):
 
             self.select_button: Button = Button(text="type of entity", size_hint_y=None, height=60)
             self.select_button.bind(on_release=self.drop_type.open)
-            self.drop_type.bind(on_select=self.change_type) #lambda x, values_selected:
+            self.drop_type.bind(on_select=self.change_type)
             layout.add_widget(self.select_button)
         else:
+
             self.type = type_init
             self.title = "Load " + str(type_init) + " File"
 
-        layout.add_widget(Button(text="Drag your file"))
+        self.file_btn = Button(text="Drag your file")
+        layout.add_widget(self.file_btn)
         Window.bind(on_dropfile=self.handledrops)
 
     def change_type(self, btn, value):
@@ -55,24 +57,20 @@ class popup_load_json(Popup):
 
     def handledrops(self, window_object, filename):
         try:
-            with open("save.json", "r") as jsonsave:
+            with open(filename, "r") as jsonsave:
                 dict = json.load(jsonsave)
         except:
             print(filename)
             print("file is not loaded")
             self.dismiss()
 
+        self.file_btn.text = str(filename)
+
         if self.type == "Battle":
             battle_field.from_simple_json(dict)
 
         if self.type == "Ability":
-            Ability_manager.abilities.append(Ability.from_simple_dict(dict))
-
-        if self.type == "Entity":
-            battle_field.entities.append(Entity.from_simple_json(dict))
-
-        if self.type == "Effect":
-            Ability_manager.effects.append(Effect.from_simple_dict(dict))
+            Ability_manager.from_simple_json(dict)
 
         self.call_on_generate()
         self.dismiss()

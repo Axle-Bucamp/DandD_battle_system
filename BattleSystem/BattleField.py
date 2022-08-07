@@ -127,11 +127,12 @@ class battle_field:
 
     @staticmethod
     def from_simple_json(dict):
-        for entity in dict["entities"]:
-            battle_field.entities.append(Entity.from_simple_json(entity))
+        if "entities" in dict.keys() and "dead_list" in dict.keys() and "current_player" in dict.keys():
+            for entity in dict["entities"]:
+                battle_field.entities.append(Entity.from_simple_json(entity))
 
-        for entity in dict["dead_list"]:
-            battle_field.entities.append(Entity.from_simple_json(entity))
+            for entity in dict["dead_list"]:
+                battle_field.entities.append(Entity.from_simple_json(entity))
 
-        if dict["current_player"]:
-            battle_field.current_player = battle_field.entities[int(dict["current_player"])]
+            if dict["current_player"] and battle_field.current_player is None:
+                battle_field.current_player = battle_field.entities[int(dict["current_player"])]

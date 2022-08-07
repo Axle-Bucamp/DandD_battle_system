@@ -44,10 +44,11 @@ class Ability_manager:
 
     @staticmethod
     def from_simple_json(dict):
-        for ability in dict["abilities"]:
-            Ability_manager.abilities.append(Ability.from_simple_dict(ability))
-        for effect in dict["effects"]:
-            Ability_manager.abilities.append(Effect.from_simple_dict(effect))
+        if "abilities" in dict.keys() or "effects" in dict.keys():
+            for ability in dict["abilities"]:
+                Ability_manager.abilities.append(Ability.from_simple_dict(ability))
+            for effect in dict["effects"]:
+                Ability_manager.abilities.append(Effect.from_simple_dict(effect))
 
     @staticmethod
     def to_simple_dict(obj):
@@ -56,6 +57,6 @@ class Ability_manager:
             my_dict["abilities"].append(Ability.to_simple_dict(ability))
 
         for effect in obj.effects:
-            my_dict["effects"].append(Ability.to_simple_dict(effect))
+            my_dict["effects"].append(Effect.to_simple_dict(effect))
 
         return my_dict

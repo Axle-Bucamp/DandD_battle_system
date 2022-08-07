@@ -7,9 +7,10 @@ from GUI import popup_create_entity
 from GUI import popup_effect_creation
 from GUI import popup_ability_creation
 from GUI import popup_battle_draw
+from GUI import popup_load_json
 from BattleSystem.BattleField import battle_field
 from BattleSystem.Ability_manager import Ability_manager
-
+import json
 
 class Action_menu(Accordion):
     def __init__(self, **kwargs):
@@ -48,7 +49,13 @@ class Action_menu(Accordion):
         battle_options.add_widget(self.battle_generate_option)
 
         self.battle_load_option = Button(text="load entities", size_hint_y=None, height=44)
+        self.loading_file = popup_load_json.popup_load_json(type_init="Battle")
+        self.battle_load_option.bind(on_press=self.loading_file.open)
         battle_options.add_widget(self.battle_load_option)
+
+        self.battle_save_option = Button(text="save entities", size_hint_y=None, height=44)
+        self.battle_save_option.bind(on_press=self.save_entities)
+        battle_options.add_widget(self.battle_save_option)
 
         battle_management.add_widget(battle_options)
 
@@ -73,7 +80,13 @@ class Action_menu(Accordion):
         ability_options.add_widget(self.effect_create_option)
 
         self.ability_load_option = Button(text="load ability", size_hint_y=None, height=44)
+        self.loading_file_ability = popup_load_json.popup_load_json(type_init="Ability")
+        self.ability_load_option.bind(on_press=self.loading_file_ability.open)
         ability_options.add_widget(self.ability_load_option)
+
+        self.ability_save_option = Button(text="save abilities", size_hint_y=None, height=44)
+        self.ability_load_option.bind(on_press=self.save_abilities)
+        ability_options.add_widget(self.ability_save_option)
 
         ability_management.add_widget(ability_options)
 
@@ -84,9 +97,14 @@ class Action_menu(Accordion):
 
         # drawing file pannel :
         file_options = GridLayout(cols=1)
+
         self.file_load_option = Button(text="load file", size_hint_y=None, height=44)
+        self.loading_file_pop = popup_load_json.popup_load_json()
+        self.file_load_option.bind(on_press=self.loading_file_pop.open)
         file_options.add_widget(self.file_load_option)
+
         self.file_save_option = Button(text="save file", size_hint_y=None, height=44)
+        self.file_save_option.bind(on_press=self.save_files)
         file_options.add_widget(self.file_save_option)
 
         file_management.add_widget(file_options)
@@ -101,3 +119,18 @@ class Action_menu(Accordion):
     def remove_ability(self, select1, select2):
         Ability_manager.abilities.remove(select1)
         self.popup_remove_ability.dismiss()
+
+    def save_abilities(self, btn):
+        with open("Ability_list.json", "w") as outfile:
+            json.dump(Ability_manager.to_simple_dict(Ability_manager), outfile)
+
+    def save_entities(self, btn):
+        with open("Battle.json", "w") as outfile:
+            json.dump(battle_field.to_simple_dict(battle_field), outfile)
+
+    def save_files(self, btn):
+        with open("Battle.json", "w") as outfile:
+            json.dump(battle_field.to_simple_dict(battle_field), outfile)
+
+        with open("Ability_list.json", "w") as outfile:
+            json.dump(Ability_manager.to_simple_dict(Ability_manager), outfile)

@@ -28,6 +28,8 @@ class Action_menu(Accordion):
         battle_options = GridLayout(cols=1)
         self.battle_delete_option = Button(text="remove entities", size_hint_y=None, height=44)
 
+        self.loading_file = popup_load_json.popup_load_json()
+
         list1 = []
         for entity in battle_field.entities:
             if entity != battle_field.current_player:
@@ -49,7 +51,6 @@ class Action_menu(Accordion):
         battle_options.add_widget(self.battle_generate_option)
 
         self.battle_load_option = Button(text="load entities", size_hint_y=None, height=44)
-        self.loading_file = popup_load_json.popup_load_json(type_init="Battle")
         self.battle_load_option.bind(on_press=self.loading_file.open)
         battle_options.add_widget(self.battle_load_option)
 
@@ -80,8 +81,7 @@ class Action_menu(Accordion):
         ability_options.add_widget(self.effect_create_option)
 
         self.ability_load_option = Button(text="load ability", size_hint_y=None, height=44)
-        self.loading_file_ability = popup_load_json.popup_load_json(type_init="Ability")
-        self.ability_load_option.bind(on_press=self.loading_file_ability.open)
+        self.ability_load_option.bind(on_press=self.loading_file.open)
         ability_options.add_widget(self.ability_load_option)
 
         self.ability_save_option = Button(text="save abilities", size_hint_y=None, height=44)
@@ -99,7 +99,7 @@ class Action_menu(Accordion):
         file_options = GridLayout(cols=1)
 
         self.file_load_option = Button(text="load file", size_hint_y=None, height=44)
-        self.loading_file_pop = popup_load_json.popup_load_json()
+
         self.file_load_option.bind(on_press=self.loading_file_pop.open)
         file_options.add_widget(self.file_load_option)
 

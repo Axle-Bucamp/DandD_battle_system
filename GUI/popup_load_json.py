@@ -12,7 +12,7 @@ import json
 
 
 class popup_load_json(Popup):
-    def __init__(self, call_on_generate=lambda: True, type_init=None, **kwargs):
+    def __init__(self, call_on_generate=lambda: True, **kwargs):
         super().__init__(**kwargs)
         self.size_hint = (None, None)
         self.size = (600, 600)
@@ -24,28 +24,9 @@ class popup_load_json(Popup):
         popup_main_grid.add_widget(layout)
         popup_main_grid.add_widget(action)
         self.drop_type = None
-        self.type = "Battle"
         self.select_button = None
 
-        if type_init is None:
-
-            self.title = "Load File "
-            self.drop_type = DropDown()
-            name = ["Battle", "Ability"]
-            for elem in name:
-                btn = Button(text=elem, size_hint_y=None, height=60)
-                btn.value = elem
-                btn.bind(on_release=lambda btn_call: self.drop_type.select(btn_call))
-                self.drop_type.add_widget(btn)
-
-            self.select_button: Button = Button(text="type of entity", size_hint_y=None, height=60)
-            self.select_button.bind(on_release=self.drop_type.open)
-            self.drop_type.bind(on_select=self.change_type)
-            layout.add_widget(self.select_button)
-        else:
-
-            self.type = type_init
-            self.title = "Load " + str(type_init) + " File"
+        self.title = "Load File "
 
         self.file_btn = Button(text="Drag your file")
         layout.add_widget(self.file_btn)
@@ -66,10 +47,10 @@ class popup_load_json(Popup):
 
         self.file_btn.text = str(filename)
 
-        if self.type == "Battle":
+        if "entities" in dict.keys() and "dead_list" in dict.keys() and "current_player" in dict.keys():
             battle_field.from_simple_json(dict)
 
-        if self.type == "Ability":
+        if "abilities" in dict.keys() or "effects" in dict.keys():
             Ability_manager.from_simple_json(dict)
 
         self.call_on_generate()

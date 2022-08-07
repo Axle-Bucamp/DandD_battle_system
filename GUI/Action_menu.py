@@ -100,7 +100,7 @@ class Action_menu(Accordion):
 
         self.file_load_option = Button(text="load file", size_hint_y=None, height=44)
 
-        self.file_load_option.bind(on_press=self.loading_file_pop.open)
+        self.file_load_option.bind(on_press=self.loading_file.open)
         file_options.add_widget(self.file_load_option)
 
         self.file_save_option = Button(text="save file", size_hint_y=None, height=44)

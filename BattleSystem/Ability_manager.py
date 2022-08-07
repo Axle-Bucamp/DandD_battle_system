@@ -48,7 +48,7 @@ class Ability_manager:
             for ability in dict["abilities"]:
                 Ability_manager.abilities.append(Ability.from_simple_dict(ability))
             for effect in dict["effects"]:
-                Ability_manager.abilities.append(Effect.from_simple_dict(effect))
+                Ability_manager.effects.append(Effect.from_simple_dict(effect))
 
     @staticmethod
     def to_simple_dict(obj):

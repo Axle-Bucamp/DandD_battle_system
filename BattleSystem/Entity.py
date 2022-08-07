@@ -2,6 +2,7 @@ import numpy as np
 from random import random
 import math
 from BattleSystem.Dice import Dice
+from BattleSystem.Ability import Ability
 
 
 class Entity:
@@ -183,3 +184,56 @@ class Entity:
 
     def __str__(self):
         return self.name + " : " + self.description
+
+    @staticmethod
+    def to_simple_dict(obj):
+        my_dict = {"hit_point": obj.hit_point, "armor_class": obj.armor_class,
+                   "intelligence":obj.intelligence, "charisma": obj.charisma,
+                   "dexterity": obj.dexterity, "strength": obj.strength,
+                   "constitution": obj.constitution, "ilevel": obj.level, "gear": [],
+                   "ability": [], "party_id": obj.party_id, "name": obj.name,
+                   "description": obj.description, "max_life": obj.max_life,
+                   "dot_list": [], "buff_list": [], "main_action": None,
+                   "second_action": None, "initiative": obj.initiative}
+
+        for ability in obj.ability:
+            my_dict["ability"].append(Ability.to_simple_dict(ability))
+
+        for ability in obj.dot_list:
+            my_dict["dot_list"].append(Ability.to_simple_dict(ability))
+
+        for ability in obj.buff_list:
+            my_dict["buff_list"].append(Ability.to_simple_dict(ability))
+
+        if obj.second_action is not None:
+            my_dict["second_action"] = Ability.to_simple_dict(obj.second_action)
+
+        if obj.main_action is not None:
+            my_dict["main_action"] = Ability.to_simple_dict(obj.second_action)
+
+        return my_dict
+
+    @staticmethod
+    def from_simple_json(dict):
+        ability = []
+        for cap in dict["ability"]:
+            ability.append(Ability.from_simple_dict(cap))
+
+        ent = Entity(hit_point=dict["hit_point"], armor_class=dict["armor_class"],
+                     intelligence=dict["intelligence"], charisma=dict["charisma"],
+                     dexterity=dict["dexterity"], strength=dict["strength"],
+                     constitution=dict["constitution"], ilevel=dict["level"],
+                     gear=dict["gear"], ability=ability, party_id=dict["party_id"],
+                     name=dict["name"], description=dict["description"])
+
+        if dict["main_action"]:
+            ent.main_action = Ability.from_simple_dict(dict["main_action"])
+        if dict["second_action"]:
+            ent.second_action = Ability.from_simple_dict(dict["second_action"])
+
+        for buff in dict["buff_list"]:
+            ent.buff_list.append(Ability.from_simple_dict(buff))
+        for dot in dict["dot_list"]:
+            ent.dot_list = Ability.from_simple_dict(dot)
+
+        return ent

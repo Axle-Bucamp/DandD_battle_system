@@ -9,15 +9,21 @@ class battle_field:
     dead_list = []
     current_player = None
 
-    def __init__(self, battle_list=None):
+    def __init__(self, battle_list=None, current_player=None, dead_list=None):
         """
 
         :type battle_list: List
         """
         if battle_list is None:
             battle_list = []
+        if current_player is None:
+            current_player = []
+        if dead_list is None:
+            dead_list = []
+
         battle_field.entities = battle_list
-        battle_field.current_player = None
+        battle_field.current_player = current_player
+        battle_field.dead_list = dead_list
 
     @staticmethod
     def generate_group(nb_mob=1, mob_type=0, ilevel_to_fight=1, difficulty=1, party_id=0, name="Unknown"):
@@ -108,3 +114,31 @@ class battle_field:
             b = pickle.load(handle)
         if isinstance(b, Entity):
             self.entities.append(b)
+
+    @staticmethod
+    def to_simple_dict(obj):
+        my_dict = {"entities": [], "dead_list": [], "current_player": None}
+        for entity in obj.entities:
+            my_dict["entities"].append(Entity.to_simple_dict(entity))
+        for entity in obj.dead_list:
+            my_dict["dead_list"].append(Entity.to_simple_dict(entity))
+        if obj.current_player is not None:
+            my_dict["current_player"] = Entity.to_simple_dict(obj.current_player)
+        return my_dict
+
+    @staticmethod
+    def from_simple_json(dict):
+        entities_list = []
+        dead_list = []
+        current_player = None
+        for entity in dict["entities"]:
+            entities_list.append(Entity(entity))
+
+        for entity in dict["dead_list"]:
+            dead_list.append(Entity(entity))
+
+        if dict["current_player"]:
+            current_player = Entity(dict["current_player"])
+
+        return battle_field(entities_list, current_player, dead_list)
+

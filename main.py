@@ -12,6 +12,7 @@ from GUI import Action_menu
 from kivy.config import Config
 from GUI import popup_generation_battle
 from GUI import popup_create_entity
+import json
 
 Config.set('graphics', 'width', '1800')
 Config.set('graphics', 'height', '1000')
@@ -24,6 +25,7 @@ class Battle_application(App):
         self.draw_menu()
         self.battle = battle_field()
         self.spell_manager = Ability_manager.basic()
+
         return self.container_app
 
     def draw_menu(self, btn=None):
@@ -45,12 +47,12 @@ class Battle_application(App):
         generate_battle.bind(on_release=battle_generation.open)
 
         text_side.add_widget(Label(text="This is a battle game interface for D&D style game \n" +
-                                                 "you can generate battle from basic setup \n" +
-                                                 "or create your own one. \n" +
-                                                 "this tool is done to simplify battle for MJ online. \n" +
-                                                  "be aware that You need to generate at least two \n" +
-                                                  " party group to use it.", size_hint=(1, None), height=300
-                                            ))
+                                        "you can generate battle from basic setup \n" +
+                                        "or create your own one. \n" +
+                                        "this tool is done to simplify battle for MJ online. \n" +
+                                        "be aware that You need to generate at least two \n" +
+                                        " party group to use this app.", size_hint=(1, None), height=300
+                                   ))
 
         self.battle_grid = GridLayout(cols=1)
         text_side.add_widget(self.battle_grid)
@@ -66,7 +68,6 @@ class Battle_application(App):
     def check_operationnal_battle(self, btn=None):
         self.join_battle.disabled = True
         self.battle_grid.clear_widgets()
-        i = 0
         y = self.battle.entities[0].party_id if self.battle.entities else 0
         for child in self.battle.entities:
             i = child.party_id
@@ -88,6 +89,14 @@ class Battle_application(App):
 
     def draw_main_app(self, btn=None):
         self.battle.sort_init()
+
+        #with open("save.json", "w") as outfile:
+        #    json.dump(battle_field.to_simple_dict(self.battle), outfile)
+        #
+        #with open("save.json") as jsonsave:
+        #    dict = json.load(jsonsave)
+        #self.battle = battle_field.from_simple_json(dict)
+
         self.container_app.cols = 4
         self.container_app.clear_widgets()
         self.container_app.add_widget(mob_list.mob_list())
@@ -104,3 +113,4 @@ class Battle_application(App):
 
 if __name__ == '__main__':
     Battle_application().run()
+

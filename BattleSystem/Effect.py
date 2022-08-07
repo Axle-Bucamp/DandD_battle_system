@@ -55,9 +55,33 @@ class Effect:
     def __str__(self):
         return self.name + "[" + " max target: " + str(self.max_target) + "]\n" + self.description
 
+    @staticmethod
+    def to_simple_dict(obj):
+        my_dict = {"scale_type": obj.scale_type, "resist_type": obj.resist_type,
+                   "damage": [], "name": obj.name, "description": obj.description,
+                   "is_fixed_targeting": obj.is_fixed_targeting, "turn_left": obj.turn_left,
+                   "caster_stat": obj.caster_stat, "max_target": obj.max_target}
+        for dice in obj.damage:
+            my_dict["damage"].append(Dice.to_simple_dict(dice))
+        return my_dict
 
-if __name__ == '__main__':
-    lambdaL = [Dice.dice12, Dice.dice12]
-    eff = Effect(scale_type="char", resist_type="stren", damage=lambdaL, name="Unknown", description="Unknown",
-                 is_fixed_targeting=False, turn_left=0)
-    print(eff.compute())
+    @staticmethod
+    def from_simple_dict(dict):
+        """scale_type=None, resist_type=None, damage=None, name="Unknown", description="Unknown",
+                 is_fixed_targeting=False, turn_left=0, max_target=1"""
+        """{"scale_type": obj.scale_type, "resist_type": obj.resist_type,
+                   "damage": [], "name": obj.name, "description": obj.description,
+                   "is_fixed_targeting": obj.is_fixed_targeting, "turn_left": obj.turn_left,
+                   "caster_stat": obj.caster_stat, "max_target": obj.max_target}"""
+        damage_list = []
+        for damage in dict["damage"]:
+            damage_list.append(Dice.from_simple_dict(damage))
+        eff = Effect(scale_type=dict["scale_type"], resist_type=dict["resist_type"],
+                     damage=damage_list, name=dict["name"], description=dict["description"],
+                     is_fixed_targeting=dict["is_fixed_targeting"], turn_left=dict["turn_left"],
+                     max_target=dict["max_target"])
+
+        if dict["caster_stat"]:
+            eff.caster_stat = dict["caster_stat"]
+
+        return eff

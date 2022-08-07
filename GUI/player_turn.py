@@ -165,6 +165,7 @@ class player_turn(GridLayout):
             # do animation for casting
         # do animation to end turn on win ...
         state, party_list = battle_field.end_turn()
+        # do a popup to return to menu and display victorious party
         self.update()
 
     @staticmethod

@@ -28,17 +28,17 @@ class popup_generation_battle(Popup):
         layout.add_widget(name_entity)
 
         layout.add_widget(Label(text="number :"))
-        number_of_attacker = Slider(min=0, max=10, value=1, step=1)
+        number_of_attacker = Slider(min=1, max=10, value=1, step=1)
         number_of_attacker.bind(value=self.quantity_slide)
         layout.add_widget(number_of_attacker)
 
         layout.add_widget(Label(text="level of the fight :"))
-        ilevel = Slider(min=0, max=15, value=1, step=1)
+        ilevel = Slider(min=1, max=15, value=1, step=1)
         ilevel.bind(value=self.quantity_slide)
         layout.add_widget(ilevel)
 
         layout.add_widget(Label(text="party id :"))
-        party_id = Slider(min=0, max=10, value=1, step=1)
+        party_id = Slider(min=1, max=10, value=1, step=1)
         party_id.bind(value=self.quantity_slide)
         layout.add_widget(party_id)
 

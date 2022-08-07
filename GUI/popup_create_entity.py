@@ -38,36 +38,36 @@ class popup_create_entity(Popup):
 
         # class armor
         layout.add_widget(Label(text="class armor :"))
-        layout.add_widget(Slider(min=0, max=20, value=1, step=1))
+        layout.add_widget(Slider(min=1, max=20, value=1, step=1))
 
 
         # intelligence
         layout.add_widget(Label(text="intelligence :"))
-        layout.add_widget(Slider(min=0, max=20, value=1, step=1))
+        layout.add_widget(Slider(min=1, max=20, value=1, step=1))
 
         # charisma
         layout.add_widget(Label(text="charisma :"))
-        layout.add_widget(Slider(min=0, max=20, value=1, step=1))
+        layout.add_widget(Slider(min=1, max=20, value=1, step=1))
 
         # dexterity
         layout.add_widget(Label(text="dexterity :"))
-        layout.add_widget(Slider(min=0, max=20, value=1, step=1))
+        layout.add_widget(Slider(min=1, max=20, value=1, step=1))
 
         # strength
         layout.add_widget(Label(text="strength:"))
-        layout.add_widget(Slider(min=0, max=20, value=1, step=1))
+        layout.add_widget(Slider(min=1, max=20, value=1, step=1))
 
         # const
         layout.add_widget(Label(text="const :"))
-        layout.add_widget(Slider(min=0, max=20, value=1, step=1))
+        layout.add_widget(Slider(min=1, max=20, value=1, step=1))
 
         # ilevel
         layout.add_widget(Label(text="level :"))
-        layout.add_widget(Slider(min=0, max=15, value=1, step=1))
+        layout.add_widget(Slider(min=1, max=15, value=1, step=1))
 
         # party id
         layout.add_widget(Label(text="party id :"))
-        layout.add_widget(Slider(min=0, max=10, value=1, step=1))
+        layout.add_widget(Slider(min=1, max=10, value=1, step=1))
 
         self.quantity_on_select = Label(text="")
         action.add_widget(self.quantity_on_select)

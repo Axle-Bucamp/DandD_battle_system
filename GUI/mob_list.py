@@ -5,23 +5,30 @@ from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
 from BattleSystem.BattleField import battle_field
+from kivy.uix.scrollview import ScrollView
 
 
-class mob_list(Accordion):
+class mob_list(ScrollView):
 
     def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.do_scroll_y = True
+        self.scroll_distance = 400
+        root = Accordion()
+        self.add_widget(root)
         if battle_field.current_player is not None:
             party_id = battle_field.current_player.party_id
         else:
             party_id = battle_field.entities[0].party_id
-        super().__init__(**kwargs)
-        self.orientation = 'vertical'
+
+        root.orientation = 'vertical'
         ind = 0
         for entity in battle_field.entities:
             if entity.party_id != party_id:
-                self.add_widget(self.draw_entity_stat(entity, ind))
-            ind += 1
-        self.size_hint = (1, 1)
+                root.add_widget(self.draw_entity_stat(entity, ind))
+                ind += 1
+        root.size_hint = (1, None)
+        root.height = ind * 100 + 350
 
     def draw_entity_stat(self, entity, ind):
         acc = AccordionItem(title=entity.name + " party : " + str(entity.party_id) + " init :" + str(ind))

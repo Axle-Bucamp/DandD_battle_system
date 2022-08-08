@@ -9,7 +9,6 @@ class party_member(ScrollView):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        #self.scroll_timeout = 1000
         self.do_scroll_x = True
         ally_layout = GridLayout(spacing=10, size_hint_x=None)
 

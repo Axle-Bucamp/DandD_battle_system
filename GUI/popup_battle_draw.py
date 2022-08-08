@@ -36,12 +36,14 @@ class popup_battle_draw(Popup):
         self.description = TextInput(text=default_description, size_hint=(1, 1), readonly=True)
 
         if self.list1 is not None:
-            self.draw_dropdown(self.list1, self.name1, adding, False, with_description)
+            self.button1, self.drop1 = self.draw_dropdown(self.list1, self.name1, False, with_description)
+            adding.add_widget(self.button1)
             if with_description:
                 adding.add_widget(self.description)
 
         if self.list2 is not None:
-            self.draw_dropdown(self.list2, self.name2, adding, True)
+            self.button2, self.drop2 = self.draw_dropdown(self.list2, self.name2, True)
+            adding.add_widget(self.button2)
             list_action = GridLayout(cols=2)
             plus_button = Button(text="add", size_hint=(1, None), height=50)
             list_action.add_widget(plus_button)
@@ -87,7 +89,7 @@ class popup_battle_draw(Popup):
             self.all_selected2.append(self.selected2)
             selected_options.add_widget(button_option)
 
-    def draw_dropdown(self, list_drop, default_name, layout, is_multiple, with_description=False):
+    def draw_dropdown(self, list_drop, default_name, is_multiple, with_description=False):
         x = DropDown()
         self.choices.append(x)
         x = self.choices.index(x)
@@ -122,7 +124,7 @@ class popup_battle_draw(Popup):
         select_button.name = default_name
         select_button.bind(on_release=self.choices[x].open)
 
-        layout.add_widget(select_button)
+        return select_button, x
 
     def set(self, value, set_value):
         if value == "selected1":

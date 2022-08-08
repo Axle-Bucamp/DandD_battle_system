@@ -54,6 +54,13 @@ class Action_menu(Accordion):
         self.battle_generate_option.bind(on_press=self.pop_generation.open)
         battle_options.add_widget(self.battle_generate_option)
 
+        self.battle_resurection_option = Button(text="resurect entities", size_hint_y=None, height=44)
+        self.popup_resurect = popup_battle_draw.popup_battle_draw(title="Graveyard", action_name="Rise from the dead",
+                                                                        call=self.resurect_entity,
+                                                                        list2=battle_field.dead_list, name2="death list")
+        self.battle_resurection_option.bind(on_press=self.popup_resurect.open)
+        battle_options.add_widget(self.battle_resurection_option)
+
         self.battle_load_option = Button(text="load entities", size_hint_y=None, height=44)
         self.battle_load_option.bind(on_press=self.loading_file.open)
         battle_options.add_widget(self.battle_load_option)
@@ -69,7 +76,7 @@ class Action_menu(Accordion):
         self.ability_delete_option = Button(text="remove ability", size_hint_y=None, height=44)
 
         self.popup_remove_ability = popup_battle_draw.popup_battle_draw(title="Remove Ability", action_name="Remove",
-                                                                        call=self.remove_ability,
+                                                                        call=self.remove_ability, name1="ability list",
                                                                         list1=Ability_manager.abilities)
         self.ability_delete_option.bind(on_press=self.popup_remove_ability.open)
         ability_options.add_widget(self.ability_delete_option)
@@ -179,6 +186,15 @@ class Action_menu(Accordion):
     def remove_ability(self, select1, select2):
         Ability_manager.abilities.remove(select1)
         self.popup_remove_ability.dismiss()
+
+    def resurect_entity(self, select1, select2):
+        for row in select2:
+            if select2 in battle_field.dead_list:
+                row.hit_point = row.max_life
+                battle_field.entities.append(row)
+
+        Main_window.refresh()
+        self.popup_resurect.dismiss()
 
     def save_abilities(self, btn):
         with open("Ability_list.json", "w") as outfile:

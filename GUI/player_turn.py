@@ -7,6 +7,7 @@ from BattleSystem.BattleField import battle_field
 from BattleSystem.Ability_manager import Ability_manager
 from GUI import popup_details_ability
 from GUI import popup_battle_draw
+from GUI import end_battle_popup
 
 
 class player_turn(GridLayout):
@@ -165,6 +166,9 @@ class player_turn(GridLayout):
             # do animation for casting
         # do animation to end turn on win ...
         state, party_list = battle_field.end_turn()
+        if not state:
+            pop_end = end_battle_popup.end_battle_popup(party_list)
+            pop_end.open()
         # do a popup to return to menu and display victorious party
         self.update()
 

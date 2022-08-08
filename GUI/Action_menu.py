@@ -147,6 +147,7 @@ class Action_menu(Accordion):
             Main_window.refresh()
 
         self.popup_remove_entity.dismiss()
+
     @staticmethod
     def popup_dice(res):
         pop = Popup(title="Dice " + str(res), size_hint=(None, None), size=(600, 600))

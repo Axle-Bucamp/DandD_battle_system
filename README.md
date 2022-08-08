@@ -1,4 +1,4 @@
-# DandD_battle_system
+# D&D Battle System Tool
 
 this is a D&D tool to help you manage your battle,
 you can generate enemies based on level with less risk of extreme (or not)

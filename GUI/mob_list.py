@@ -13,8 +13,9 @@ class mob_list(GridLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.cols = 1
-        self.rows = 3
+        self.rows = 2
 
+        # find a way to make them beauty
         scroll_alive = ScrollView(do_scroll_y=True, scroll_distance=400)
         self.add_widget(scroll_alive)
         scroll_dead = ScrollView(do_scroll_y=True, scroll_distance=400)

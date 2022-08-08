@@ -8,14 +8,23 @@ from BattleSystem.BattleField import battle_field
 from kivy.uix.scrollview import ScrollView
 
 
-class mob_list(ScrollView):
+class mob_list(GridLayout):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.do_scroll_y = True
-        self.scroll_distance = 400
+        self.cols = 1
+        self.rows = 3
+
+        scroll_alive = ScrollView(do_scroll_y=True, scroll_distance=400)
+        self.add_widget(scroll_alive)
+        scroll_dead = ScrollView(do_scroll_y=True, scroll_distance=400)
+        self.add_widget(scroll_dead)
+
         root = Accordion()
-        self.add_widget(root)
+        dead_root = Accordion()
+        scroll_alive.add_widget(root)
+        scroll_dead.add_widget(dead_root)
+
         if battle_field.current_player is not None:
             party_id = battle_field.current_player.party_id
         else:
@@ -27,8 +36,18 @@ class mob_list(ScrollView):
             if entity.party_id != party_id:
                 root.add_widget(self.draw_entity_stat(entity, ind))
                 ind += 1
+
         root.size_hint = (1, None)
         root.height = ind * 100 + 350
+
+        dead_root.orientation = 'vertical'
+        ind = 0
+        for entity in battle_field.dead_list:
+            dead_root.add_widget(self.draw_entity_stat(entity, ind))
+            ind += 1
+
+        dead_root.size_hint = (1, None)
+        dead_root.height = ind * 100 + 350
 
     def draw_entity_stat(self, entity, ind):
         acc = AccordionItem(title=entity.name + " party : " + str(entity.party_id) + " init :" + str(ind))

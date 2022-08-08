@@ -203,6 +203,7 @@ class Action_menu(Accordion):
             if select2 in battle_field.dead_list:
                 row.hit_point = row.max_life
                 battle_field.entities.append(row)
+                battle_field.dead_list.remove(row)
 
         Main_window.refresh()
         self.popup_resurect.dismiss()

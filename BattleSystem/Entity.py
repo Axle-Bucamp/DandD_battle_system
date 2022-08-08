@@ -132,7 +132,7 @@ class Entity:
     def compute_buff(self, name: str) -> int:
         boost = 0
         for buff in self.buff_list:
-            if buff.buff_stat == name:
+            if buff.scale_type == name:
                 boost += buff.compute()
         return boost
 

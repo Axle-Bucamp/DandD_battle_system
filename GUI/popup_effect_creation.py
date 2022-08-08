@@ -9,6 +9,7 @@ from BattleSystem.Buff_effect import Buff_effect
 from BattleSystem.Dot_effect import Dot_effect
 from BattleSystem.Effect import Effect
 from BattleSystem.Dice import Dice
+from kivy.uix.slider import Slider
 
 
 class popup_effect_creation(Popup):
@@ -33,7 +34,7 @@ class popup_effect_creation(Popup):
         popup_main_grid.add_widget(action)
 
         self.drop_type = DropDown()
-        name = ["damage", "dot", "buff"]
+        name = ["instant damage", "damage over time", "buff and curse"]
         for elem in range(3):
             btn = Button(text=name[elem], size_hint_y=None, height=60)
             btn.value = elem
@@ -65,7 +66,7 @@ class popup_effect_creation(Popup):
             btn.bind(on_release=lambda btn_call: self.drop_accuracy.select(btn_call.value))
             self.drop_accuracy.add_widget(btn)
 
-        self.acc_button: Button = Button(text="Caster accuracy type", size_hint=(1, None), height=50)
+        self.acc_button: Button = Button(text="accuracy type", size_hint=(1, None), height=50)
         self.acc_button.bind(on_release=self.drop_accuracy.open)
         self.drop_accuracy.bind(on_select=lambda instance, values_selected: self.set_accuracy(values_selected))
 
@@ -77,20 +78,21 @@ class popup_effect_creation(Popup):
             btn.bind(on_release=lambda btn_call: self.drop_resistance.select(btn_call.value))
             self.drop_resistance.add_widget(btn)
 
-        self.resistance_button: Button = Button(text="target resistance type", size_hint=(1, None), height=50)
+        self.resistance_button: Button = Button(text="resistance type", size_hint=(1, None), height=50)
         self.resistance_button.bind(on_release=self.drop_resistance.open)
-        self.resistance_button.bind(on_select=lambda instance, values_selected: self.set_resistance(values_selected))
+        self.drop_resistance.bind(on_select=lambda instance, values_selected: self.set_resistance(values_selected))
 
         self.dice = DropDown()
         name = ["dice 4", "dice 6", "dice 8", "dice 12", "dice 20", "dice 100"]
+        dice = [Dice.dice4, Dice.dice6, Dice.dice8, Dice.dice12, Dice.dice20, Dice.dice100]
         for elem in name:
             btn = Button(text=elem, size_hint_y=None, height=60)
-            btn.value = name.index(elem)
+            btn.value = dice[name.index(elem)]
             btn.name = elem
             btn.bind(on_release=lambda btn_call: self.dice.select(btn_call))
             self.dice.add_widget(btn)
 
-        self.dice_button: Button = Button(text="Caster accuracy type", size_hint=(1, None), height=50)
+        self.dice_button: Button = Button(text="damage dice", size_hint=(1, None), height=50)
         self.dice_button.bind(on_release=self.dice.open)
         self.dice.bind(on_select=lambda instance, values_selected: self.add_dice(values_selected))
         self.list_dice = GridLayout(cols=1)
@@ -134,11 +136,12 @@ class popup_effect_creation(Popup):
 
         if option == 1:
             grid.add_widget(Label(text="duration"))
+            grid.add_widget(Slider(min=1, max=10, value=1, step=1))
             self.generation_type = Dot_effect
 
         if option == 2:
             grid.add_widget(Label(text="duration"))
-            grid.add_widget(Label(text="buff stat"))
+            grid.add_widget(Slider(min=1, max=10, value=1, step=1))
             self.generation_type = Buff_effect
 
     def add_dice(self, btn):
@@ -167,6 +170,7 @@ class popup_effect_creation(Popup):
         desc = ""
         aoe = 0
         i = 0
+        turn_left = 0
         for child in self.layout.children[1].children:
             if isinstance(child, TextInput):
                 if i == 2:
@@ -177,10 +181,12 @@ class popup_effect_creation(Popup):
                     if child.text.isdigit():
                         aoe = int(child.text)
                 i += 1
+            elif isinstance(child, Slider):
+                turn_left = Slider.value
 
         effect = self.generation_type(scale_type=self.caster_type, resist_type=self.resist_type,
                                       damage=dice, name=name, description=desc, is_fixed_targeting=False,
-                                      turn_left=0, max_target=aoe)
+                                      turn_left=turn_left, max_target=aoe)
 
         Ability_manager.effects.append(effect)
         self.dismiss()

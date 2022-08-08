@@ -10,9 +10,10 @@ from BattleSystem.BattleField import battle_field
 class mob_list(Accordion):
 
     def __init__(self, **kwargs):
-        if battle_field.current_player is not None :
+        if battle_field.current_player is not None:
             party_id = battle_field.current_player.party_id
-
+        else:
+            party_id = battle_field.entities[0].party_id
         super().__init__(**kwargs)
         self.orientation = 'vertical'
         ind = 0

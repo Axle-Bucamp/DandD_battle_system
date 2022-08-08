@@ -83,9 +83,10 @@ class player_turn(GridLayout):
         self.ability_list_pop.open()
 
     def learn_ability(self, selected1, selected2):
-        battle_field.current_player.ability.append(selected1)
-        self.ability_list_pop.dismiss()
-        self.refresh_ability()
+        if selected1 is not None:
+            battle_field.current_player.ability.append(selected1)
+            self.ability_list_pop.dismiss()
+            self.refresh_ability()
 
     def refresh_ability(self):
         self.main_content.remove_widget(self.ability)

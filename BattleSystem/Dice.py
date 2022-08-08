@@ -2,12 +2,16 @@ from random import randrange
 
 
 class Dice:
-    dice12 = lambda x=0: randrange(1, 12, 1)
-    dice20 = lambda x=0: randrange(1, 20, 1)
-    dice100 = lambda x=0: randrange(1, 100, 1)
-    dice8 = lambda x=0: randrange(1, 8, 1)
-    dice6 = lambda x=0: randrange(1, 6, 1)
-    dice4 = lambda x=0: randrange(1, 4, 1)
+    dice12 = lambda x=12: Dice.do_dice(x)
+    dice20 = lambda x=20: Dice.do_dice(x)
+    dice100 = lambda x=100: Dice.do_dice(x)
+    dice8 = lambda x=8: Dice.do_dice(x)
+    dice6 = lambda x=6: Dice.do_dice(x)
+    dice4 = lambda x=4: Dice.do_dice(x)
+
+    @staticmethod
+    def do_dice(x):
+        return randrange(1, x, 1)
 
     @staticmethod
     def to_simple_dict(obj):

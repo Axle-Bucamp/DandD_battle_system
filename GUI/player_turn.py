@@ -25,8 +25,7 @@ class player_turn(GridLayout):
 
         self.add_widget(
             Label(text=battle_field.current_player.name + " party :" + str(
-                battle_field.current_player.party_id) + " init :" + str(
-                battle_field.entities.index(battle_field.current_player)), size_hint_y=None, height=50))
+                battle_field.current_player.party_id), size_hint_y=None, height=50))
 
         life_box = GridLayout(size_hint_y=None, height=50)
         life_box.cols = 2

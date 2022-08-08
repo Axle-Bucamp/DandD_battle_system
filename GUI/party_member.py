@@ -3,20 +3,28 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
 from BattleSystem.BattleField import battle_field
 from kivy.uix.progressbar import ProgressBar
+from kivy.uix.scrollview import ScrollView
 
-class party_member(GridLayout):
+class party_member(ScrollView):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        #self.scroll_timeout = 1000
+        self.do_scroll_x = True
+        ally_layout = GridLayout(spacing=10, size_hint_x=None)
+
         i = 0
         for entity in battle_field.entities:
             if entity.party_id == battle_field.current_player.party_id and entity != battle_field.current_player:
-                self.add_widget(self.create_ally_panel(entity, i))
-            i += 1
-        self.cols = i
+                ally_layout.add_widget(self.create_ally_panel(entity, i))
+                i += 1
+        ally_layout.cols = i
+        ally_layout.width = i * (400 + 10)
+        self.scroll_distance = 820
+        self.add_widget(ally_layout)
 
     def create_ally_panel(self, entity, index):
-        ally_member = GridLayout(cols=1)
+        ally_member = GridLayout(cols=1, size_hint_x=None, width=400)
         ally_member.entity = entity
 
         life_box = GridLayout(size_hint_y=None, height=50)

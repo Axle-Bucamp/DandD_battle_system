@@ -58,7 +58,8 @@ class Entity:
     @staticmethod
     def compute_health(ilevel, const):
         hit_point = 0
-        for i in range(ilevel):
+        for i in range(ilevel + 1):
+            print("const")
             hit_point += int(Dice.dice12() + (const - 10) / 2)
         return hit_point
 

@@ -45,9 +45,9 @@ class popup_generation_battle(Popup):
         # mob_type drop down
         self.drop_type = DropDown()
         name = ["barbare", "archer", "mage", "priest", "rogue", "paladin"]
-        for elem in range(5):
-            btn = Button(text=name[elem], size_hint_y=None, height=60)
-            btn.value = elem
+        for elem in name:
+            btn = Button(text=elem, size_hint_y=None, height=60)
+            btn.value = name.index(elem)
             btn.bind(on_release=lambda btn_call: self.drop_type.select(btn_call))
             self.drop_type.add_widget(btn)
 

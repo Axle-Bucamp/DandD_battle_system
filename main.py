@@ -24,6 +24,7 @@ class Battle_application(App):
     def build(self):
         self.draw_menu()
         self.battle = battle_field()
+        self.title = "D&D Battle Management Tool"
         self.spell_manager = Ability_manager.basic()
 
         return self.container_app
@@ -50,7 +51,7 @@ class Battle_application(App):
 
         text_side.add_widget(Label(text="This is a battle game interface for D&D style game \n" +
                                         "you can generate battle from basic setup \n" +
-                                        "or create your own one. \n" +
+                                        "or custom your own one. \n \n" +
                                         "this tool is done to simplify battle for MJ online. \n" +
                                         "be aware that You need to generate at least two \n" +
                                         " party group to use this app.", size_hint=(1, None), height=300

@@ -132,23 +132,29 @@ class popup_effect_creation(Popup):
         # target
         grid.add_widget(Label(text="max AOE target"))
         grid.add_widget(TextInput())
+
         self.generation_type = Effect
         self.is_positive = False
+        self.turn_left = 0
+
+        slide_turn = Slider(min=1, max=10, value=1, step=1)
+        slide_turn.bind(on_value=self.update_turn)
         #  ["instant damage", "damage over time", "boost", "curse", "instant healing", "healing over time"]
+
         if option == 1:
             grid.add_widget(Label(text="duration"))
-            grid.add_widget(Slider(min=1, max=10, value=1, step=1))
+            grid.add_widget(slide_turn)
             self.generation_type = Dot_effect
 
         if option == 2:
             grid.add_widget(Label(text="duration"))
-            grid.add_widget(Slider(min=1, max=10, value=1, step=1))
+            grid.add_widget(slide_turn)
             self.generation_type = Buff_effect
             self.is_positive = True
 
         if option == 3:
             grid.add_widget(Label(text="duration"))
-            grid.add_widget(Slider(min=1, max=10, value=1, step=1))
+            grid.add_widget(slide_turn)
             self.generation_type = Buff_effect
 
         if option == 4:
@@ -159,6 +165,9 @@ class popup_effect_creation(Popup):
             grid.add_widget(Slider(min=1, max=10, value=1, step=1))
             self.generation_type = Dot_effect
             self.is_positive = True
+
+    def update_turn(self, slide):
+        self.turn_left = slide.value
 
     def add_dice(self, btn):
         button_dice = Button(text=btn.name, size_hint=(1, None), height=44)
@@ -186,7 +195,7 @@ class popup_effect_creation(Popup):
         desc = ""
         aoe = 0
         i = 0
-        turn_left = 0
+
         for child in self.layout.children[1].children:
             if isinstance(child, TextInput):
                 if i == 2:
@@ -197,12 +206,10 @@ class popup_effect_creation(Popup):
                     if child.text.isdigit():
                         aoe = int(child.text)
                 i += 1
-            elif isinstance(child, Slider):
-                turn_left = int(Slider.value)
 
         effect = self.generation_type(scale_type=self.caster_type, resist_type=self.resist_type,
                                       damage=dice, name=name, description=desc, is_fixed_targeting=False,
-                                      turn_left=turn_left, max_target=aoe, is_positive=self.is_positive)
+                                      turn_left=self.turn_left, max_target=aoe, is_positive=self.is_positive)
 
         Ability_manager.effects.append(effect)
         self.dismiss()

@@ -93,7 +93,7 @@ class Entity:
         buff = self.compute_buff(name)
 
         if name is None:
-            return 0
+            return 0 + buff
         if name == "stre":
             return self.strength + buff
         if name == "const":
@@ -131,13 +131,14 @@ class Entity:
 
     def compute_buff(self, name: str) -> int:
         boost = 0
+
         for buff in self.buff_list:
-            if buff.scale_type == name:
+            if buff.resist_type == name or buff.resist_type is None:
                 if buff.is_buff:
                     boost += buff.compute()
                 else:
                     boost -= buff.compute()
-        print("buff list: " + str(self.buff_list))
+
         print("buff and curse have update stat by :" + str(boost))
         return boost
 

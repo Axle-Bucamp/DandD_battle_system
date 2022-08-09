@@ -54,7 +54,7 @@ class Effect:
             if accuracy_stat > resist_stat:
                 damage = self.compute()
                 print("damage :" + str(damage))
-                entity.hit_point -= damage
+                entity.hit_point += damage
         return damage, resist_stat, accuracy_stat
 
     def __str__(self):

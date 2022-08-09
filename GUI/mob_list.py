@@ -13,16 +13,20 @@ class mob_list(GridLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.cols = 1
-        self.rows = 2
+        self.rows = 4
 
         # find a way to make them beauty
+        self.add_widget(Label(text="Enemies", size_hint=(1, None), height=60))
         scroll_alive = ScrollView(do_scroll_y=True, scroll_distance=400)
         self.add_widget(scroll_alive)
+
+        self.add_widget(Label(text="Death List", size_hint=(1, None), height=60))
         scroll_dead = ScrollView(do_scroll_y=True, scroll_distance=400)
         self.add_widget(scroll_dead)
 
         root = Accordion()
         dead_root = Accordion()
+
         scroll_alive.add_widget(root)
         scroll_dead.add_widget(dead_root)
 

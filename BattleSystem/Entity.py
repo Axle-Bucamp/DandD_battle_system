@@ -138,8 +138,8 @@ class Entity:
                     boost += buff.compute()
                 else:
                     boost -= buff.compute()
-
-        print("buff and curse have update stat by :" + str(boost))
+        if boost != 0:
+            print("buff and curse have update stat by :" + str(boost))
         return boost
 
     def compute_dot(self):

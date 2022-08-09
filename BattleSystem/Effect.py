@@ -39,10 +39,12 @@ class Effect:
         else:
             accuracy_stat = 0
         accuracy_stat += Dice.dice20()
-        damage = 0
 
+        damage = 0
         nb_target = 0
+
         for entity in to_entities:
+
             if nb_target > self.max_target:
                 break
             if self.resist_type is not None:
@@ -51,10 +53,12 @@ class Effect:
                 resist_stat = 0
             resist_stat += entity.armor_class
             print("accuracy test :" + str(accuracy_stat) + "/" + str(resist_stat))
+
             if accuracy_stat > resist_stat:
                 damage = self.compute()
                 print("damage :" + str(damage))
                 entity.hit_point += damage
+
         return damage, resist_stat, accuracy_stat
 
     def __str__(self):

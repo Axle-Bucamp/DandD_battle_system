@@ -51,10 +51,6 @@ class Entity:
                    strength=stre, constitution=const, ilevel=ilevel, gear=[], party_id=party_id, name=name,
                    description="")
 
-    @classmethod
-    def import_from_file(cls, path):
-        return cls()
-
     @staticmethod
     def compute_health(ilevel, const):
         hit_point = 0

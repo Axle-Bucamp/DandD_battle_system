@@ -91,6 +91,7 @@ class Entity:
     def get_stat(self, name):
         # ["stre", "const", "dext", "char", "int"]
         buff = self.compute_buff(name)
+
         if name is None:
             return 0
         if name == "stre":
@@ -132,7 +133,12 @@ class Entity:
         boost = 0
         for buff in self.buff_list:
             if buff.scale_type == name:
-                boost += buff.compute()
+                if buff.is_buff:
+                    boost += buff.compute()
+                else:
+                    boost -= buff.compute()
+        print("buff list: " + str(self.buff_list))
+        print("buff and curse have update stat by :" + str(boost))
         return boost
 
     def compute_dot(self):

@@ -155,10 +155,10 @@ class Entity:
 
             dot.turn_left -= 1
             if dot.turn_left < 0:
-                print(str(dot.name) + "has been remove")
+                print(str(dot.name) + " has been remove from dot list")
                 self.dot_list.remove(dot)
 
-        print(str(dam) + " self dot value this turn")
+        print(str(dam) + " dot value this turn")
         self.hit_point += dam
 
     def rest(self):

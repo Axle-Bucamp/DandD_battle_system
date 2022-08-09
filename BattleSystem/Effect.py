@@ -69,7 +69,7 @@ class Effect:
         my_dict = {"scale_type": obj.scale_type, "resist_type": obj.resist_type,
                    "damage": [], "name": obj.name, "description": obj.description,
                    "is_fixed_targeting": str(obj.is_fixed_targeting), "turn_left": str(obj.turn_left),
-                   "caster_stat": str(obj.caster_stat), "max_target": str(obj.max_target)}
+                   "caster_stat": str(obj.caster_stat), "max_target": str(obj.max_target), "is_positive": str(obj.is_positive)}
         for dice in obj.damage:
             my_dict["damage"].append(Dice.to_simple_dict(dice))
         return my_dict
@@ -83,7 +83,7 @@ class Effect:
         eff = Effect(scale_type=dict["scale_type"], resist_type=dict["resist_type"],
                      damage=damage_list, name=dict["name"], description=dict["description"],
                      is_fixed_targeting=bool(dict["is_fixed_targeting"]), turn_left=int(dict["turn_left"]),
-                     max_target=int(dict["max_target"]))
+                     max_target=int(dict["max_target"]), is_positive=bool(dict["is_positive"]))
 
         if dict["caster_stat"]:
             eff.caster_stat = dict["caster_stat"]

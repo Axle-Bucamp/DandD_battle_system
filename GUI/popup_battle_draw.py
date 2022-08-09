@@ -9,6 +9,7 @@ class popup_battle_draw(Popup):
     def __init__(self, title, action_name, list1=None, name1="", name2="", list2=None,
                  call=lambda selected1, all_selected2: True, with_description=False, default_description="", **kwargs):
         super().__init__(**kwargs)
+        self.size = (1200, 1000)
         self.list1 = list1
         self.list2 = list2
         self.title = title

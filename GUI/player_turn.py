@@ -72,7 +72,11 @@ class player_turn(GridLayout):
         popup_details.open()
 
     def draw_choice_ability_popup(self, btn):
-        list1 = Ability_manager.abilities
+        list1 = []
+        for ability in Ability_manager.abilities:
+            if ability.level <= battle_field.current_player.level:
+                list1.append(ability)
+
         func = self.learn_ability
         self.ability_list_pop = popup_battle_draw.popup_battle_draw(title="learn ability", action_name="learn",
                                                                     list1=list1,

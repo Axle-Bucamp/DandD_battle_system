@@ -29,14 +29,17 @@ class popup_ability_creation(Popup):
         popup_main_grid.add_widget(sep)
         popup_main_grid.add_widget(action)
 
-        self.layout.add_widget(Label(text="Name:"))
-        self.layout.add_widget(TextInput())
+        self.layout.add_widget(Label(text="Name:", size_hint_y=None, height=60))
+        self.layout.add_widget(TextInput(size_hint_y=None, height=60))
 
-        self.layout.add_widget(Label(text="Description:"))
-        self.layout.add_widget(TextInput())
+        self.layout.add_widget(Label(text="Description:", size_hint_y=None, height=300))
+        self.layout.add_widget(TextInput(size_hint_y=None, height=300))
 
-        self.layout.add_widget(Label(text="Main only ability ?"))
-        self.layout.add_widget(Switch(active=True))
+        self.layout.add_widget(Label(text="Main only ability ?", size_hint_y=None, height=60))
+        self.layout.add_widget(Switch(active=True, size_hint_y=None, height=60))
+
+        self.layout.add_widget(Label(text="level:", size_hint_y=None, height=60))
+        self.layout.add_widget(TextInput(size_hint_y=None, height=60))
 
         self.drop_effects = DropDown()
         for effect in Ability_manager.effects:
@@ -70,15 +73,21 @@ class popup_ability_creation(Popup):
         self.list_effects.add_widget(effect_button)
 
     def generate(self, btn):
-        name = self.layout.children[5].text
-        description = self.layout.children[3].text
-        principale = self.layout.children[1].active
+        name = self.layout.children[7].text
+        description = self.layout.children[5].text
+        principale = self.layout.children[3].active
+        level = self.layout.children[1].text
+
+        if level.isdigit():
+            level = int(level)
+        else:
+            level = 1
 
         list_effect = []
         for child in self.list_effects.children:
             list_effect.append(child.value)
 
-        add_abil = Ability(effects=list_effect, name=name, description=description, is_principal=principale)
+        add_abil = Ability(effects=list_effect, name=name, description=description, is_principal=principale, level=level)
         Ability_manager.abilities.append(add_abil)
         self.dismiss()
 

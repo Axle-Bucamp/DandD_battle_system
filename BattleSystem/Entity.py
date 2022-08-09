@@ -134,10 +134,8 @@ class Entity:
 
         for buff in self.buff_list:
             if buff.resist_type == name or buff.resist_type is None:
-                if buff.is_buff:
-                    boost += buff.compute()
-                else:
-                    boost -= buff.compute()
+                boost += buff.compute()
+
         if boost != 0:
             print("buff and curse have update stat by :" + str(boost))
         return boost
@@ -145,12 +143,15 @@ class Entity:
     def compute_dot(self):
         dam = 0
         for dot in self.dot_list:
-            if dot.resist_type is None:
-                if Dice.dice20() < dot.caster_stat:
-                    dam += dot.compute()
+            if dot.is_positive:
+                dam += dot.compute()
             else:
-                if Dice.dice20() + (self.get_stat(dot.resist_type) + 10) / 2 < dot.caster_stat:
-                    dam += dot.compute()
+                if dot.resist_type is None:
+                    if Dice.dice20() < dot.caster_stat:
+                        dam += dot.compute()
+                else:
+                    if Dice.dice20() + (self.get_stat(dot.resist_type) + 10) / 2 < dot.caster_stat:
+                        dam += dot.compute()
 
             dot.turn_left -= 1
             if dot.turn_left < 0:

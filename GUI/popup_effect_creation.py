@@ -34,7 +34,7 @@ class popup_effect_creation(Popup):
         popup_main_grid.add_widget(action)
 
         self.drop_type = DropDown()
-        name = ["instant damage", "damage over time", "boost", "curse"]
+        name = ["instant damage", "damage over time", "boost", "curse", "instant healing", "healing over time"]
         for elem in range(len(name)):
             btn = Button(text=name[elem], size_hint_y=None, height=60)
             btn.value = elem
@@ -133,8 +133,8 @@ class popup_effect_creation(Popup):
         grid.add_widget(Label(text="max AOE target"))
         grid.add_widget(TextInput())
         self.generation_type = Effect
-        self.is_buff = True
-
+        self.is_positive = False
+        #  ["instant damage", "damage over time", "boost", "curse", "instant healing", "healing over time"]
         if option == 1:
             grid.add_widget(Label(text="duration"))
             grid.add_widget(Slider(min=1, max=10, value=1, step=1))
@@ -144,12 +144,21 @@ class popup_effect_creation(Popup):
             grid.add_widget(Label(text="duration"))
             grid.add_widget(Slider(min=1, max=10, value=1, step=1))
             self.generation_type = Buff_effect
+            self.is_positive = True
 
         if option == 3:
             grid.add_widget(Label(text="duration"))
             grid.add_widget(Slider(min=1, max=10, value=1, step=1))
             self.generation_type = Buff_effect
-            self.is_buff = False
+
+        if option == 4:
+            self.is_positive = True
+
+        if option == 5:
+            grid.add_widget(Label(text="duration"))
+            grid.add_widget(Slider(min=1, max=10, value=1, step=1))
+            self.generation_type = Dot_effect
+            self.is_positive = True
 
     def add_dice(self, btn):
         button_dice = Button(text=btn.name, size_hint=(1, None), height=44)
@@ -193,9 +202,7 @@ class popup_effect_creation(Popup):
 
         effect = self.generation_type(scale_type=self.caster_type, resist_type=self.resist_type,
                                       damage=dice, name=name, description=desc, is_fixed_targeting=False,
-                                      turn_left=turn_left, max_target=aoe)
-        if not self.is_buff:
-            effect.is_buff = self.is_buff
+                                      turn_left=turn_left, max_target=aoe, is_positive=self.is_positive)
 
         Ability_manager.effects.append(effect)
         self.dismiss()

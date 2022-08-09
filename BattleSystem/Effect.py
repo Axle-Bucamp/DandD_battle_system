@@ -4,9 +4,10 @@ from BattleSystem.Dice import Dice
 class Effect:
 
     def __init__(self, scale_type=None, resist_type=None, damage=None, name="Unknown", description="Unknown",
-                 is_fixed_targeting=False, turn_left=0, max_target=1):
+                 is_fixed_targeting=False, turn_left=0, max_target=1, is_positive=False):
         if damage is None:
             damage = []
+
         self.scale_type = scale_type
         self.resist_type = resist_type
         self.damage = damage
@@ -17,11 +18,15 @@ class Effect:
 
         self.caster_stat = 0
         self.max_target = max_target
+        self.is_positive = is_positive
 
     def compute(self):
         dam = 0
         for di in self.damage:
-            dam = di()
+            if self.is_positive:
+                dam = di()
+            else:
+                dam = -di()
         return dam
 
     def cast(self, from_entity, to_entities):

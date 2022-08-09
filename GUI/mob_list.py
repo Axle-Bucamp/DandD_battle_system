@@ -33,13 +33,15 @@ class mob_list(GridLayout):
 
         root.orientation = 'vertical'
         ind = 0
+        number_of_entity = 0
         for entity in battle_field.entities:
             if entity.party_id != party_id:
                 root.add_widget(self.draw_entity_stat(entity, ind))
-                ind += 1
+                number_of_entity +=1
+            ind += 1
 
         root.size_hint = (1, None)
-        root.height = ind * 100 + 350
+        root.height = number_of_entity * 100 + 350
 
         dead_root.orientation = 'vertical'
         ind = 0

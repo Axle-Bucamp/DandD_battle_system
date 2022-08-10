@@ -1,6 +1,5 @@
 from BattleSystem.Entity import Entity
 import numpy as np
-import pickle
 
 
 class battle_field:
@@ -103,16 +102,6 @@ class battle_field:
             return True, np.unique(np.array(party_list))
         else:
             return False, np.unique(np.array(party_list))
-
-    def save_entities(self, path="./save/entities"):
-        with open(path + ".pickle", 'wb') as handle:
-            pickle.dump(self, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
-    def load_entity(self, path="./save/entity/default.pickle"):
-        with open(path, 'rb') as handle:
-            b = pickle.load(handle)
-        if isinstance(b, Entity):
-            self.entities.append(b)
 
     @staticmethod
     def to_simple_dict(obj):

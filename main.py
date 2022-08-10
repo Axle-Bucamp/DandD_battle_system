@@ -14,9 +14,7 @@ from GUI import popup_generation_battle
 from GUI import popup_create_entity
 from GUI import popup_load_json
 from kivy.utils import get_color_from_hex
-from kivy.graphics import Color, Rectangle
 from kivy.core.window import Window
-from kivy.uix.floatlayout import FloatLayout
 from kivy.lang.builder import Builder
 
 Config.set('graphics', 'width', '2400')
@@ -32,6 +30,7 @@ class layout_colored(GridLayout):
 class round_label_with_border(Label):
     pass
 
+
 class round_box_with_border(GridLayout):
     pass
 
@@ -43,6 +42,7 @@ class Battle_application(App):
     white_cream = get_color_from_hex("#F9EFEC")
     cream = get_color_from_hex("#F7C599")
     brown = get_color_from_hex("#ef9312")
+    dark_brown = get_color_from_hex("#8A5546")
 
     # color used to design entity party
     sky_blue = get_color_from_hex("#8BCAFA")

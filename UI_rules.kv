@@ -27,3 +27,47 @@
             pos: self.pos
             size: self.width + 5, self.height + 5
             radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
+
+<mob_list@GridLayout>
+    opacity : 0.8
+    canvas.before:
+        Color:
+            rgba: .3, .3, .3, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.width - 5, self.height - 5
+            radius: [(10, 10), (10, 10), (10, 10), (10, 10)]
+
+<player_turn@GridLayout>
+    opacity : 0.9
+    canvas.before:
+        Color:
+            rgba: app.dark_brown
+        RoundedRectangle:
+            pos: self.pos
+            size: self.width + 5, self.height + 5
+            radius: [(10, 10), (10, 10), (10, 10), (10, 10)]
+
+<party_member_box@GridLayout>
+    opacity : 0.8
+    canvas.before:
+        Color:
+            rgba: app.cream
+        RoundedRectangle:
+            pos: self.pos
+            size: self.width, self.height
+            radius: [(0, 0), (0, 0), (20, 20), (20, 20)]
+
+<Action_menu@Accordion>
+    opacity : 0.8
+    canvas.before:
+        Color:
+            rgba: .3, .3, .3, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.width, self.height
+            radius: [(10, 10), (10, 10), (10, 10), (10, 10)]
+
+
+
+

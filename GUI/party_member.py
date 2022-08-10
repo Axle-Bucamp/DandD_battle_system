@@ -4,6 +4,16 @@ from kivy.uix.gridlayout import GridLayout
 from BattleSystem.BattleField import battle_field
 from kivy.uix.progressbar import ProgressBar
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.button import Button
+from main import Battle_application
+
+class party_member_box(GridLayout):
+    pass
+
+
+class button_name_party_member(Button):
+    pass
+
 
 class party_member(ScrollView):
 
@@ -11,6 +21,8 @@ class party_member(ScrollView):
         super().__init__(**kwargs)
         self.do_scroll_x = True
         ally_layout = GridLayout(spacing=10, size_hint_x=None)
+
+        button_name_party_member.background_color = Battle_application.party_color[battle_field.current_player.party_id]
 
         i = 0
         for entity in battle_field.entities:
@@ -23,7 +35,7 @@ class party_member(ScrollView):
         self.add_widget(ally_layout)
 
     def create_ally_panel(self, entity, index):
-        ally_member = GridLayout(cols=1, size_hint_x=None, width=400)
+        ally_member = party_member_box(cols=1, size_hint_x=None, width=400)
         ally_member.entity = entity
 
         life_box = GridLayout(size_hint_y=None, height=50)
@@ -34,7 +46,10 @@ class party_member(ScrollView):
         life_box.add_widget(ProgressBar(max=entity.max_life,
                                         value=entity.max_life))
 
-        ally_member.add_widget(Label(text=entity.name + " " + str(index), size_hint_y=None, height=50))
+        name_member = button_name_party_member(text=entity.name + " " + str(index),
+                                              size_hint_y=None, height=50)
+
+        ally_member.add_widget(name_member)
         ally_member.add_widget(life_box)
         ally_member.add_widget(self.charact_panel(entity))
 

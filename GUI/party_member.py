@@ -22,7 +22,7 @@ class party_member(ScrollView):
         self.do_scroll_x = True
         ally_layout = GridLayout(spacing=10, size_hint_x=None)
 
-        button_name_party_member.background_color = Battle_application.party_color[battle_field.current_player.party_id]
+        button_name_party_member.background_color = Battle_application.party_color[battle_field.current_player.party_id - 1]
 
         i = 0
         for entity in battle_field.entities:

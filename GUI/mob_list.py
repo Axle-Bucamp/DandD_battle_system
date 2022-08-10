@@ -60,7 +60,7 @@ class mob_list(GridLayout):
         acc = AccordionItem(title=entity.name + " party : " + str(entity.party_id) + " init :" + str(ind),
                             background_normal='images/acordeon/image_when_collapsed_party_' + str(entity.party_id) + '.png',
                             background_selected='images/acordeon/image_when_selected_party_' + str(entity.party_id) + '.png')
-        vbox = GridLayout(cols=1)
+        vbox = GridLayout(cols=1, height=500)
         vbox.entity = entity
         vbox.index = ind
 

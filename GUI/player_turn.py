@@ -48,7 +48,7 @@ class player_turn(GridLayout):
         self.target = None
         self.ability = None
 
-        name_button = Button(text=battle_field.current_player.name,
+        name_button = Button(text="[b]current player : " + battle_field.current_player.name + "[/b]",
                              markup=True, size_hint_y=None, height=50)
         name_button.background_color = self.party_color[battle_field.current_player.party_id -1]
         self.add_widget(name_button)

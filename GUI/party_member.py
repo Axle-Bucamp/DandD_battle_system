@@ -47,10 +47,12 @@ class party_member(ScrollView):
         button_name_party_member.background_color = self.party_color[battle_field.current_player.party_id - 1]
 
         i = 0
+        ind = 0
         for entity in battle_field.entities:
             if entity.party_id == battle_field.current_player.party_id and entity != battle_field.current_player:
-                ally_layout.add_widget(self.create_ally_panel(entity, i))
+                ally_layout.add_widget(self.create_ally_panel(entity, ind))
                 i += 1
+            ind +=1
         ally_layout.cols = i
         ally_layout.width = i * (400 + 10)
         self.scroll_distance = 820
@@ -68,7 +70,7 @@ class party_member(ScrollView):
         life_box.add_widget(ProgressBar(max=entity.max_life,
                                         value=entity.max_life))
 
-        name_member = button_name_party_member(text=entity.name + " " + str(index),
+        name_member = button_name_party_member(text=entity.name + " turn :" + str(index),
                                               size_hint_y=None, height=50)
 
         ally_member.add_widget(name_member)

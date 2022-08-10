@@ -21,7 +21,7 @@ class mob_list(GridLayout):
         self.rows = 4
 
         # find a way to make them beauty
-        self.add_widget(Label(text="[b]current player Enemies :[/b]", markup=True, size_hint=(1, None), height=60))
+        self.add_widget(Label(text="[b]Enemies :[/b]", markup=True, size_hint=(1, None), height=60))
         scroll_alive = ScrollView(do_scroll_y=True, scroll_distance=400)
         self.add_widget(scroll_alive)
 
@@ -62,7 +62,7 @@ class mob_list(GridLayout):
         dead_root.height = ind * 100 + 350
 
     def draw_entity_stat(self, entity, ind):
-        acc = AccordionItem(title=entity.name + "party : " + str(entity.party_id) + " turn :" + str(ind),
+        acc = AccordionItem(title=entity.name  + " turn :" + str(ind),
                             background_normal='images/acordeon/image_when_collapsed_party_' + str(entity.party_id) + '.png',
                             background_selected='images/acordeon/image_when_selected_party_' + str(entity.party_id) + '.png')
         vbox = List_charac_display(cols=1, height=400)

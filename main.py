@@ -32,11 +32,31 @@ class layout_colored(GridLayout):
 class round_label_with_border(Label):
     pass
 
+class round_box_with_border(GridLayout):
+    pass
+
+
 class Battle_application(App):
     container_app = GridLayout(cols=4, rows=1, size=(Window.width, Window.height))
+
+    # color to use in the app design
     white_cream = get_color_from_hex("#F9EFEC")
     cream = get_color_from_hex("#F7C599")
     brown = get_color_from_hex("#ef9312")
+
+    # color used to design entity party
+    sky_blue = get_color_from_hex("#8BCAFA")
+    purple = get_color_from_hex("#8BCAFA")
+    forest_green = get_color_from_hex("#5CFA72")
+    yellow_dark = get_color_from_hex("#D6B22B")
+    red = get_color_from_hex("#DB3425")
+    dark_orange = get_color_from_hex("#F09900")
+    green_yellow = get_color_from_hex("#D9D00B")
+    black = get_color_from_hex("#00241F")
+    gray_sky = get_color_from_hex("#008F7C")
+    gray = get_color_from_hex("#7A8E82")
+
+    party_color = [sky_blue, forest_green, yellow_dark, red, dark_orange, green_yellow, white_cream, black, gray_sky, gray]
 
     def build(self):
         self.draw_menu()
@@ -44,18 +64,16 @@ class Battle_application(App):
         self.title = "D&D Battle Management Tool"
         self.spell_manager = Ability_manager.basic()
 
-        Window.clearcolor = (self.cream)
-
         return self.container_app
 
     def draw_menu(self, btn=None):
         self.container_app.cols = 2
         self.container_app.clear_widgets()
 
-        button_side = layout_colored(cols=1)
+        button_side = GridLayout(cols=1)
         self.container_app.add_widget(button_side)
 
-        text_side = GridLayout(cols=1, rows=2, size_hint=(1, 1))
+        text_side = round_box_with_border(cols=1, rows=2, size_hint=(1, 1))
         self.container_app.add_widget(text_side)
 
         generate_entity = Button(text="[color=F59C4E][b]add character[/color][/b]",
@@ -111,6 +129,7 @@ class Battle_application(App):
                 self.join_battle.disabled = False
 
             btn = Button(text=child.name + " " + child.description, size_hint=(1, None), height=50)
+            btn.background_color = self.party_color[child.party_id -1]
             btn.value = child
             btn.bind(on_release=lambda x: [self.battle.entities.remove(x.value),
                                            self.battle_grid.remove_widget(x)])

@@ -8,30 +8,22 @@
             pos: self.pos
             size: self.size
 
-<button_menu@GridLayout>:
-    cols:1
-    rows:5
-    padding:10
-    spacing: 10
-    canvas.before:
-        Color:
-            rgba: 1, .5, 0, 1
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
 <round_label_with_border>
+    opacity : 1
     canvas.before:
-        Color:
-            rgba: .5, .5, .5, 1
-        RoundedRectangle:
-            pos: self.pos
-            size: self.width + 5, self.height + 5
-            radius: [(40, 40), (40, 40), (20, 20), (20, 20)]
-
         Color:
             rgba: app.white_cream
         RoundedRectangle:
             pos: self.pos
             size: self.width - 5, self.height - 5
-            radius: [(40, 40), (40, 40), (20, 20), (20, 20)]
+            radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
+
+<round_box_with_border@GridLayout>
+    opacity : 0.8
+    canvas.before:
+        Color:
+            rgba: .3, .3, .3, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.width + 5, self.height + 5
+            radius: [(20, 20), (20, 20), (20, 20), (20, 20)]

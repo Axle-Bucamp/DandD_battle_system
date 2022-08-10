@@ -13,6 +13,8 @@ class Entity:
             ability = []
         if gear is None:
             gear = []
+        if ilevel < 1:
+            ilevel = 1
         self.hit_point = hit_point
         self.max_life = hit_point
         self.armor_class = armor_class

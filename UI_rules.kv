@@ -68,6 +68,16 @@
             size: self.width, self.height
             radius: [(10, 10), (10, 10), (10, 10), (10, 10)]
 
+<List_charac_display@GridLayout>
+    opacity : 1
+    canvas.before:
+        Color:
+            rgba: app.cream
+        RoundedRectangle:
+            pos: self.pos
+            size: self.width, self.height
+            radius: [(0, 0), (0, 0), (20, 20), (20, 20)]
+
 
 
 

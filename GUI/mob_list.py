@@ -6,7 +6,11 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
 from BattleSystem.BattleField import battle_field
 from kivy.uix.scrollview import ScrollView
-import os
+
+
+class List_charac_display(GridLayout):
+    pass
+
 
 class mob_list(GridLayout):
 
@@ -16,11 +20,11 @@ class mob_list(GridLayout):
         self.rows = 4
 
         # find a way to make them beauty
-        self.add_widget(Label(text="Enemies", size_hint=(1, None), height=60))
+        self.add_widget(Label(text="[b]current player Enemies :[/b]", markup=True, size_hint=(1, None), height=60))
         scroll_alive = ScrollView(do_scroll_y=True, scroll_distance=400)
         self.add_widget(scroll_alive)
 
-        self.add_widget(Label(text="Death List", size_hint=(1, None), height=60))
+        self.add_widget(Label(text="[color=F00801][b]Death List :[/b][/color]", markup=True, size_hint=(1, None), height=60))
         scroll_dead = ScrollView(do_scroll_y=True, scroll_distance=400)
         self.add_widget(scroll_dead)
 
@@ -60,7 +64,7 @@ class mob_list(GridLayout):
         acc = AccordionItem(title=entity.name + " party : " + str(entity.party_id) + " init :" + str(ind),
                             background_normal='images/acordeon/image_when_collapsed_party_' + str(entity.party_id) + '.png',
                             background_selected='images/acordeon/image_when_selected_party_' + str(entity.party_id) + '.png')
-        vbox = GridLayout(cols=1, height=500)
+        vbox = List_charac_display(cols=1, height=400)
         vbox.entity = entity
         vbox.index = ind
 

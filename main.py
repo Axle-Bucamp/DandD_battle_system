@@ -13,13 +13,30 @@ from kivy.config import Config
 from GUI import popup_generation_battle
 from GUI import popup_create_entity
 from GUI import popup_load_json
+from kivy.utils import get_color_from_hex
+from kivy.graphics import Color, Rectangle
+from kivy.core.window import Window
+from kivy.uix.floatlayout import FloatLayout
+from kivy.lang.builder import Builder
 
 Config.set('graphics', 'width', '2400')
 Config.set('graphics', 'height', '1600')
 
+Builder.load_file('UI_rules.kv')
+
+
+class layout_colored(GridLayout):
+    pass
+
+
+class round_label_with_border(Label):
+    pass
 
 class Battle_application(App):
-    container_app = GridLayout(cols=4)
+    container_app = GridLayout(cols=4, rows=1, size=(Window.width, Window.height))
+    white_cream = get_color_from_hex("#F9EFEC")
+    cream = get_color_from_hex("#F7C599")
+    brown = get_color_from_hex("#ef9312")
 
     def build(self):
         self.draw_menu()
@@ -27,42 +44,58 @@ class Battle_application(App):
         self.title = "D&D Battle Management Tool"
         self.spell_manager = Ability_manager.basic()
 
+        Window.clearcolor = (self.cream)
+
         return self.container_app
 
     def draw_menu(self, btn=None):
         self.container_app.cols = 2
         self.container_app.clear_widgets()
-        button_side = GridLayout(cols=1)
+
+        button_side = layout_colored(cols=1)
         self.container_app.add_widget(button_side)
-        text_side = GridLayout(cols=1)
+
+        text_side = GridLayout(cols=1, rows=2, size_hint=(1, 1))
         self.container_app.add_widget(text_side)
 
-        generate_entity = Button(text="add character", size_hint=(1, None), height=80)
-        generate_battle = Button(text="Generate Battle", size_hint=(1, None), height=80)
-        load_battle = Button(text="Load file", size_hint=(1, None), height=80)
+        generate_entity = Button(text="[color=F59C4E][b]add character[/color][/b]",
+                                 markup=True, size_hint=(1, None), height=80)
+        generate_entity.background_color = get_color_from_hex("#ef9312")  # F7C599
+        generate_battle = Button(text="[color=F59C4E][b]Generate Battle[/color][/b]",
+                                 markup=True, size_hint=(1, None), height=80)
+        generate_battle.background_color = get_color_from_hex("#ef9312")  # F7C599
+        load_battle = Button(text="[color=F59C4E][b]Load file[/color][/b]",
+                             markup=True, size_hint=(1, None), height=80)
+        load_battle.background_color = get_color_from_hex("#ef9312")  # F7C599
         loading_file = popup_load_json.popup_load_json(call_on_generate=self.check_operationnal_battle)
         load_battle.bind(on_release=loading_file.open)
-        self.join_battle = Button(text="enter the Battlefield", size_hint=(1, None), height=80, disabled=True)
+        self.join_battle = Button(text="[color=F59C4E][b]enter the Battlefield[/color][/b]",
+                                  markup=True, size_hint=(1, None), height=80, disabled=True)
+        self.join_battle.background_color = self.brown  # F7C599
 
         battle_generation = popup_generation_battle.popup_generation_battle(self.check_operationnal_battle)
         entity_generation = popup_create_entity.popup_create_entity(self.check_operationnal_battle)
         generate_entity.bind(on_release=entity_generation.open)
         generate_battle.bind(on_release=battle_generation.open)
 
-        text_side.add_widget(Label(text="This is a battle game interface for D&D style game \n" +
-                                        "you can generate battle from basic setup \n" +
-                                        "or custom your own one. \n \n" +
-                                        "this tool is done to simplify battle for MJ online. \n" +
-                                        "be aware that You need to generate at least two \n" +
-                                        " party group to use this app.", size_hint=(1, None), height=300
-                                   ))
+        desc = round_label_with_border(text="[color=755E49][b]This is a battle game interface for D&D style game \n" +
+                          "you can generate battle from basic setup \n" +
+                          "or custom your own one. [/b][/color] \n \n" +
+                          "[color=755E49][i] this tool is done to simplify battle for MJ online. \n" +
+                          "be aware that You need to generate at least two \n" +
+                          "party group to use this app.[/b][/color]",
+                     markup=True, size_hint=(1, None), height=300
+                     )
+
+        text_side.add_widget(desc)
 
         self.battle_grid = GridLayout(cols=1)
         text_side.add_widget(self.battle_grid)
 
         self.join_battle.bind(on_release=self.draw_main_app)
 
-        button_side.add_widget(Label(text="D&D Battle System Tool"))
+        button_side.add_widget(Label(text="[color=755E49][b]D&D Battle System Tool[/b][/color]",
+                                     markup=True))
         button_side.add_widget(generate_entity)
         button_side.add_widget(generate_battle)
         button_side.add_widget(load_battle)
@@ -89,6 +122,7 @@ class Battle_application(App):
 
         self.container_app.cols = 4
         self.container_app.clear_widgets()
+
         self.container_app.add_widget(mob_list.mob_list())
         main_container = Main_window.Main_window(cols=1)
         main_container.size_hint = (2, 1)
@@ -103,4 +137,3 @@ class Battle_application(App):
 
 if __name__ == '__main__':
     Battle_application().run()
-

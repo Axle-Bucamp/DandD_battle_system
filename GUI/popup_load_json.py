@@ -35,7 +35,7 @@ class popup_load_json(Popup):
     def handledrops(self, window_object, filename):
         try:
             with open(filename, "r") as jsonsave:
-                dict = json.load(jsonsave)
+                dictionary = json.load(jsonsave)
         except:
             print(filename)
             print("file is not loaded")
@@ -43,11 +43,13 @@ class popup_load_json(Popup):
 
         self.file_btn.text = str(filename)
 
-        if "entities" in dict.keys() and "dead_list" in dict.keys() and "current_player" in dict.keys():
-            battle_field.from_simple_json(dict)
+        if "entities" in dictionary.keys() and\
+                "dead_list" in dictionary.keys() and\
+                "current_player" in dictionary.keys():
+            battle_field.from_simple_json(dictionary)
 
-        if "abilities" in dict.keys() or "effects" in dict.keys():
-            Ability_manager.from_simple_json(dict)
+        if "abilities" in dictionary.keys() or "effects" in dictionary.keys():
+            Ability_manager.from_simple_json(dictionary)
 
         self.call_on_generate()
         self.dismiss()

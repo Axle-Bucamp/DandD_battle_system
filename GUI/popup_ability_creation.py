@@ -87,7 +87,8 @@ class popup_ability_creation(Popup):
         for child in self.list_effects.children:
             list_effect.append(child.value)
 
-        add_abil = Ability(effects=list_effect, name=name, description=description, is_principal=principale, level=level)
+        add_abil = Ability(effects=list_effect, name=name,
+                           description=description, is_principal=principale, level=level)
         Ability_manager.abilities.append(add_abil)
         self.dismiss()
 

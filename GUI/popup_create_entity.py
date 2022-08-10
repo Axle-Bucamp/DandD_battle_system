@@ -6,7 +6,7 @@ from BattleSystem.BattleField import battle_field
 from BattleSystem.Entity import Entity
 from kivy.uix.label import Label
 from kivy.uix.slider import Slider
-import numpy as np
+
 
 class popup_create_entity(Popup):
     def __init__(self, call_on_generate=lambda: True, **kwargs):
@@ -39,7 +39,6 @@ class popup_create_entity(Popup):
         # class armor
         layout.add_widget(Label(text="class armor :"))
         layout.add_widget(Slider(min=1, max=20, value=1, step=1))
-
 
         # intelligence
         layout.add_widget(Label(text="intelligence :"))

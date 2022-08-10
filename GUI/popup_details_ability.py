@@ -1,15 +1,13 @@
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.popup import Popup
-from kivy.uix.textinput import TextInput
-from BattleSystem.Ability_manager import Ability_manager
 from BattleSystem.BattleField import battle_field
 from kivy.uix.dropdown import DropDown
 from kivy.uix.label import Label
 
 
 class popup_details_ability(Popup):
-    def __init__(self, ability, function=lambda x: True, **kwargs):
+    def __init__(self, ability, function=lambda: True, **kwargs):
         super().__init__(**kwargs)
         self.size_hint = (None, None)
         self.size = (1200, 1000)

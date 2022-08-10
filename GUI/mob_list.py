@@ -6,7 +6,6 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
 from BattleSystem.BattleField import battle_field
 from kivy.uix.scrollview import ScrollView
-from kivy.utils import get_color_from_hex
 
 
 class List_charac_display(GridLayout):
@@ -25,7 +24,8 @@ class mob_list(GridLayout):
         scroll_alive = ScrollView(do_scroll_y=True, scroll_distance=400)
         self.add_widget(scroll_alive)
 
-        self.add_widget(Label(text="[color=F00801][b]Death List :[/b][/color]", markup=True, size_hint=(1, None), height=60))
+        self.add_widget(Label(text="[color=F00801][b]Death List :[/b][/color]",
+                              markup=True, size_hint=(1, None), height=60))
         scroll_dead = ScrollView(do_scroll_y=True, scroll_distance=400)
         self.add_widget(scroll_dead)
 
@@ -46,7 +46,7 @@ class mob_list(GridLayout):
         for entity in battle_field.entities:
             if entity.party_id != party_id:
                 root.add_widget(self.draw_entity_stat(entity, ind))
-                number_of_entity +=1
+                number_of_entity += 1
             ind += 1
 
         root.size_hint = (1, None)
@@ -62,9 +62,11 @@ class mob_list(GridLayout):
         dead_root.height = ind * 100 + 350
 
     def draw_entity_stat(self, entity, ind):
-        acc = AccordionItem(title=entity.name  + " turn :" + str(ind),
-                            background_normal='images/acordeon/image_when_collapsed_party_' + str(entity.party_id) + '.png',
-                            background_selected='images/acordeon/image_when_selected_party_' + str(entity.party_id) + '.png')
+        acc = AccordionItem(title=entity.name + " turn :" + str(ind),
+                            background_normal='images/acordeon/image_when_collapsed_party_'
+                                              + str(entity.party_id) + '.png',
+                            background_selected='images/acordeon/image_when_selected_party_'
+                                                + str(entity.party_id) + '.png')
         vbox = List_charac_display(cols=1, height=400)
         vbox.entity = entity
         vbox.index = ind
@@ -74,7 +76,9 @@ class mob_list(GridLayout):
         name.var_name = "name"
 
         life = GridLayout(cols=5, size_hint_y=None, height=50)
-        life.add_widget(Label(text="[color=000000][b]" + str(entity.hit_point) + "/" + str(entity.max_life) + "[/color][/b]", markup=True, size_hint_x=None, width=200))
+        life.add_widget(Label(text="[color=000000][b]" + str(entity.hit_point) +
+                                   "/" + str(entity.max_life) + "[/color][/b]",
+                              markup=True, size_hint_x=None, width=200))
         life.add_widget(ProgressBar(max=entity.max_life, value=entity.hit_point))
 
         pushPlus = Button(text="+", size_hint_x=None, width=50)
@@ -202,7 +206,7 @@ class mob_list(GridLayout):
         else:
             entity.hit_point -= 1
         for child in button.parent.children:
-            if type(child) == type(ProgressBar()):
+            if isinstance(child, ProgressBar()):
                 child.value = entity.hit_point
-            if type(child) == type(Label()):
+            if isinstance(child, Label()):
                 child.text = "[color=000000][b]" + str(entity.hit_point) + "/" + str(entity.max_life) + "[/color][/b]"

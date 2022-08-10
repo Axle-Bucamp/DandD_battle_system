@@ -14,6 +14,7 @@ from kivy.uix.popup import Popup
 from BattleSystem.Dice import Dice
 import json
 
+
 class Action_menu(Accordion):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -34,10 +35,12 @@ class Action_menu(Accordion):
 
         self.loading_file = popup_load_json.popup_load_json()
 
-
-        self.popup_remove_entity = popup_battle_draw.popup_battle_draw(title="Remove Entity", action_name="Remove",
-                                                                       call=self.remove_entity, list1=battle_field.entities,
+        self.popup_remove_entity = popup_battle_draw.popup_battle_draw(title="Remove Entity",
+                                                                       action_name="Remove",
+                                                                       call=self.remove_entity,
+                                                                       list1=battle_field.entities,
                                                                        name1="battler")
+
         self.battle_delete_option.bind(on_press=lambda x: [self.redraw_entity(), self.popup_remove_entity.open()])
         battle_options.add_widget(self.battle_delete_option)
 
@@ -55,7 +58,7 @@ class Action_menu(Accordion):
         self.popup_resurect = popup_battle_draw.popup_battle_draw(title="Graveyard", action_name="Rise from the dead",
                                                                   call=self.resurect_entity,
                                                                   list2=battle_field.dead_list, name2="death list")
-        self.battle_resurection_option.bind(on_press=lambda x:[self.redraw_resurection(), self.popup_resurect.open()])
+        self.battle_resurection_option.bind(on_press=lambda x: [self.redraw_resurection(), self.popup_resurect.open()])
         battle_options.add_widget(self.battle_resurection_option)
 
         self.battle_load_option = Button(text="load entities", size_hint_y=None, height=44)
@@ -76,7 +79,8 @@ class Action_menu(Accordion):
                                                                         call=self.remove_ability, name1="ability list",
                                                                         list1=Ability_manager.abilities)
 
-        self.ability_delete_option.bind(on_press=lambda x:[self.redraw_remove_ability(), self.popup_remove_ability.open()])
+        self.ability_delete_option.bind(on_press=lambda x:
+                                        [self.redraw_remove_ability(), self.popup_remove_ability.open()])
         ability_options.add_widget(self.ability_delete_option)
 
         self.ability_create_option = Button(text="create ability", size_hint_y=None, height=44)
@@ -155,7 +159,8 @@ class Action_menu(Accordion):
 
     def redraw_entity(self):
         self.popup_remove_entity = popup_battle_draw.popup_battle_draw(title="Remove Entity", action_name="Remove",
-                                                                       call=self.remove_entity, list1=battle_field.entities)
+                                                                       call=self.remove_entity,
+                                                                       list1=battle_field.entities)
 
     def redraw_resurection(self):
         self.popup_resurect = popup_battle_draw.popup_battle_draw(title="Graveyard", action_name="Rise from the dead",
@@ -166,6 +171,7 @@ class Action_menu(Accordion):
         self.popup_remove_ability = popup_battle_draw.popup_battle_draw(title="Remove Ability", action_name="Remove",
                                                                         call=self.remove_ability, name1="ability list",
                                                                         list1=Ability_manager.abilities)
+
     @staticmethod
     def popup_dice(res):
         pop = Popup(title="Dice " + str(res), size_hint=(None, None), size=(600, 600))

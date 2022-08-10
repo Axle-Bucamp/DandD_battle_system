@@ -1,13 +1,9 @@
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.dropdown import DropDown
 from kivy.uix.popup import Popup
 from kivy.core.window import Window
 from BattleSystem.BattleField import battle_field
-from BattleSystem.Entity import Entity
-from BattleSystem.Ability import Ability
 from BattleSystem.Ability_manager import Ability_manager
-from BattleSystem.Effect import Effect
 import json
 
 

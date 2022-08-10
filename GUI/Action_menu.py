@@ -53,8 +53,8 @@ class Action_menu(Accordion):
 
         self.battle_resurection_option = Button(text="resurect entities", size_hint_y=None, height=44)
         self.popup_resurect = popup_battle_draw.popup_battle_draw(title="Graveyard", action_name="Rise from the dead",
-                                                                        call=self.resurect_entity,
-                                                                        list2=battle_field.dead_list, name2="death list")
+                                                                  call=self.resurect_entity,
+                                                                  list2=battle_field.dead_list, name2="death list")
         self.battle_resurection_option.bind(on_press=lambda x:[self.redraw_resurection(), self.popup_resurect.open()])
         battle_options.add_widget(self.battle_resurection_option)
 
@@ -202,6 +202,8 @@ class Action_menu(Accordion):
         for row in select2:
             if select2 in battle_field.dead_list:
                 row.hit_point = row.max_life
+                if select1 is not None:
+                    row.party_id = select1
                 battle_field.entities.append(row)
                 battle_field.dead_list.remove(row)
 

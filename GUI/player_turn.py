@@ -8,9 +8,34 @@ from BattleSystem.Ability_manager import Ability_manager
 from GUI import popup_details_ability
 from GUI import popup_battle_draw
 from GUI import end_battle_popup
+from kivy.utils import get_color_from_hex
+
+
+class ability_list_layout(GridLayout):
+    pass
 
 
 class player_turn(GridLayout):
+    # color to use in the app design
+    white_cream = get_color_from_hex("#F9EFEC")
+    cream = get_color_from_hex("#F7C599")
+    brown = get_color_from_hex("#ef9312")
+    dark_brown = get_color_from_hex("#8A5546")
+    wood = get_color_from_hex("#5A3300")
+
+    # color used to design entity party
+    sky_blue = get_color_from_hex("#8BCAFA")
+    purple = get_color_from_hex("#8BCAFA")
+    forest_green = get_color_from_hex("#5CFA72")
+    yellow_dark = get_color_from_hex("#D6B22B")
+    red = get_color_from_hex("#DB3425")
+    dark_orange = get_color_from_hex("#F09900")
+    green_yellow = get_color_from_hex("#D9D00B")
+    black = get_color_from_hex("#00241F")
+    gray_sky = get_color_from_hex("#008F7C")
+    gray = get_color_from_hex("#7A8E82")
+
+    party_color = [sky_blue, forest_green, yellow_dark, red, dark_orange, green_yellow, white_cream, black, gray_sky, gray]
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -23,14 +48,15 @@ class player_turn(GridLayout):
         self.target = None
         self.ability = None
 
-        self.add_widget(
-            Label(text=battle_field.current_player.name + " party :" + str(
-                battle_field.current_player.party_id), size_hint_y=None, height=50))
+        name_button = Button(text=battle_field.current_player.name,
+                             markup=True, size_hint_y=None, height=50)
+        name_button.background_color = self.party_color[battle_field.current_player.party_id -1]
+        self.add_widget(name_button)
 
         life_box = GridLayout(size_hint_y=None, height=50)
         life_box.cols = 2
-        life_box.add_widget(Label(text=str(battle_field.current_player.hit_point) + "/" +
-                                  str(battle_field.current_player.max_life),
+        life_box.add_widget(Label(text="[color=000000][b]" + str(battle_field.current_player.hit_point) + "/" +
+                                  str(battle_field.current_player.max_life) + "[/color][/b]", markup=True,
                                   size_hint_x=None, width=200))
 
         life_box.add_widget(ProgressBar(max=battle_field.current_player.max_life,
@@ -38,10 +64,13 @@ class player_turn(GridLayout):
 
         self.main_content = GridLayout(cols=2, rows=1)
         charac = self.charact_panel(battle_field.current_player)
-        self.ability = self.ability_list(battle_field.current_player)
+        self.ability, self.ability_learn = self.ability_list(battle_field.current_player)
 
         self.main_content.add_widget(charac)
-        self.main_content.add_widget(self.ability)
+        ability_older = GridLayout(rows=2)
+        ability_older.add_widget(self.ability)
+        ability_older.add_widget(self.ability_learn)
+        self.main_content.add_widget(ability_older)
 
         action_button = self.action_widget(battle_field.current_player)
 
@@ -53,8 +82,9 @@ class player_turn(GridLayout):
         self.parent.refresh_turn()
 
     def ability_list(self, entity):
-        ability_list = GridLayout(cols=1)
-        ability_list.add_widget(Label(text="ability :", size_hint_y=None, height=50))
+        ability_list = ability_list_layout(cols=1)
+
+        ability_list.add_widget(Label(text="[color=000000][b]abilities :[/color][/b]", markup=True, size_hint_y=None, height=50))
         for ability in entity.ability:
             button_abil = Button(text=ability.name, size_hint_y=None, height=50)
             button_abil.value = ability
@@ -62,10 +92,11 @@ class player_turn(GridLayout):
             ability_list.add_widget(button_abil)
 
         add_abil_button = Button(text="Learn new ability", size_hint=(1, None), height=50)
+        add_abil_button.background_color = self.purple
         add_abil_button.bind(on_release=self.draw_choice_ability_popup)
-        ability_list.add_widget(add_abil_button)
+        #ability_list.add_widget(add_abil_button)
 
-        return ability_list
+        return ability_list, add_abil_button
 
     def draw_ability_details_popup(self, btn):
         popup_details = popup_details_ability.popup_details_ability(btn.value, self.refresh_ability)
@@ -94,8 +125,11 @@ class player_turn(GridLayout):
 
     def refresh_ability(self):
         self.main_content.remove_widget(self.ability)
-        self.ability = self.ability_list(battle_field.current_player)
-        self.main_content.add_widget(self.ability)
+        self.ability, self.abil_learning = self.ability_list(battle_field.current_player)
+        ability_older = GridLayout(rows=2)
+        ability_older.add_widget(self.ability)
+        ability_older.add_widget(self.abil_learning)
+        self.main_content.add_widget(ability_older)
 
     def on_main_action(self, button):
         entity = button.parent.entity
@@ -179,43 +213,43 @@ class player_turn(GridLayout):
     @staticmethod
     def charact_panel(entity):
         charac = GridLayout(cols=4)
-        charac.add_widget(Label(text="level :"))
+        charac.add_widget(Label(text="[color=000000][b]level :[/color][/b]", markup=True))
         level = TextInput(text=str(entity.level), disabled=True)
         level.var = entity.level
         level.var_name = "level"
         charac.add_widget(level)
 
-        charac.add_widget(Label(text="Armor :"))
+        charac.add_widget(Label(text="[color=000000][b]Armor :[/color][/b]", markup=True))
         armor_class = TextInput(text=str(entity.armor_class), disabled=True)
         armor_class.var = entity.armor_class
         armor_class.var_name = "armor_class"
         charac.add_widget(armor_class)
 
-        charac.add_widget(Label(text="Stren :"))
+        charac.add_widget(Label(text="[color=DB2F1C][b]Stren :[/color][/b]", markup=True))
         strength = TextInput(text=str(entity.strength), disabled=True)
         strength.var = entity.strength
         strength.var_name = "strength"
         charac.add_widget(strength)
 
-        charac.add_widget(Label(text="Dext :"))
+        charac.add_widget(Label(text="[color=0BA808][b]Dext :[/color][/b]", markup=True))
         agil = TextInput(text=str(entity.dexterity), disabled=True)
         agil.var = entity.dexterity
         agil.var_name = "dexterity"
         charac.add_widget(agil)
 
-        charac.add_widget(Label(text="Const :"))
+        charac.add_widget(Label(text="[color=3636FF][b]Const :[/color][/b]", markup=True))
         cons = TextInput(text=str(entity.constitution), disabled=True)
         cons.var = entity.constitution
         cons.var_name = "constitution"
         charac.add_widget(cons)
 
-        charac.add_widget(Label(text="Int :"))
+        charac.add_widget(Label(text="[color=F0028D][b]Int :[/color][/b]", markup=True))
         inte = TextInput(text=str(entity.intelligence), disabled=True)
         inte.var = entity.intelligence
         inte.var_name = "intelligence"
         charac.add_widget(inte)
 
-        charac.add_widget(Label(text="Char :"))
+        charac.add_widget(Label(text="[color=DB8B27][b][color=DB8B27][b]Char :[/color][/b]", markup=True))
         char = TextInput(text=str(entity.charisma), disabled=True)
         char.var = entity.charisma
         char.var_name = "charisma"

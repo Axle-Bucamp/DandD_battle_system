@@ -22,6 +22,11 @@
     opacity : 0.8
     canvas.before:
         Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.width, self.height
+        Color:
             rgba: .3, .3, .3, 1
         RoundedRectangle:
             pos: self.pos
@@ -32,27 +37,27 @@
     opacity : 0.8
     canvas.before:
         Color:
-            rgba: .3, .3, .3, 1
+            rgba: app.wood
         RoundedRectangle:
             pos: self.pos
-            size: self.width - 5, self.height - 5
+            size: self.width, self.height
             radius: [(10, 10), (10, 10), (10, 10), (10, 10)]
 
 <player_turn@GridLayout>
     opacity : 0.9
     canvas.before:
         Color:
-            rgba: app.dark_brown
+            rgba: 1, 1, 1, 1
         RoundedRectangle:
             pos: self.pos
-            size: self.width + 5, self.height + 5
+            size: self.width, self.height
             radius: [(10, 10), (10, 10), (10, 10), (10, 10)]
 
 <party_member_box@GridLayout>
     opacity : 0.8
     canvas.before:
         Color:
-            rgba: app.cream
+            rgba: 1, 1, 1, 1
         RoundedRectangle:
             pos: self.pos
             size: self.width, self.height
@@ -72,11 +77,26 @@
     opacity : 1
     canvas.before:
         Color:
-            rgba: app.cream
+            rgba: 1, 1, 1, 1
         RoundedRectangle:
             pos: self.pos
             size: self.width, self.height
             radius: [(0, 0), (0, 0), (20, 20), (20, 20)]
+
+<ability_list_layout>
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.width + 2, self.height + 2
+            radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
+        Color:
+            rgba: 1, 1, 1, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.width, self.height
+            radius: [(20, 20), (20, 20), (20, 20), (20, 20)]
 
 <game_start_menu>
     canvas.before:

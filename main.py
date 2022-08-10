@@ -39,6 +39,7 @@ class round_box_with_border(GridLayout):
 class game_start_menu(BoxLayout):
     pass
 
+
 class Battle_application(App):
     container_app = GridLayout(cols=4, rows=1, size=(Window.width, Window.height))
 
@@ -47,6 +48,7 @@ class Battle_application(App):
     cream = get_color_from_hex("#F7C599")
     brown = get_color_from_hex("#ef9312")
     dark_brown = get_color_from_hex("#8A5546")
+    wood = get_color_from_hex("#5A3300")
 
     # color used to design entity party
     sky_blue = get_color_from_hex("#8BCAFA")
@@ -94,7 +96,7 @@ class Battle_application(App):
         self.join_battle = Button(text="[color=F59C4E][b]enter the Battlefield[/color][/b]",
                                   markup=True, size_hint=(1, None), height=80, disabled=True)
         self.join_battle.background_color = self.brown  # F7C599
-        self.join_battle.background_disabled_normal = "images/acordeon/image_when_collapsed_party_10.png"
+        self.join_battle.background_disabled_normal = "" # images/acordeon/image_when_collapsed_party_10.png
 
         battle_generation = popup_generation_battle.popup_generation_battle(self.check_operationnal_battle)
         entity_generation = popup_create_entity.popup_create_entity(self.check_operationnal_battle)

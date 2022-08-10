@@ -6,6 +6,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
 from BattleSystem.BattleField import battle_field
 from kivy.uix.scrollview import ScrollView
+from kivy.utils import get_color_from_hex
 
 
 class List_charac_display(GridLayout):
@@ -61,19 +62,19 @@ class mob_list(GridLayout):
         dead_root.height = ind * 100 + 350
 
     def draw_entity_stat(self, entity, ind):
-        acc = AccordionItem(title=entity.name + " party : " + str(entity.party_id) + " init :" + str(ind),
+        acc = AccordionItem(title=entity.name + "party : " + str(entity.party_id) + " turn :" + str(ind),
                             background_normal='images/acordeon/image_when_collapsed_party_' + str(entity.party_id) + '.png',
                             background_selected='images/acordeon/image_when_selected_party_' + str(entity.party_id) + '.png')
         vbox = List_charac_display(cols=1, height=400)
         vbox.entity = entity
         vbox.index = ind
 
-        name = TextInput(text= entity.name, size_hint_y=None, height=50)
+        name = TextInput(text=entity.name, size_hint_y=None, height=50)
         name.var = entity.name
         name.var_name = "name"
 
         life = GridLayout(cols=5, size_hint_y=None, height=50)
-        life.add_widget(Label(text=str(entity.hit_point) + "/" + str(entity.max_life), size_hint_x=None, width=200))
+        life.add_widget(Label(text="[color=000000][b]" + str(entity.hit_point) + "/" + str(entity.max_life) + "[/color][/b]", markup=True, size_hint_x=None, width=200))
         life.add_widget(ProgressBar(max=entity.max_life, value=entity.hit_point))
 
         pushPlus = Button(text="+", size_hint_x=None, width=50)
@@ -105,45 +106,45 @@ class mob_list(GridLayout):
 
     @staticmethod
     def charact_panel(entity):
-        charac = GridLayout(cols=4, size_hint_y=None, height=200)
-        charac.add_widget(Label(text="[b]level :[/b]", markup=True, size_hint_y=None, height=50))
-        level = TextInput(text=str(entity.level), disabled=True, size_hint_y=None, height=50)
+        charac = GridLayout(cols=4, size_hint_y=None, height=250)
+        charac.add_widget(Label(text="[color=000000][b]level :[/b][/color]", markup=True, size_hint_y=None, height=60))
+        level = TextInput(text=str(entity.level), disabled=True, size_hint_y=None, height=60)
         level.var = entity.level
         level.var_name = "level"
         charac.add_widget(level)
 
-        charac.add_widget(Label(text="[b]Armor :[/b]", markup=True, size_hint_y=None, height=50))
-        armor_class = TextInput(text=str(entity.armor_class), disabled=True, size_hint_y=None, height=50)
+        charac.add_widget(Label(text="[color=000000][b]Armor :[/b][/color]", markup=True, size_hint_y=None, height=60))
+        armor_class = TextInput(text=str(entity.armor_class), disabled=True, size_hint_y=None, height=60)
         armor_class.var = entity.armor_class
         armor_class.var_name = "armor_class"
         charac.add_widget(armor_class)
 
-        charac.add_widget(Label(text="[color=DB2F1C][b]Stren :[/b][/color]", markup=True, size_hint_y=None, height=50))
-        strength = TextInput(text=str(entity.strength), disabled=True, size_hint_y=None, height=50)
+        charac.add_widget(Label(text="[color=DB2F1C][b]Stren :[/b][/color]", markup=True, size_hint_y=None, height=60))
+        strength = TextInput(text=str(entity.strength), disabled=True, size_hint_y=None, height=60)
         strength.var = entity.strength
         strength.var_name = "strength"
         charac.add_widget(strength)
 
-        charac.add_widget(Label(text="[color=0BA808][b]Dext :[/b][/color]", markup=True, size_hint_y=None, height=50))
-        agil = TextInput(text=str(entity.dexterity), disabled=True, size_hint_y=None, height=50)
+        charac.add_widget(Label(text="[color=0BA808][b]Dext :[/b][/color]", markup=True, size_hint_y=None, height=60))
+        agil = TextInput(text=str(entity.dexterity), disabled=True, size_hint_y=None, height=60)
         agil.var = entity.dexterity
         agil.var_name = "dexterity"
         charac.add_widget(agil)
 
-        charac.add_widget(Label(text="[color=3636FF][b]Const :[/b][/color]", markup=True, size_hint_y=None, height=50))
-        cons = TextInput(text=str(entity.constitution), disabled=True, size_hint_y=None, height=50)
+        charac.add_widget(Label(text="[color=3636FF][b]Const :[/b][/color]", markup=True, size_hint_y=None, height=60))
+        cons = TextInput(text=str(entity.constitution), disabled=True, size_hint_y=None, height=60)
         cons.var = entity.constitution
         cons.var_name = "constitution"
         charac.add_widget(cons)
 
-        charac.add_widget(Label(text="[color=F0028D][b]Int :[/b][/color]", markup=True, size_hint_y=None, height=50))
-        inte = TextInput(text=str(entity.intelligence), disabled=True, size_hint_y=None, height=50)
+        charac.add_widget(Label(text="[color=F0028D][b]Int :[/b][/color]", markup=True, size_hint_y=None, height=60))
+        inte = TextInput(text=str(entity.intelligence), disabled=True, size_hint_y=None, height=60)
         inte.var = entity.intelligence
         inte.var_name = "intelligence"
         charac.add_widget(inte)
 
-        charac.add_widget(Label(text="[color=DB8B27][b]Char :[/b][/color]", markup=True, size_hint_y=None, height=50))
-        char = TextInput(text=str(entity.charisma), disabled=True, size_hint_y=None, height=50)
+        charac.add_widget(Label(text="[color=DB8B27][b]Char :[/b][/color]", markup=True, size_hint_y=None, height=60))
+        char = TextInput(text=str(entity.charisma), disabled=True, size_hint_y=None, height=60)
         char.var = entity.charisma
         char.var_name = "charisma"
         charac.add_widget(char)

@@ -16,6 +16,7 @@ from GUI import popup_load_json
 from kivy.utils import get_color_from_hex
 from kivy.core.window import Window
 from kivy.lang.builder import Builder
+from kivy.uix.boxlayout import BoxLayout
 
 Config.set('graphics', 'width', '2400')
 Config.set('graphics', 'height', '1600')
@@ -34,6 +35,9 @@ class round_label_with_border(Label):
 class round_box_with_border(GridLayout):
     pass
 
+
+class game_start_menu(BoxLayout):
+    pass
 
 class Battle_application(App):
     container_app = GridLayout(cols=4, rows=1, size=(Window.width, Window.height))
@@ -70,7 +74,7 @@ class Battle_application(App):
         self.container_app.cols = 2
         self.container_app.clear_widgets()
 
-        button_side = GridLayout(cols=1)
+        button_side = game_start_menu(orientation='vertical')
         self.container_app.add_widget(button_side)
 
         text_side = round_box_with_border(cols=1, rows=2, size_hint=(1, 1))
@@ -90,6 +94,7 @@ class Battle_application(App):
         self.join_battle = Button(text="[color=F59C4E][b]enter the Battlefield[/color][/b]",
                                   markup=True, size_hint=(1, None), height=80, disabled=True)
         self.join_battle.background_color = self.brown  # F7C599
+        self.join_battle.background_disabled_normal = "images/acordeon/image_when_collapsed_party_10.png"
 
         battle_generation = popup_generation_battle.popup_generation_battle(self.check_operationnal_battle)
         entity_generation = popup_create_entity.popup_create_entity(self.check_operationnal_battle)
@@ -112,8 +117,6 @@ class Battle_application(App):
 
         self.join_battle.bind(on_release=self.draw_main_app)
 
-        button_side.add_widget(Label(text="[color=755E49][b]D&D Battle System Tool[/b][/color]",
-                                     markup=True))
         button_side.add_widget(generate_entity)
         button_side.add_widget(generate_battle)
         button_side.add_widget(load_battle)

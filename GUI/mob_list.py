@@ -205,4 +205,4 @@ class mob_list(GridLayout):
             if type(child) == type(ProgressBar()):
                 child.value = entity.hit_point
             if type(child) == type(Label()):
-                child.text = str(entity.hit_point) + "/" + str(entity.max_life)
+                child.text = "[color=000000][b]" + str(entity.hit_point) + "/" + str(entity.max_life) + "[/color][/b]"

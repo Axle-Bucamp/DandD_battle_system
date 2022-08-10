@@ -52,7 +52,7 @@ class party_member(ScrollView):
             if entity.party_id == battle_field.current_player.party_id and entity != battle_field.current_player:
                 ally_layout.add_widget(self.create_ally_panel(entity, ind))
                 i += 1
-            ind +=1
+            ind += 1
         ally_layout.cols = i
         ally_layout.width = i * (400 + 10)
         self.scroll_distance = 820
@@ -71,7 +71,7 @@ class party_member(ScrollView):
                                         value=entity.max_life))
 
         name_member = button_name_party_member(text=entity.name + " turn :" + str(index),
-                                              size_hint_y=None, height=50)
+                                               size_hint_y=None, height=50)
 
         ally_member.add_widget(name_member)
         ally_member.add_widget(life_box)
@@ -129,5 +129,3 @@ class party_member(ScrollView):
             child.height = 80
 
         return charac
-
-

@@ -35,7 +35,9 @@ class player_turn(GridLayout):
     gray_sky = get_color_from_hex("#008F7C")
     gray = get_color_from_hex("#7A8E82")
 
-    party_color = [sky_blue, forest_green, yellow_dark, red, dark_orange, green_yellow, white_cream, black, gray_sky, gray]
+    party_color = [sky_blue, forest_green, yellow_dark,
+                   red, dark_orange, green_yellow,
+                   white_cream, black, gray_sky, gray]
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -50,7 +52,7 @@ class player_turn(GridLayout):
 
         name_button = Button(text="[b]current player : " + battle_field.current_player.name + "[/b]",
                              markup=True, size_hint_y=None, height=50)
-        name_button.background_color = self.party_color[battle_field.current_player.party_id -1]
+        name_button.background_color = self.party_color[battle_field.current_player.party_id - 1]
         self.add_widget(name_button)
 
         life_box = GridLayout(size_hint_y=None, height=50)
@@ -84,7 +86,8 @@ class player_turn(GridLayout):
     def ability_list(self, entity):
         ability_list = ability_list_layout(cols=1)
 
-        ability_list.add_widget(Label(text="[color=000000][b]abilities :[/color][/b]", markup=True, size_hint_y=None, height=50))
+        ability_list.add_widget(Label(text="[color=000000][b]abilities :[/color][/b]",
+                                      markup=True, size_hint_y=None, height=50))
         for ability in entity.ability:
             button_abil = Button(text=ability.name, size_hint_y=None, height=50)
             button_abil.value = ability
@@ -94,7 +97,6 @@ class player_turn(GridLayout):
         add_abil_button = Button(text="Learn new ability", size_hint=(1, None), height=50)
         add_abil_button.background_color = self.purple
         add_abil_button.bind(on_release=self.draw_choice_ability_popup)
-        #ability_list.add_widget(add_abil_button)
 
         return ability_list, add_abil_button
 

@@ -82,9 +82,7 @@ class Entity:
             stats_point.append(stat_x)
         stats_point.sort(reverse=True)
 
-        return stats_point[stats_order.index("stre")], stats_point[stats_order.index("const")], \
-               stats_point[stats_order.index("dext")], stats_point[stats_order.index("char")], \
-               stats_point[stats_order.index("int")]
+        return stats_point[stats_order.index("stre")], stats_point[stats_order.index("const")], stats_point[stats_order.index("dext")], stats_point[stats_order.index("char")], stats_point[stats_order.index("int")]
 
     def get_stat(self, name):
         # ["stre", "const", "dext", "char", "int"]
@@ -107,9 +105,6 @@ class Entity:
 
     def compute_initiative(self):
         self.initiative = Dice.dice20() + (self.dexterity - 10)
-
-    def save(self):
-        return True
 
     def end_turn(self):
         self.compute_dot()
@@ -198,7 +193,7 @@ class Entity:
     @staticmethod
     def to_simple_dict(obj):
         my_dict = {"hit_point": str(obj.hit_point), "armor_class": str(obj.armor_class),
-                   "intelligence":str(obj.intelligence), "charisma": str(obj.charisma),
+                   "intelligence": str(obj.intelligence), "charisma": str(obj.charisma),
                    "dexterity": str(obj.dexterity), "strength": str(obj.strength),
                    "constitution": str(obj.constitution), "ilevel": str(obj.level), "gear": [],
                    "ability": [], "party_id": str(obj.party_id), "name": str(obj.name),
@@ -224,26 +219,26 @@ class Entity:
         return my_dict
 
     @staticmethod
-    def from_simple_json(dict):
+    def from_simple_json(dictionary):
         ability = []
-        for cap in dict["ability"]:
+        for cap in dictionary["ability"]:
             ability.append(Ability.from_simple_dict(cap))
 
-        ent = Entity(hit_point=int(dict["hit_point"]), armor_class=int(dict["armor_class"]),
-                     intelligence=int(dict["intelligence"]), charisma=int(dict["charisma"]),
-                     dexterity=int(dict["dexterity"]), strength=int(dict["strength"]),
-                     constitution=int(dict["constitution"]), ilevel=int(dict["ilevel"]),
-                     gear=dict["gear"], ability=ability, party_id=int(dict["party_id"]),
-                     name=dict["name"], description=dict["description"])
+        ent = Entity(hit_point=int(dictionary["hit_point"]), armor_class=int(dictionary["armor_class"]),
+                     intelligence=int(dictionary["intelligence"]), charisma=int(dictionary["charisma"]),
+                     dexterity=int(dictionary["dexterity"]), strength=int(dictionary["strength"]),
+                     constitution=int(dictionary["constitution"]), ilevel=int(dictionary["ilevel"]),
+                     gear=dictionary["gear"], ability=ability, party_id=int(dictionary["party_id"]),
+                     name=dictionary["name"], description=dictionary["description"])
 
-        if dict["main_action"]:
-            ent.main_action = Ability.from_simple_dict(dict["main_action"])
-        if dict["second_action"]:
-            ent.second_action = Ability.from_simple_dict(dict["second_action"])
+        if dictionary["main_action"]:
+            ent.main_action = Ability.from_simple_dict(dictionary["main_action"])
+        if dictionary["second_action"]:
+            ent.second_action = Ability.from_simple_dict(dictionary["second_action"])
 
-        for buff in dict["buff_list"]:
+        for buff in dictionary["buff_list"]:
             ent.buff_list.append(Ability.from_simple_dict(buff))
-        for dot in dict["dot_list"]:
+        for dot in dictionary["dot_list"]:
             ent.dot_list = Ability.from_simple_dict(dot)
-        ent.max_life = int(dict["max_life"])
+        ent.max_life = int(dictionary["max_life"])
         return ent

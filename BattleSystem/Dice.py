@@ -32,16 +32,16 @@ class Dice:
         return my_dict
 
     @staticmethod
-    def from_simple_dict(dict):
+    def from_simple_dict(dictionary):
         damage = Dice.dice4
-        if dict["dice"] == "6":
+        if dictionary["dice"] == "6":
             damage = Dice.dice6
-        if dict["dice"] == "8":
+        if dictionary["dice"] == "8":
             damage = Dice.dice8
-        if dict["dice"] == "12":
+        if dictionary["dice"] == "12":
             damage = Dice.dice12
-        if dict["dice"] == "20":
+        if dictionary["dice"] == "20":
             damage = Dice.dice20
-        if dict["dice"] == "100":
+        if dictionary["dice"] == "100":
             damage = Dice.dice100
         return damage

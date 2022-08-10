@@ -8,9 +8,10 @@ class Buff_effect(Effect):
         super().__init__(scale_type, resist_type, damage, name, description,
                          is_fixed_targeting, turn_left, max_target, is_positive)
 
-
     def cast(self, from_entity, to_entities):
         nb_targ = 0
+        resist = 0
+        accuracy_stat = 0
         for entity in to_entities:
             if nb_targ > self.max_target:
                 break
@@ -26,7 +27,7 @@ class Buff_effect(Effect):
                 resist = from_entity.get_stat(self.resist_type)
             resist = Dice.dice20() + (resist-10)/2
 
-            if accuracy_stat > resist or self.is_buff:
+            if accuracy_stat > resist or self.is_positive:
                 entity.buff_list.append(self)
 
         return 0, resist, accuracy_stat

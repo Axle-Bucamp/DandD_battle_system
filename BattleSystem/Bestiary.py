@@ -17,7 +17,7 @@ class Bestiary:
         return my_dict
 
     @staticmethod
-    def from_simple_json(dict):
-        if "bestiary" in dict.keys() :
-            for entity in dict["bestiary"]:
+    def from_simple_json(dictionary):
+        if "bestiary" in dictionary.keys():
+            for entity in dictionary["bestiary"]:
                 Bestiary.bestiary.append(Entity.from_simple_json(entity))

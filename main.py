@@ -62,7 +62,9 @@ class Battle_application(App):
     gray_sky = get_color_from_hex("#008F7C")
     gray = get_color_from_hex("#7A8E82")
 
-    party_color = [sky_blue, forest_green, yellow_dark, red, dark_orange, green_yellow, white_cream, black, gray_sky, gray]
+    party_color = [sky_blue, forest_green, yellow_dark, red,
+                   dark_orange, green_yellow, white_cream, black,
+                   gray_sky, gray]
 
     def build(self):
         self.draw_menu()
@@ -96,7 +98,7 @@ class Battle_application(App):
         self.join_battle = Button(text="[color=F59C4E][b]enter the Battlefield[/color][/b]",
                                   markup=True, size_hint=(1, None), height=80, disabled=True)
         self.join_battle.background_color = self.brown  # F7C599
-        self.join_battle.background_disabled_normal = "" # images/acordeon/image_when_collapsed_party_10.png
+        self.join_battle.background_disabled_normal = ""  # images/acordeon/image_when_collapsed_party_10.png
 
         battle_generation = popup_generation_battle.popup_generation_battle(self.check_operationnal_battle)
         entity_generation = popup_create_entity.popup_create_entity(self.check_operationnal_battle)
@@ -104,13 +106,13 @@ class Battle_application(App):
         generate_battle.bind(on_release=battle_generation.open)
 
         desc = round_label_with_border(text="[color=755E49][b]This is a battle game interface for D&D style game \n" +
-                          "you can generate battle from basic setup \n" +
-                          "or custom your own one. [/b][/color] \n \n" +
-                          "[color=755E49][i] this tool is done to simplify battle for MJ online. \n" +
-                          "be aware that You need to generate at least two \n" +
-                          "party group to use this app.[/b][/color]",
-                     markup=True, size_hint=(1, None), height=300
-                     )
+                                            "you can generate battle from basic setup \n" +
+                                            "or custom your own one. [/b][/color] \n \n" +
+                                            "[color=755E49][i] this tool is done to simplify battle for MJ online. \n" +
+                                            "be aware that You need to generate at least two \n" +
+                                            "party group to use this app.[/b][/color]",
+                                       markup=True, size_hint=(1, None), height=300
+                                       )
 
         text_side.add_widget(desc)
 
@@ -134,7 +136,7 @@ class Battle_application(App):
                 self.join_battle.disabled = False
 
             btn = Button(text=child.name + " " + child.description, size_hint=(1, None), height=50)
-            btn.background_color = self.party_color[child.party_id -1]
+            btn.background_color = self.party_color[child.party_id - 1]
             btn.value = child
             btn.bind(on_release=lambda x: [self.battle.entities.remove(x.value),
                                            self.battle_grid.remove_widget(x)])

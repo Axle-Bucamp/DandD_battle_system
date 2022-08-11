@@ -7,6 +7,6 @@ and add your own spell, character, etc. So enjoy.
 more design and functionalities coming soon.
 
 ## todo :
-- Design 
-- Debug
+- improve Design 
+- implement gear system
 - Convertion to python executable

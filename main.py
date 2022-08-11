@@ -18,11 +18,8 @@ from kivy.core.window import Window
 from kivy.lang.builder import Builder
 from kivy.uix.boxlayout import BoxLayout
 
-Config.set('graphics', 'width', '2400')
-Config.set('graphics', 'height', '1600')
-
 Builder.load_file('UI_rules.kv')
-
+__version__ = "0.1.0"
 
 class layout_colored(GridLayout):
     pass

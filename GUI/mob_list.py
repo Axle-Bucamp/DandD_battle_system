@@ -206,7 +206,7 @@ class mob_list(GridLayout):
         else:
             entity.hit_point -= 1
         for child in button.parent.children:
-            if isinstance(child, ProgressBar()):
+            if isinstance(child, ProgressBar):
                 child.value = entity.hit_point
-            if isinstance(child, Label()):
+            if isinstance(child, Label):
                 child.text = "[color=000000][b]" + str(entity.hit_point) + "/" + str(entity.max_life) + "[/color][/b]"

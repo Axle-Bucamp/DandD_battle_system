@@ -64,15 +64,15 @@ class player_turn(GridLayout):
         life_box.add_widget(ProgressBar(max=battle_field.current_player.max_life,
                                         value=battle_field.current_player.max_life))
 
-        self.main_content = GridLayout(cols=2, rows=1)
+        self.main_content = GridLayout(cols=2)
         charac = self.charact_panel(battle_field.current_player)
-        self.ability, self.ability_learn = self.ability_list(battle_field.current_player)
+        self.ability, self.abil_learning = self.ability_list(battle_field.current_player)
 
         self.main_content.add_widget(charac)
-        ability_older = GridLayout(rows=2)
-        ability_older.add_widget(self.ability)
-        ability_older.add_widget(self.ability_learn)
-        self.main_content.add_widget(ability_older)
+        self.ability_older = GridLayout(cols=1)
+        self.ability_older.add_widget(self.ability)
+        self.ability_older.add_widget(self.abil_learning)
+        self.main_content.add_widget(self.ability_older)
 
         action_button = self.action_widget(battle_field.current_player)
 
@@ -126,12 +126,10 @@ class player_turn(GridLayout):
             self.refresh_ability()
 
     def refresh_ability(self):
-        self.main_content.remove_widget(self.ability)
+        self.ability_older.clear_widgets()
         self.ability, self.abil_learning = self.ability_list(battle_field.current_player)
-        ability_older = GridLayout(rows=2)
-        ability_older.add_widget(self.ability)
-        ability_older.add_widget(self.abil_learning)
-        self.main_content.add_widget(ability_older)
+        self.ability_older.add_widget(self.ability)
+        self.ability_older.add_widget(self.abil_learning)
 
     def on_main_action(self, button):
         entity = button.parent.entity

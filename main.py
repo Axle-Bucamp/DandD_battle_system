@@ -67,6 +67,7 @@ class Battle_application(App):
                    gray_sky, gray]
 
     def build(self):
+        self.icon = "images/icon.png"
         self.draw_menu()
         self.battle = battle_field()
         self.title = "D&D Battle Management Tool"

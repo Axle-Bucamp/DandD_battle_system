@@ -1,4 +1,3 @@
-import pickle
 from BattleSystem.Effect import Effect
 
 
@@ -21,10 +20,6 @@ class Ability:
             resistance_target.append(r)
             accuracy_score.append(c)
         return damage_done, resistance_target, accuracy_score
-
-    def save_ability(self, path="./save/abilities"):
-        with open(path + ".pickle", 'wb') as handle:
-            pickle.dump(self, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
     def __str__(self):
         description_effect = "\ncasting the effects :"

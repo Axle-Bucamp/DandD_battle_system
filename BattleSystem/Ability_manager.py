@@ -1,7 +1,6 @@
 from BattleSystem.Effect import Effect
 from BattleSystem.Ability import Ability
 from BattleSystem.Dice import Dice
-import pickle
 
 
 class Ability_manager:
@@ -31,16 +30,6 @@ class Ability_manager:
         ability = [Ability([effect], name="just smash", description="one dice attack")]
 
         return cls(ability, [effect])
-
-    def save_abilities(self, path="./save/abilities"):
-        with open(path + ".pickle", 'wb') as handle:
-            pickle.dump(self, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
-    def load_ability(self, path="./save/ability/default.pickle"):
-        with open(path, 'rb') as handle:
-            b = pickle.load(handle)
-        if isinstance(b, Ability):
-            self.abilities.append(b)
 
     @staticmethod
     def from_simple_json(dictionary):

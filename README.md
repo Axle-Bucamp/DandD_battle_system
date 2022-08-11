@@ -1,8 +1,12 @@
 # D&D Battle System Tool
 
+![alt text](https://github.com/Axle-Bucamp/DandD_battle_system/blob/master/images/main_app_menu.png?raw=true)
+
 this is a D&D tool to help you manage your battle,
 you can generate enemies based on level with less risk of extreme (or not)
 and add your own spell, character, etc. So enjoy.
+
+![alt text](https://github.com/Axle-Bucamp/DandD_battle_system/blob/master/images/main_app_battle.png?raw=true)
 
 more design and functionalities coming soon.
 

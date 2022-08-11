@@ -45,3 +45,22 @@ class Dice:
         if dictionary["dice"] == "100":
             damage = Dice.dice100
         return damage
+
+    @staticmethod
+    def get_description_dice(obj):
+        desc = "0"
+        if obj == Dice.dice12:
+            desc = "12"
+        if obj == Dice.dice20:
+            desc = "20"
+        if obj == Dice.dice100:
+            desc = "100"
+        if obj == Dice.dice8:
+            desc = "8"
+        if obj == Dice.dice6:
+            desc = "6"
+        if obj == Dice.dice4:
+            desc = "4"
+
+        return desc
+

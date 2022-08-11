@@ -31,3 +31,19 @@ class Buff_effect(Effect):
                 entity.buff_list.append(self)
 
         return 0, resist, accuracy_stat
+
+    def __str__(self):
+        desc_damage = "["
+        for dice in self.damage:
+            desc_damage += "(" + Dice.get_description_dice(dice) + " dice) "
+        desc_damage += "]"
+
+        if self.is_positive:
+            desc_damage += " boost on " + str(self.scale_type)
+        else:
+            desc_damage += " curse on " + str(self.resist_type)
+
+        return str(self.name) + "[max target: " + str(self.max_target) + "]\n" \
+               + str(self.description) + "\n [caster scaling: "\
+               + str(self.scale_type) + "]" + "\n it does " \
+               + str(desc_damage) + " over " + str(self.turn_left) + " turn"

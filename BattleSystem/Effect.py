@@ -62,7 +62,20 @@ class Effect:
         return damage, resist_stat, accuracy_stat
 
     def __str__(self):
-        return self.name + "[" + " max target: " + str(self.max_target) + "]\n" + self.description
+        desc_damage = "["
+        for dice in self.damage:
+            desc_damage += "(" + Dice.get_description_dice(dice) + " dice) "
+        desc_damage += "]"
+
+        if self.is_positive:
+            desc_damage += " heal"
+        else:
+            desc_damage += " damage"
+
+        return str(self.name) + "[max target: " + str(self.max_target) + "]\n"\
+               + str(self.description) + "\n [caster scaling: " + str(self.scale_type) \
+               + ", target resistance :" + str(self.resist_type) + "]" + "\n it does " \
+               + str(desc_damage)
 
     @staticmethod
     def to_simple_dict(obj):

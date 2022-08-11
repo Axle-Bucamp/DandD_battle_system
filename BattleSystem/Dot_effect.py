@@ -25,9 +25,25 @@ class Dot_effect(Effect):
                 resist = 10
             else:
                 resist = from_entity.get_stat(self.resist_type)
-            resist = Dice.dice20() + (resist-10)/2
+            resist = Dice.dice20() + (resist - 10) / 2
 
             if accuracy_stat > resist:
                 entity.dot_list.append(self)
 
         return 0, resist, accuracy_stat
+
+    def __str__(self):
+        desc_damage = "["
+        for dice in self.damage:
+            desc_damage += "(" + Dice.get_description_dice(dice) + " dice) "
+        desc_damage += "]"
+
+        if self.is_positive:
+            desc_damage += " heal"
+        else:
+            desc_damage += " damage"
+
+        return str(self.name) + "[max target: " + str(self.max_target) + "]\n" \
+               + str(self.description) + "\n [caster scaling: " + str(self.scale_type) \
+               + ", target resistance :" + str(self.resist_type) + "]" + "\n it does " \
+               + str(desc_damage) + " over " + str(self.turn_left) + " turn"

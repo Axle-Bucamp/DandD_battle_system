@@ -1,5 +1,5 @@
 from BattleSystem.Dice import Dice
-
+import numpy as np
 
 class Effect:
 
@@ -24,42 +24,45 @@ class Effect:
         dam = 0
         for di in self.damage:
             if self.is_positive:
-                dam = di()
+                dam += di()
             else:
-                dam = -di()
+                dam += -di()
         return dam
 
     def cast(self, from_entity, to_entities):
         print(str(self))
         accuracy_stat = from_entity.get_stat(self.scale_type)
-        self.caster_stat = accuracy_stat
+        bonus_stats_caster = (accuracy_stat-10)/2
 
-        if self.scale_type is not None:
-            accuracy_stat = (accuracy_stat - 10) / 2
+        if accuracy_stat is not None and self.resist_type is not None:
+            maitrise = np.min([2, int(from_entity.level / 4)])
+            self.caster_stat = 8 + bonus_stats_caster + maitrise
         else:
-            accuracy_stat = 0
-        accuracy_stat += Dice.dice20()
+            self.caster_stat = Dice.dice20() + bonus_stats_caster
 
-        damage = 0
-        nb_target = 0
-        resist_stat = 0
+        damages = []
+        targets_resistances = []
         for entity in to_entities:
+            if not self.is_positive:
+                if self.resist_type is not None:
+                    target_resistance = Dice.dice20() + (entity.get_stat(self.resist_type)-10)/2
+                else:
+                    target_resistance = entity.armor_class
+                targets_resistances.append(target_resistance)
+                print("target: " + str(entity))
+                print("score target vs caster: " + str(target_resistance) + " / " + str(self.caster_stat))
 
-            if nb_target > self.max_target:
-                break
-            if self.resist_type is not None:
-                resist_stat = (entity.get_stat(self.resist_type) - 10) / 2
+                if target_resistance < self.caster_stat:
+                    dam = self.compute()
+                    entity.hit_point -= dam
+                    print('target hit, damage done: ' + str(dam))
             else:
-                resist_stat = 0
-            resist_stat += entity.armor_class
-            print("accuracy test :" + str(accuracy_stat) + "/" + str(resist_stat))
+                dam = self.compute()
+                damages.append(dam)
+                entity.hit_point += dam
+                print('heal done: ' + str(dam) + "/" + str(entity.hit_point))
 
-            if accuracy_stat > resist_stat:
-                damage = self.compute()
-                print("damage :" + str(damage))
-                entity.hit_point += damage
-
-        return damage, resist_stat, accuracy_stat
+        return damages, targets_resistances, self.caster_stat
 
     def __str__(self):
         desc_damage = "["

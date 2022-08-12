@@ -108,6 +108,13 @@ class Entity:
 
     def end_turn(self):
         self.compute_dot()
+        self.reduce_buff()
+
+    def reduce_buff(self):
+        for buff in self.buff_list:
+            buff.turn_left -= 1
+            if buff.turn_left <= 0:
+                self.buff_list.remove(buff)
 
     def cast_to_target(self, entities, is_main: bool):
         damage_done, resistance_target, accuracy_score = [], [], []
@@ -127,7 +134,19 @@ class Entity:
 
         for buff in self.buff_list:
             if buff.resist_type == name or buff.resist_type is None:
-                boost += buff.compute()
+                if buff.is_positive:
+                    boost += buff.compute()
+                else:
+                    if buff.resist_type is None:
+                        if Dice.dice20() < buff.caster_stat:
+                            boost += buff.compute()
+                        else:
+                            buff.turn_left = 0
+                    else:
+                        if Dice.dice20() + (self.get_stat(buff.resist_type) + 10) / 2 < buff.caster_stat:
+                            boost += buff.compute()
+                        else:
+                            buff.turn_left = 0
 
         if boost != 0:
             print("buff and curse have update stat by :" + str(boost))
@@ -142,16 +161,21 @@ class Entity:
                 if dot.resist_type is None:
                     if Dice.dice20() < dot.caster_stat:
                         dam += dot.compute()
+                    else:
+                        dot.turn_left = 0
                 else:
                     if Dice.dice20() + (self.get_stat(dot.resist_type) + 10) / 2 < dot.caster_stat:
                         dam += dot.compute()
+                    else:
+                        dot.turn_left = 0
 
             dot.turn_left -= 1
             if dot.turn_left < 0:
                 print(str(dot.name) + " has been remove from dot list")
                 self.dot_list.remove(dot)
 
-        print(str(dam) + " dot value this turn")
+        if dam != 0:
+            print(str(dam) + " dot value this turn")
         self.hit_point += dam
 
     def rest(self):

@@ -9,28 +9,36 @@ class Buff_effect(Effect):
                          is_fixed_targeting, turn_left, max_target, is_positive)
 
     def cast(self, from_entity, to_entities):
-        nb_targ = 0
-        resist = 0
-        accuracy_stat = 0
+        print(str(self))
+        accuracy_stat = from_entity.get_stat(self.scale_type)
+        bonus_stats_caster = (accuracy_stat-10)/2
+
+        if accuracy_stat is not None and self.resist_type is not None:
+            maitrise = np.min([2, int(from_entity.level / 4)])
+            self.caster_stat = 8 + bonus_stats_caster + maitrise
+        else:
+            self.caster_stat = Dice.dice20() + bonus_stats_caster
+
+        damages = []
+        targets_resistances = []
         for entity in to_entities:
-            if nb_targ > self.max_target:
-                break
-            if self.scale_type is None:
-                accuracy_stat = Dice.dice20()
-            else:
-                accuracy_stat = from_entity.get_stat(self.scale_type)
-            self.caster_stat = accuracy_stat
+            if not self.is_positive:
+                if self.resist_type is not None:
+                    target_resistance = Dice.dice20() + (entity.get_stat(self.resist_type)-10)/2
+                else:
+                    target_resistance = entity.armor_class
+                targets_resistances.append(target_resistance)
+                print("target: " + str(entity))
+                print("score target vs caster: " + str(target_resistance) + " / " + str(caster_stat))
 
-            if self.resist_type is None:
-                resist = 10
+                if target_resistance < self.caster_stat:
+                    entity.buff_list.append(self)
+                    print('target is now curse on ' + self.resist_type + " for " + self.turn_left + " turn")
             else:
-                resist = from_entity.get_stat(self.resist_type)
-            resist = Dice.dice20() + (resist-10)/2
-
-            if accuracy_stat > resist or self.is_positive:
+                print('target is now buff on ' + self.resist_type + " for " + self.turn_left + " turn")
                 entity.buff_list.append(self)
 
-        return 0, resist, accuracy_stat
+        return damages, targets_resistances, self.caster_stat
 
     def __str__(self):
         desc_damage = "["

@@ -138,7 +138,7 @@ class popup_effect_creation(Popup):
         self.turn_left = 0
 
         slide_turn = Slider(min=1, max=10, value=1, step=1)
-        slide_turn.bind(on_value=self.update_turn)
+        slide_turn.bind(value=self.update_turn)
         #  ["instant damage", "damage over time", "boost", "curse", "instant healing", "healing over time"]
 
         if option == 1:

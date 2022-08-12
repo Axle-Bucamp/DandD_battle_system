@@ -6,7 +6,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
 from BattleSystem.BattleField import battle_field
 from kivy.uix.scrollview import ScrollView
-
+from kivy.uix.slider import Slider
 
 class List_charac_display(GridLayout):
     pass
@@ -50,7 +50,7 @@ class mob_list(GridLayout):
             ind += 1
 
         root.size_hint = (1, None)
-        root.height = number_of_entity * 100 + 350
+        root.height = number_of_entity * 100 + 500
 
         dead_root.orientation = 'vertical'
         ind = 0
@@ -59,7 +59,7 @@ class mob_list(GridLayout):
             ind += 1
 
         dead_root.size_hint = (1, None)
-        dead_root.height = ind * 100 + 350
+        dead_root.height = ind * 100 + 500
 
     def draw_entity_stat(self, entity, ind):
         acc = AccordionItem(title=entity.name + " turn :" + str(ind),
@@ -67,7 +67,7 @@ class mob_list(GridLayout):
                                               + str(entity.party_id) + '.png',
                             background_selected='images/acordeon/image_when_selected_party_'
                                                 + str(entity.party_id) + '.png')
-        vbox = List_charac_display(cols=1, height=400)
+        vbox = List_charac_display(cols=1)
         vbox.entity = entity
         vbox.index = ind
 
@@ -91,22 +91,36 @@ class mob_list(GridLayout):
 
         charac = self.charact_panel(entity)
 
-        action = GridLayout(cols=2, size_hint_y=None, height=50)
-        pushA = Button(text="manual change")
+        party_refresh = GridLayout(cols=2, size_hint_y=None)
+
+        party_refresh.add_widget(Label(text="[color=000000][b]Party :[/color][/b]", markup=True, height=50))
+        slide_party = Slider(min=1, max=10, value=entity.party_id, step=1, height=50)
+        slide_party.bind(value=lambda instance, value: self.change_party(value, entity, acc))
+        party_refresh.add_widget(slide_party)
+
+        action = GridLayout(cols=2, size_hint_y=None)
+
+        pushA = Button(text="manual change", height=50)
         pushA.bind(on_press=self.on_click_enable)
-
         action.add_widget(pushA)
-        pushB = Button(text="submit", disabled=True)
-        pushB.bind(on_press=self.on_click_submit)
 
+        pushB = Button(text="submit", disabled=True, height=50)
+        pushB.bind(on_press=self.on_click_submit)
         action.add_widget(pushB)
 
+        vbox.add_widget(name)
         vbox.add_widget(life)
         vbox.add_widget(charac)
+        vbox.add_widget(party_refresh)
         vbox.add_widget(action)
         acc.add_widget(vbox)
 
         return acc
+    @staticmethod
+    def change_party(value, entity, acc):
+        entity.party_id = value
+        acc.background_normal = 'images/acordeon/image_when_collapsed_party_' + str(value) + '.png'
+        acc.background_selected = 'images/acordeon/image_when_selected_party_' + str(value) + '.png')
 
     @staticmethod
     def charact_panel(entity):

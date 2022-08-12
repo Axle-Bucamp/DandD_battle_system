@@ -12,7 +12,7 @@ class Bestiary:
     @staticmethod
     def to_simple_dict():
         my_dict = {"bestiary": []}
-        for entity in Bestiary.entities:
+        for entity in Bestiary.bestiary:
             my_dict["bestiary"].append(Entity.to_simple_dict(entity))
         return my_dict
 

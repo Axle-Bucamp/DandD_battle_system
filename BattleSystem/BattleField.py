@@ -30,25 +30,25 @@ class battle_field:
         stats_order = None
         armor_cat = 0
         if mob_type == 0:
-            stats_order = ["stre", "const", "dext", "char", "int"]
+            stats_order = ["stre", "const", "dext", "char", "int", "wisd"]
             armor_cat = 3
         if mob_type == 1:
-            stats_order = ["dext", "const", "int", "char", "stre"]
+            stats_order = ["dext", "const", "int", "char", "stre", "wisd"]
             armor_cat = 2
         if mob_type == 2:
-            stats_order = ["int", "char", "const", "dext", "stre"]
+            stats_order = ["int", "wisd", "const", "char", "dext", "stre"]
             armor_cat = 1
         if mob_type == 3:
-            stats_order = ["int", "const", "char", "dext", "stre"]
+            stats_order = ["int", "const", "wisd", "char", "dext", "stre"]
             armor_cat = 1
         if mob_type == 4:
-            stats_order = ["dext", "const", "char", "int", "stre"]
+            stats_order = ["dext", "const", "char", "int", "wisd", "stre"]
             armor_cat = 2
         if mob_type == 5:
-            stats_order = ["const", "stre", "dext", "char", "int"]
+            stats_order = ["const", "stre", "dext", "char", "int", "wisd"]
             armor_cat = 3
         if stats_order is None:
-            stats_order = ["stre", "const", "dext", "char", "int"]
+            stats_order = ["stre", "const", "dext", "char", "int", "wisd"]
             armor_cat = 3
 
         for i in range(nb_mob):

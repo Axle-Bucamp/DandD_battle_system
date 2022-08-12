@@ -118,6 +118,12 @@ class party_member(ScrollView):
         inte.var_name = "intelligence"
         charac.add_widget(inte)
 
+        charac.add_widget(Label(text="[color=BA55D3][b]wisd :[/b][/color]", markup=True, size_hint_y=None, height=60))
+        wisd = TextInput(text=str(entity.wisdom), disabled=True, size_hint_y=None, height=60)
+        wisd.var = entity.wisdom
+        wisd.var_name = "wisdom"
+        charac.add_widget(wisd)
+
         charac.add_widget(Label(text="[color=DB8B27][b]Char :[/color][/b]", markup=True))
         char = TextInput(text=str(entity.charisma), disabled=True)
         char.var = entity.charisma

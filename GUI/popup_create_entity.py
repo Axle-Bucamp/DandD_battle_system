@@ -60,6 +60,10 @@ class popup_create_entity(Popup):
         layout.add_widget(Label(text="const :"))
         layout.add_widget(Slider(min=1, max=20, value=1, step=1))
 
+        # const
+        layout.add_widget(Label(text="wisdom :"))
+        layout.add_widget(Slider(min=1, max=20, value=1, step=1))
+
         # ilevel
         layout.add_widget(Label(text="level :"))
         layout.add_widget(Slider(min=1, max=15, value=1, step=1))
@@ -87,23 +91,24 @@ class popup_create_entity(Popup):
     def create(self, btn):
         party_id = btn.parent.parent.children[1].children[0].value
         lv = btn.parent.parent.children[1].children[2].value
-        const = btn.parent.parent.children[1].children[4].value
-        strength = btn.parent.parent.children[1].children[6].value
-        dexterity = btn.parent.parent.children[1].children[8].value
-        charisma = btn.parent.parent.children[1].children[10].value
-        intelligence = btn.parent.parent.children[1].children[12].value
-        armor_class = btn.parent.parent.children[1].children[14].value
-        hit_point = btn.parent.parent.children[1].children[16].text
+        wisd = btn.parent.parent.children[1].children[4].value
+        const = btn.parent.parent.children[1].children[6].value
+        strength = btn.parent.parent.children[1].children[8].value
+        dexterity = btn.parent.parent.children[1].children[10].value
+        charisma = btn.parent.parent.children[1].children[12].value
+        intelligence = btn.parent.parent.children[1].children[14].value
+        armor_class = btn.parent.parent.children[1].children[16].value
+        hit_point = btn.parent.parent.children[1].children[18].text
 
         if hit_point.isdigit():
             hit_point = int(hit_point)
         else:
             hit_point = 0
 
-        description = btn.parent.parent.children[1].children[18].text
-        name = btn.parent.parent.children[1].children[20].text
+        description = btn.parent.parent.children[1].children[20].text
+        name = btn.parent.parent.children[1].children[22].text
         entity = Entity(hit_point=hit_point, armor_class=armor_class, intelligence=intelligence, charisma=charisma,
-                        dexterity=dexterity, strength=strength, constitution=const, ilevel=lv, gear=None,
+                        dexterity=dexterity, strength=strength, wisdom=wisd, constitution=const, ilevel=lv, gear=None,
                         ability=None, party_id=party_id, name=name, description=description)
 
         if entity.hit_point <= 0:

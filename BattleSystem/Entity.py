@@ -8,7 +8,7 @@ from BattleSystem.Ability import Ability
 class Entity:
 
     def __init__(self, hit_point=10, armor_class=10, intelligence=10, charisma=10, dexterity=10, strength=10,
-                 constitution=10, ilevel=1, gear=None, ability=None, party_id=0, name="Unknown", description=""):
+                 constitution=10, wisdom=10, ilevel=1, gear=None, ability=None, party_id=0, name="Unknown", description=""):
         if ability is None:
             ability = []
         if gear is None:
@@ -26,6 +26,7 @@ class Entity:
         self.dexterity = dexterity
         self.strength = strength
         self.constitution = constitution
+        self.wisdom = wisdom
 
         self.gear = gear
         self.dot_list = []
@@ -44,13 +45,13 @@ class Entity:
     def generate_human(cls, probability_of_epic=0.1, ilevel=1, stats_order=None, armor_cat=3, party_id=0,
                        name="Unknown"):
         if stats_order is None:
-            stats_order = ["stre", "const", "dext", "char", "int"]
-        stre, const, dext, char, inte = cls.generate_stat(stats_order, probability_of_epic)
+            stats_order = ["stre", "const", "dext", "char", "int", "wisd"]
+        stre, const, dext, char, inte, wisd = cls.generate_stat(stats_order, probability_of_epic)
         hit_point = cls.compute_health(ilevel, const)
         armor = cls.compute_armor(armor_cat, probability_of_epic, ilevel)
 
         return cls(hit_point=hit_point, armor_class=armor, intelligence=inte, charisma=char, dexterity=dext,
-                   strength=stre, constitution=const, ilevel=ilevel, gear=[], party_id=party_id, name=name,
+                   strength=stre,wisdom=wisd, constitution=const, ilevel=ilevel, gear=[], party_id=party_id, name=name,
                    description="")
 
     @staticmethod
@@ -73,7 +74,7 @@ class Entity:
     @staticmethod
     def generate_stat(stats_order, probability_of_epic):
         stats_point = []
-        for i in range(5):
+        for i in range(6):
             if random() > probability_of_epic:
                 stat_x = Dice.dice8()
                 stat_x += Dice.dice12()
@@ -82,10 +83,9 @@ class Entity:
             stats_point.append(stat_x)
         stats_point.sort(reverse=True)
 
-        return stats_point[stats_order.index("stre")], stats_point[stats_order.index("const")], stats_point[stats_order.index("dext")], stats_point[stats_order.index("char")], stats_point[stats_order.index("int")]
+        return stats_point[stats_order.index("stre")], stats_point[stats_order.index("const")], stats_point[stats_order.index("dext")], stats_point[stats_order.index("char")], stats_point[stats_order.index("int")] , stats_point[stats_order.index("wisd")]
 
     def get_stat(self, name):
-        # ["stre", "const", "dext", "char", "int"]
         buff = self.compute_buff(name)
 
         if name is None:
@@ -100,6 +100,8 @@ class Entity:
             return self.charisma + buff
         if name == "int":
             return self.intelligence + buff
+        if name == "wisd":
+            return self.wisdom + buff
         else:
             return 0
 
@@ -198,6 +200,8 @@ class Entity:
             self.strength = value
         if name == "charisma":
             self.charisma = value
+        if name == "wisdom":
+            self.wisdom = value
 
     def __gt__(self, entity):
         if self.initiative == entity.initiative:

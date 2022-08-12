@@ -10,9 +10,9 @@ class Bestiary:
         Bestiary.bestiary = bestiar
 
     @staticmethod
-    def to_simple_dict(obj):
+    def to_simple_dict():
         my_dict = {"bestiary": []}
-        for entity in obj.entities:
+        for entity in Bestiary.entities:
             my_dict["bestiary"].append(Entity.to_simple_dict(entity))
         return my_dict
 

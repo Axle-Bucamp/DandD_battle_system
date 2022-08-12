@@ -9,6 +9,7 @@ from GUI import popup_ability_creation
 from GUI import popup_battle_draw
 from GUI import popup_load_json
 from BattleSystem.BattleField import battle_field
+from BattleSystem.Bestiary import Bestiary
 from BattleSystem.Ability_manager import Ability_manager
 from kivy.uix.popup import Popup
 from BattleSystem.Dice import Dice
@@ -22,6 +23,8 @@ class Action_menu(Accordion):
 
         battle_management = AccordionItem(title="Battle")
         self.add_widget(battle_management)
+        bestiary = AccordionItem(title="Bestiary")
+        self.add_widget(bestiary)
         ability_management = AccordionItem(title="Ability")
         self.add_widget(ability_management)
         file_management = AccordionItem(title="File")
@@ -71,6 +74,49 @@ class Action_menu(Accordion):
 
         battle_management.add_widget(battle_options)
 
+        # drawing bestiary options
+        bestiary_options = GridLayout(cols=1)
+        self.add_entity_to_bestiary = Button(text="add to bestiary", size_hint_y=None, height=44)
+        self.popup_add_to_bestiary = popup_battle_draw.popup_battle_draw(title="Bestiary",
+                                                                         action_name="add to bestiary",
+                                                                         call=self.from_battle_to_bestiary,
+                                                                         list2=battle_field.entities
+                                                                               + battle_field.dead_list,
+                                                                         name2="Choices")
+
+        self.add_entity_to_bestiary.bind(on_press=lambda x: [self.refresh_bestiary_add_popup(),
+                                          self.popup_add_to_bestiary.open()])
+        bestiary_options.add_widget(self.add_entity_to_bestiary)
+
+        self.remove_entity_to_bestiary = Button(text="remove from bestiary", size_hint_y=None, height=44)
+        self.popup_remove_from_bestiary = popup_battle_draw.popup_battle_draw(title="Bestiary",
+                                                                              action_name="remove from bestiary",
+                                                                              call=self.remove_from_bestiary,
+                                                                              list2=Bestiary.bestiary, name2="Choices")
+
+        self.remove_entity_to_bestiary.bind(on_press=lambda x: [self.refresh_bestiary_popup(),
+                                                              self.popup_remove_from_bestiary.open()])
+        bestiary_options.add_widget(self.remove_entity_to_bestiary)
+
+        self.join_battle_from_bestiary_button = Button(text="join battle", size_hint_y=None, height=44)
+        self.popup_join_from_bestiary = popup_battle_draw.popup_battle_draw(title="Bestiary",
+                                                                            action_name="Join Battle",
+                                                                            call=self.join_battle_from_bestiary,
+                                                                            list2=Bestiary.bestiary, name2="Choices")
+        self.join_battle_from_bestiary_button.bind(on_press=lambda x: [self.refresh_bestiary_to_battle_popup(),
+                                                                       self.popup_join_from_bestiary.open()])
+        bestiary_options.add_widget(self.join_battle_from_bestiary_button)
+
+        self.save_entity_to_bestiary = Button(text="save bestiary", size_hint_y=None, height=44)
+        self.save_entity_to_bestiary.bind(on_press=lambda x: Bestiary.to_simple_dict())
+        bestiary_options.add_widget(self.save_entity_to_bestiary)
+
+        self.load_entity_to_bestiary = Button(text="load bestiary", size_hint_y=None, height=44)
+        self.load_entity_to_bestiary.bind(on_press=self.loading_file.open)
+        bestiary_options.add_widget(self.load_entity_to_bestiary)
+
+        bestiary.add_widget(bestiary_options)
+
         # drawing Ability pannel :
         ability_options = GridLayout(cols=1)
         self.ability_delete_option = Button(text="remove ability", size_hint_y=None, height=44)
@@ -79,8 +125,8 @@ class Action_menu(Accordion):
                                                                         call=self.remove_ability, name1="ability list",
                                                                         list1=Ability_manager.abilities)
 
-        self.ability_delete_option.bind(on_press=lambda x:
-                                        [self.redraw_remove_ability(), self.popup_remove_ability.open()])
+        self.ability_delete_option.bind(on_press=lambda x: [self.redraw_remove_ability(),
+                                                            self.popup_remove_ability.open()])
         ability_options.add_widget(self.ability_delete_option)
 
         self.ability_create_option = Button(text="create ability", size_hint_y=None, height=44)
@@ -157,10 +203,48 @@ class Action_menu(Accordion):
 
         self.popup_remove_entity.dismiss()
 
+    def remove_from_bestiary(self, select1, select2):
+        for entity in select2:
+            Bestiary.bestiary.remove(entity)
+
+        self.popup_remove_from_bestiary.dismiss()
+
     def redraw_entity(self):
         self.popup_remove_entity = popup_battle_draw.popup_battle_draw(title="Remove Entity", action_name="Remove",
                                                                        call=self.remove_entity,
                                                                        list1=battle_field.entities)
+
+    def refresh_bestiary_add_popup(self):
+        self.popup_add_to_bestiary = popup_battle_draw.popup_battle_draw(title="Bestiary",
+                                                                         action_name="add to bestiary",
+                                                                         call=self.from_battle_to_bestiary,
+                                                                         list2=battle_field.entities
+                                                                               + battle_field.dead_list,
+                                                                         name2="Choices")
+
+    def join_battle_from_bestiary(self, select1, select2):
+        for entity in select2:
+            battle_field.entities.append(entity)
+        Main_window.refresh()
+        self.popup_join_from_bestiary.dismiss()
+
+    def from_battle_to_bestiary(self, select1, select2):
+        for entity in select2:
+            Bestiary.bestiary.append(entity)
+
+        self.popup_add_to_bestiary.dismiss()
+
+    def refresh_bestiary_to_battle_popup(self):
+        self.popup_join_from_bestiary = popup_battle_draw.popup_battle_draw(title="Bestiary",
+                                                                            action_name="Join Battle",
+                                                                            call=self.join_battle_from_bestiary,
+                                                                            list2=Bestiary.bestiary, name2="Choices")
+
+    def refresh_bestiary_popup(self):
+        self.popup_remove_from_bestiary = popup_battle_draw.popup_battle_draw(title="Bestiary",
+                                                                              action_name="remove from bestiary",
+                                                                              call=self.remove_from_bestiary,
+                                                                              list2=Bestiary.bestiary, name2="Choices")
 
     def redraw_resurection(self):
         self.popup_resurect = popup_battle_draw.popup_battle_draw(title="Graveyard", action_name="Rise from the dead",

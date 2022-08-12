@@ -4,6 +4,7 @@ from kivy.uix.popup import Popup
 from kivy.core.window import Window
 from BattleSystem.BattleField import battle_field
 from BattleSystem.Ability_manager import Ability_manager
+from BattleSystem.Bestiary import Bestiary
 import json
 
 
@@ -47,6 +48,9 @@ class popup_load_json(Popup):
                 "dead_list" in dictionary.keys() and\
                 "current_player" in dictionary.keys():
             battle_field.from_simple_json(dictionary)
+
+        if "bestiary" in dictionary.keys():
+            Bestiary.from_simple_json(dictionary)
 
         if "abilities" in dictionary.keys() or "effects" in dictionary.keys():
             Ability_manager.from_simple_json(dictionary)

@@ -85,7 +85,8 @@ class Action_menu(Accordion):
                                                                          name2="Choices")
 
         self.add_entity_to_bestiary.bind(on_press=lambda x: [self.refresh_bestiary_add_popup(),
-                                          self.popup_add_to_bestiary.open()])
+                                                             self.popup_add_to_bestiary.open()])
+
         bestiary_options.add_widget(self.add_entity_to_bestiary)
 
         self.remove_entity_to_bestiary = Button(text="remove from bestiary", size_hint_y=None, height=44)
@@ -95,7 +96,8 @@ class Action_menu(Accordion):
                                                                               list2=Bestiary.bestiary, name2="Choices")
 
         self.remove_entity_to_bestiary.bind(on_press=lambda x: [self.refresh_bestiary_popup(),
-                                                              self.popup_remove_from_bestiary.open()])
+                                                                self.popup_remove_from_bestiary.open()])
+
         bestiary_options.add_widget(self.remove_entity_to_bestiary)
 
         self.join_battle_from_bestiary_button = Button(text="join battle", size_hint_y=None, height=44)

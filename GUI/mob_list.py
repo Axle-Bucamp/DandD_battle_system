@@ -120,7 +120,7 @@ class mob_list(GridLayout):
     def change_party(value, entity, acc):
         entity.party_id = value
         acc.background_normal = 'images/acordeon/image_when_collapsed_party_' + str(value) + '.png'
-        acc.background_selected = 'images/acordeon/image_when_selected_party_' + str(value) + '.png')
+        acc.background_selected = 'images/acordeon/image_when_selected_party_' + str(value) + '.png'
 
     @staticmethod
     def charact_panel(entity):

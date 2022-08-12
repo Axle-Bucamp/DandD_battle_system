@@ -29,10 +29,6 @@ class popup_load_json(Popup):
         layout.add_widget(self.file_btn)
         Window.bind(on_dropfile=self.handledrops)
 
-    def change_type(self, btn, value):
-        self.type = value.value
-        self.select_button.text = value.value
-
     def handledrops(self, window_object, filename):
         try:
             with open(filename, "r") as jsonsave:

@@ -44,3 +44,8 @@ class Ability:
         return Ability(effects=effect_list, name=dictionary["name"],
                        description=dictionary["description"], is_principal=bool(dictionary["is_principal"]),
                        level=int(dictionary["level"]))
+
+    def __eq__(self, other):
+        return self.name == other.name and self.description == other.description and\
+               isinstance(other, Ability) and self.is_principal == other.is_principal\
+               and self.level == other.level

@@ -5,10 +5,17 @@ from BattleSystem.Dice import Dice
 from BattleSystem.Ability import Ability
 
 
+# faire equipement
+# remove effect
+# design
+# version mobile coté client avec server coté mj
+
+
 class Entity:
 
     def __init__(self, hit_point=10, armor_class=10, intelligence=10, charisma=10, dexterity=10, strength=10,
-                 constitution=10, wisdom=10, ilevel=1, gear=None, ability=None, party_id=0, name="Unknown", description=""):
+                 constitution=10, wisdom=10, ilevel=1, gear=None, ability=None, party_id=0, name="Unknown",
+                 description=""):
         if ability is None:
             ability = []
         if gear is None:
@@ -51,7 +58,7 @@ class Entity:
         armor = cls.compute_armor(armor_cat, probability_of_epic, ilevel)
 
         return cls(hit_point=hit_point, armor_class=armor, intelligence=inte, charisma=char, dexterity=dext,
-                   strength=stre,wisdom=wisd, constitution=const, ilevel=ilevel, gear=[], party_id=party_id, name=name,
+                   strength=stre, wisdom=wisd, constitution=const, ilevel=ilevel, gear=[], party_id=party_id, name=name,
                    description="")
 
     @staticmethod
@@ -83,7 +90,9 @@ class Entity:
             stats_point.append(stat_x)
         stats_point.sort(reverse=True)
 
-        return stats_point[stats_order.index("stre")], stats_point[stats_order.index("const")], stats_point[stats_order.index("dext")], stats_point[stats_order.index("char")], stats_point[stats_order.index("int")] , stats_point[stats_order.index("wisd")]
+        return stats_point[stats_order.index("stre")], stats_point[stats_order.index("const")],\
+               stats_point[stats_order.index("dext")], stats_point[stats_order.index("char")],\
+               stats_point[stats_order.index("int")], stats_point[stats_order.index("wisd")]
 
     def get_stat(self, name):
         buff = self.compute_buff(name)
@@ -202,6 +211,8 @@ class Entity:
             self.charisma = value
         if name == "wisdom":
             self.wisdom = value
+        if name == "armor_class":
+            self.armor_class = value
 
     def __gt__(self, entity):
         if self.initiative == entity.initiative:

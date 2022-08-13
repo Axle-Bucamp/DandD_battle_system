@@ -19,9 +19,10 @@ class Effect:
 
         self.caster_stat = 0  # stat used to store the saving score of the caster
         self.max_target = max_target  # number of target you can hit with an aoe
-        self.is_positive = is_positive
+        self.is_positive = is_positive  # if the effect is positive or negative to the targets
 
     def compute(self):
+        # compute each dice and sum their score to return the total score on a cast
         dam = 0
         for di in self.damage:
             if self.is_positive:
@@ -31,6 +32,7 @@ class Effect:
         return dam
 
     def cast(self, from_entity, to_entities):
+        # way to cast any type of effect on a target
         print(str(self))
         accuracy_stat = from_entity.get_stat(self.scale_type)
         bonus_stats_caster = (accuracy_stat-10)/2
@@ -66,6 +68,7 @@ class Effect:
         return damages, targets_resistances, self.caster_stat
 
     def __str__(self):
+        # description of an effect
         desc_damage = "["
         for dice in self.damage:
             desc_damage += "(" + Dice.get_description_dice(dice) + " dice) "

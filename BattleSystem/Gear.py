@@ -1,5 +1,6 @@
 from BattleSystem.Ability import Ability
 
+
 class Gear:
     def __init__(self, abilities=None, name="", description="", is_consumable=False, nb_use=None, charact_bonus=None):
         if abilities is None:
@@ -65,6 +66,7 @@ class Gear:
             my_dict["abilities"].append(Ability.to_simple_dict(ability))
 
         return my_dict
+
     @staticmethod
     def from_simple_json(dictionary):
         abilities = []
@@ -72,7 +74,7 @@ class Gear:
             abilities.append(Ability.from_simple_dict(ability))
 
         this_gear = Gear(abilities=abilities, name=dictionary["name"],
-                    description=dictionary["description"], is_consumable=dictionary["is_consumable"],
-                    nb_use=dictionary["nb_use"], charact_bonus=dictionary["charact_bonus"])
+                         description=dictionary["description"], is_consumable=dictionary["is_consumable"],
+                         nb_use=dictionary["nb_use"], charact_bonus=dictionary["charact_bonus"])
 
         return this_gear

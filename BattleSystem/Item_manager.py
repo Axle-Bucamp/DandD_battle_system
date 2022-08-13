@@ -7,7 +7,7 @@ class Item_manager:
     def __init__(self, gears=None):
         if gears is None:
             gears = []
-        self.gears = gears
+        self.gears = gears  # list of gear used to store and transfer item to entity
 
     def to_simple_dict(self):
         my_dict = {"gears": []}

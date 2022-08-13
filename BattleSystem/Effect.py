@@ -7,17 +7,18 @@ class Effect:
                  is_fixed_targeting=False, turn_left=0, max_target=1, is_positive=False):
         if damage is None:
             damage = []
-
-        self.scale_type = scale_type
-        self.resist_type = resist_type
-        self.damage = damage
+        # an effect is a way to describe what compose an Ability and what it does,
+        # so then ability can be a composition of effects describing their actions on a targets
+        self.scale_type = scale_type  # caster stat used on save dice or scaling on targeted armor
+        self.resist_type = resist_type  # target resistance on save Dice else it hit armor class
+        self.damage = damage  # list of dice that will do damage or heal on hit
         self.name = name
         self.description = description
-        self.is_fixed_targeting = is_fixed_targeting
-        self.turn_left = turn_left
+        self.is_fixed_targeting = is_fixed_targeting  # if the ability need to hit at least the max target entities
+        self.turn_left = turn_left  # turn before an effect is ended (not use for instant cast)
 
-        self.caster_stat = 0
-        self.max_target = max_target
+        self.caster_stat = 0  # stat used to store the saving score of the caster
+        self.max_target = max_target  # number of target you can hit with an aoe
         self.is_positive = is_positive
 
     def compute(self):

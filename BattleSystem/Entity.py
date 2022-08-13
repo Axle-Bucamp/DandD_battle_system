@@ -27,7 +27,7 @@ class Entity:
         self.max_life = hit_point
         self.armor_class = armor_class
         self.level = ilevel
-        self.party_id = party_id
+        self.party_id = party_id  # fighting group to know which is ally and not
 
         self.intelligence = intelligence
         self.charisma = charisma
@@ -36,23 +36,24 @@ class Entity:
         self.constitution = constitution
         self.wisdom = wisdom
 
-        self.gear = gear
+        self.gear = gear  # item equip or holding
         self.dot_list = []
         self.buff_list = []
-        self.ability = ability
+        self.ability = ability  # ability list that entity can cast
 
-        self.main_action = None
-        self.second_action = None
+        self.main_action = None  # main action on his turn
+        self.second_action = None  # second action on his turn
 
         self.name = name
         self.description = description
-        self.initiative = 0
+        self.initiative = 0  # computed each turn to know the FIFO order of each player action
         self.compute_initiative()
 
     @classmethod
     def generate_human(cls, probability_of_epic=0.1, ilevel=1, stats_order=None, armor_cat=3, party_id=0,
                        name="Unknown"):
-        if stats_order is None:
+        # way to generate the stat based on basic description so the MJ don't loose time
+        if stats_order is None:  # the stat priority on dice roll
             stats_order = ["stre", "const", "dext", "char", "int", "wisd"]
         stre, const, dext, char, inte, wisd = cls.generate_stat(stats_order, probability_of_epic)
         hit_point = cls.compute_health(ilevel, const)
@@ -64,6 +65,7 @@ class Entity:
 
     @staticmethod
     def compute_health(ilevel, const):
+        # compute the health based on basic rules of D&D per level
         hit_point = 0
         if ilevel < 1:
             ilevel = 1
@@ -73,6 +75,8 @@ class Entity:
 
     @staticmethod
     def compute_armor(armor_cat, probability_of_epic, ilevel):
+        # compute armor class based on level epicness probability
+        # and base armor class to simplify generation with still some alea
         random_part = np.min([abs(np.random.normal(0, math.sqrt(ilevel + probability_of_epic * armor_cat))), 5])
         for i in range(armor_cat):
             random_part += abs(np.random.normal(0, 2.5)) + 2.5
@@ -81,6 +85,9 @@ class Entity:
 
     @staticmethod
     def generate_stat(stats_order, probability_of_epic):
+        # generate roll dice sort and store them in the choosen stat order,
+        # epic monster compute their stat with a part of dice and a bonus using normal distribution
+        # to keep randomness while getting higher probable score
         stats_point = []
         for i in range(6):
             if random() > probability_of_epic:
@@ -96,6 +103,7 @@ class Entity:
                stats_point[stats_order.index("int")], stats_point[stats_order.index("wisd")]
 
     def get_stat(self, name):
+        # just a way to get the stat based on the name to use text input after
         buff = self.compute_buff(name)
 
         if name is None:
@@ -116,19 +124,23 @@ class Entity:
             return 0
 
     def compute_initiative(self):
+        # Based on D&D rule to know who strike and in which order
         self.initiative = Dice.dice20() + (self.dexterity - 10)
 
     def end_turn(self):
+        # things to do when a player end his turn
         self.compute_dot()
         self.reduce_buff()
 
     def reduce_buff(self):
+        # each buff stored on player loose one turn
         for buff in self.buff_list:
             buff.turn_left -= 1
             if buff.turn_left <= 0:
                 self.buff_list.remove(buff)
 
     def cast_to_target(self, entities, is_main: bool):
+        # cast each effect of an ability to a target
         damage_done, resistance_target, accuracy_score = [], [], []
         print("cast :" + str(self) + " to " + str(entities))
         if not is_main:
@@ -142,6 +154,7 @@ class Entity:
         return damage_done, resistance_target, accuracy_score
 
     def compute_buff(self, name: str) -> int:
+        # compute the sum of buff score for a stat
         boost = 0
 
         for buff in self.buff_list:
@@ -165,6 +178,7 @@ class Entity:
         return boost
 
     def compute_dot(self):
+        # compute the dot from the dot list of the player based on D&D save roll and others
         dam = 0
         for dot in self.dot_list:
             if dot.is_positive:
@@ -191,15 +205,19 @@ class Entity:
         self.hit_point += dam
 
     def rest(self):
+        # if need to set health to max
         self.hit_point = self.max_life
 
     def learn_ability(self, ability):
+        # when to add ability to the entity
         self.ability.append(ability)
 
     def equip_gear(self, gear):
+        # way to add gear to the entity
         self.gear.append(gear)
 
     def set_stat(self, value, name):
+        # set stat by name for text input
         if name == "inteligence":
             self.intelligence = value
         if name == "constitution":
@@ -216,22 +234,26 @@ class Entity:
             self.armor_class = value
 
     def __gt__(self, entity):
+        # redefining way to sort a list of entity used to sort the battlefield each turn based on D&D rules
         if self.initiative == entity.initiative:
             return self.dexterity > self.dexterity
         else:
             return self.initiative > entity.initiative
 
     def __lt__(self, entity):
+        # redefining way to sort a list of entity used to sort the battlefield each turn based on D&D rules
         if self.initiative == entity.initiative:
             return self.dexterity < self.dexterity
         else:
             return self.initiative < entity.initiative
 
     def __str__(self):
+        # way to describe the object to string
         return self.name + " : " + self.description
 
     @staticmethod
     def to_simple_dict(obj):
+        # json dictionnary for this entity (for networking and file saving)
         my_dict = {"hit_point": str(obj.hit_point), "armor_class": str(obj.armor_class),
                    "intelligence": str(obj.intelligence), "charisma": str(obj.charisma),
                    "dexterity": str(obj.dexterity), "strength": str(obj.strength),
@@ -260,6 +282,7 @@ class Entity:
 
     @staticmethod
     def from_simple_json(dictionary):
+        # json dictionnary for this entity (for networking and file saving)
         ability = []
         for cap in dictionary["ability"]:
             ability.append(Ability.from_simple_dict(cap))

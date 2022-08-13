@@ -9,12 +9,12 @@ class Gear:
         if charact_bonus is None:
             charact_bonus = []
 
-        self.charact_bonus = charact_bonus
-        self.abilities = abilities
+        self.charact_bonus = charact_bonus  # bonus that can be added on an entity holding it
+        self.abilities = abilities  # a gear can have specific action when you use them
         self.name = name
         self.description = description
-        self.is_consumable = is_consumable
-        self.nb_use = nb_use
+        self.is_consumable = is_consumable  # if the gear can be consumed
+        self.nb_use = nb_use  # the number of time you can consume it before removing it
 
     def on_hold(self, entity):
         entity.gear.append(self)

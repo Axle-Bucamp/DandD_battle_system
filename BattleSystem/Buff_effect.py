@@ -1,5 +1,6 @@
 from BattleSystem.Effect import Effect
 from BattleSystem.Dice import Dice
+import numpy as np
 
 
 class Buff_effect(Effect):
@@ -29,7 +30,7 @@ class Buff_effect(Effect):
                     target_resistance = entity.armor_class
                 targets_resistances.append(target_resistance)
                 print("target: " + str(entity))
-                print("score target vs caster: " + str(target_resistance) + " / " + str(caster_stat))
+                print("score target vs caster: " + str(target_resistance) + " / " + str(self.caster_stat))
 
                 if target_resistance < self.caster_stat:
                     entity.buff_list.append(self)

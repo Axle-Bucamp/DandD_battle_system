@@ -1,5 +1,6 @@
 from BattleSystem.Effect import Effect
 from BattleSystem.Dice import Dice
+from numpy import np
 
 
 class Dot_effect(Effect):
@@ -7,7 +8,6 @@ class Dot_effect(Effect):
                  is_fixed_targeting=False, turn_left=0, max_target=1, is_positive=False):
         super().__init__(scale_type, resist_type, damage, name, description,
                          is_fixed_targeting, turn_left, max_target, is_positive)
-
 
     def cast(self, from_entity, to_entities):
         print(str(self))
@@ -30,7 +30,7 @@ class Dot_effect(Effect):
                     target_resistance = entity.armor_class
                 targets_resistances.append(target_resistance)
                 print("target: " + str(entity))
-                print("score target vs caster: " + str(target_resistance) + " / " + str(caster_stat))
+                print("score target vs caster: " + str(target_resistance) + " / " + str(self.caster_stat))
 
                 if target_resistance < self.caster_stat:
                     entity.dot_list.append(self)

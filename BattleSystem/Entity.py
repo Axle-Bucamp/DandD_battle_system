@@ -9,6 +9,7 @@ from BattleSystem.Ability import Ability
 # remove effect
 # design
 # version mobile coté client avec server coté mj
+# (partage du json de battlefield à chaque étape (socket on change download), les non mj ne peuvent que jouer leur propre tour)
 
 
 class Entity:

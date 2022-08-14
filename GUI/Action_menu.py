@@ -110,7 +110,7 @@ class Action_menu(Accordion):
         bestiary_options.add_widget(self.join_battle_from_bestiary_button)
 
         self.save_entity_to_bestiary = Button(text="save bestiary", size_hint_y=None, height=44)
-        self.save_entity_to_bestiary.bind(on_press=lambda x: Bestiary.to_simple_dict())
+        self.save_entity_to_bestiary.bind(on_press=self.save_bestiary)
         bestiary_options.add_widget(self.save_entity_to_bestiary)
 
         self.load_entity_to_bestiary = Button(text="load bestiary", size_hint_y=None, height=44)
@@ -310,9 +310,16 @@ class Action_menu(Accordion):
         with open("Battle.json", "w") as outfile:
             json.dump(battle_field.to_simple_dict(battle_field), outfile)
 
+    def save_bestiary(self, btn):
+        with open("Battle.json", "w") as outfile:
+            json.dump(Bestiary.to_simple_dict(), outfile)
+
     def save_files(self, btn):
         with open("Battle.json", "w") as outfile:
             json.dump(battle_field.to_simple_dict(battle_field), outfile)
 
         with open("Ability_list.json", "w") as outfile:
             json.dump(Ability_manager.to_simple_dict(Ability_manager), outfile)
+
+        with open("Battle.json", "w") as outfile:
+            json.dump(Bestiary.to_simple_dict(), outfile)

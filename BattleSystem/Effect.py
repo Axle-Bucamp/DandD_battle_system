@@ -1,6 +1,7 @@
 from BattleSystem.Dice import Dice
 import numpy as np
 
+
 class Effect:
 
     def __init__(self, scale_type=None, resist_type=None, damage=None, name="Unknown", description="Unknown",
@@ -35,7 +36,7 @@ class Effect:
         # way to cast any type of effect on a target
         print(str(self))
         accuracy_stat = from_entity.get_stat(self.scale_type)
-        bonus_stats_caster = (accuracy_stat-10)/2
+        bonus_stats_caster = (accuracy_stat - 10) / 2
 
         if accuracy_stat is not None and self.resist_type is not None:
             maitrise = np.min([2, int(from_entity.level / 4)])
@@ -45,10 +46,13 @@ class Effect:
 
         damages = []
         targets_resistances = []
+        i = 0
         for entity in to_entities:
+            if i > self.max_target:
+                break
             if not self.is_positive:
                 if self.resist_type is not None:
-                    target_resistance = Dice.dice20() + (entity.get_stat(self.resist_type)-10)/2
+                    target_resistance = Dice.dice20() + (entity.get_stat(self.resist_type) - 10) / 2
                 else:
                     target_resistance = entity.armor_class
                 targets_resistances.append(target_resistance)
@@ -79,10 +83,10 @@ class Effect:
         else:
             desc_damage += " damage"
 
-        return str(self.name) + "[max target: " + str(self.max_target) + "]\n"\
-               + str(self.description) + "\n [caster scaling: " + str(self.scale_type) \
-               + ", target resistance :" + str(self.resist_type) + "]" + "\n it does " \
-               + str(desc_damage)
+        return str(self.name) + "[max target: " + str(self.max_target) + "]\n" + \
+               str(self.description) + "\n [caster scaling: " + str(self.scale_type) + \
+               ", target resistance :" + str(self.resist_type) + "]" + "\n it does " + \
+               str(desc_damage)
 
     @staticmethod
     def to_simple_dict(obj):
@@ -91,6 +95,7 @@ class Effect:
                    "is_fixed_targeting": str(obj.is_fixed_targeting), "turn_left": str(obj.turn_left),
                    "caster_stat": str(obj.caster_stat), "max_target": str(obj.max_target),
                    "is_positive": str(obj.is_positive)}
+
         for dice in obj.damage:
             my_dict["damage"].append(Dice.to_simple_dict(dice))
         return my_dict

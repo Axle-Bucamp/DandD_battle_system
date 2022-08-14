@@ -10,6 +10,8 @@ class battle_field:
 
     def __init__(self, battle_list=None, current_player=None, dead_list=None):
         """
+        the battlefield is the Game master using its functions to rule the game
+        and the interaction between players
 
         :type battle_list: List
         """
@@ -25,6 +27,7 @@ class battle_field:
 
     @staticmethod
     def generate_group(nb_mob=1, mob_type=0, ilevel_to_fight=1, difficulty=1, party_id=0, name="Unknown"):
+        # way to generate an entity group based on basic description
         level = int(ilevel_to_fight / nb_mob * difficulty)
         probability_of_epic = 0.1 * difficulty
         stats_order = None
@@ -58,11 +61,13 @@ class battle_field:
 
     @staticmethod
     def sort_init():
+        # way to sort all entities with a battle in FIFO to play their turn one by one
         battle_field.entities.sort(reverse=True)
         battle_field.current_player = battle_field.entities[0]
 
     @staticmethod
     def end_turn():
+        # everything that need to happen after a player turn
         ind = battle_field.entities.index(battle_field.current_player)
         battle_field.entities[ind].end_turn()
 
@@ -83,6 +88,7 @@ class battle_field:
 
     @staticmethod
     def next_turn(ind):
+        # the way to choose the next player after the current one has played
         if ind < len(battle_field.entities) - 1:
             ind = ind + 1
         else:
@@ -93,6 +99,7 @@ class battle_field:
 
     @staticmethod
     def check_battle_state():
+        # if the battle is not over and how many groups battling are still alive
         party_list = []
         for entity in battle_field.entities:
             party_list.append(entity.party_id)
@@ -105,6 +112,7 @@ class battle_field:
 
     @staticmethod
     def to_simple_dict(obj):
+        # way to store the data into a json save file
         my_dict = {"entities": [], "dead_list": [], "current_player": None}
         for entity in obj.entities:
             my_dict["entities"].append(Entity.to_simple_dict(entity))
@@ -116,6 +124,7 @@ class battle_field:
 
     @staticmethod
     def from_simple_json(dictionary):
+        # way to load the data from a json
         if "entities" in dictionary.keys() and "dead_list" in dictionary.keys() and "current_player" in dictionary.keys():
             for entity in dictionary["entities"]:
                 battle_field.entities.append(Entity.from_simple_json(entity))

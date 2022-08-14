@@ -1,15 +1,17 @@
 from BattleSystem.Effect import Effect
 from BattleSystem.Dice import Dice
-from numpy import np
+import numpy as np
 
 
 class Dot_effect(Effect):
     def __init__(self, scale_type=None, resist_type=None, damage=None, name="Unknown", description="Unknown",
                  is_fixed_targeting=False, turn_left=0, max_target=1, is_positive=False):
+        # way to use effect that will be cast once and each turn before the turn limit
         super().__init__(scale_type, resist_type, damage, name, description,
                          is_fixed_targeting, turn_left, max_target, is_positive)
 
     def cast(self, from_entity, to_entities):
+        # way to cast it
         print(str(self))
         accuracy_stat = from_entity.get_stat(self.scale_type)
         bonus_stats_caster = (accuracy_stat-10)/2
@@ -22,7 +24,10 @@ class Dot_effect(Effect):
 
         damages = []
         targets_resistances = []
+        i = 0
         for entity in to_entities:
+            if i > self.max_target:
+                break
             if not self.is_positive:
                 if self.resist_type is not None:
                     target_resistance = Dice.dice20() + (entity.get_stat(self.resist_type)-10)/2
@@ -42,6 +47,7 @@ class Dot_effect(Effect):
         return damages, targets_resistances, self.caster_stat
 
     def __str__(self):
+        # description of those effect
         desc_damage = "["
         for dice in self.damage:
             desc_damage += "(" + Dice.get_description_dice(dice) + " dice) "

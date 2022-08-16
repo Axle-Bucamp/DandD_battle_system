@@ -15,7 +15,8 @@ class Effect:
         self.damage = damage  # list of dice that will do damage or heal on hit
         self.name = name
         self.description = description
-        self.is_fixed_targeting = is_fixed_targeting  # if the ability need to hit at least the max target entities
+        self.is_fixed_targeting = is_fixed_targeting  # not implemented yet
+        # --if the ability need to hit at least the max target entities
         self.turn_left = turn_left  # turn before an effect is ended (not use for instant cast)
 
         self.caster_stat = 0  # stat used to store the saving score of the caster

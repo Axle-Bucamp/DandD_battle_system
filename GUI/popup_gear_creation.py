@@ -15,8 +15,8 @@ class popup_gear_creation(Popup):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.size_hint = (None, None)
-        self.size = (1200, 800)
-        self.title = "Create Gear"
+        self.size = (1200, 1200)
+        self.title = "Smith a Gear"
 
         popup_main_grid = GridLayout(cols=1)
         self.add_widget(popup_main_grid)

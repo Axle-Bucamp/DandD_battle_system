@@ -235,6 +235,8 @@ class Action_menu(Accordion):
         if select1 is not None and select1 in Item_manager.gears:
             Item_manager.gears.remove(select1)
 
+        self.popup_remove_item.dismiss()
+
     def remove_entity(self, select1, select2):
         if select1 is not None:
             battle_field.entities.remove(select1)

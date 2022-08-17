@@ -74,7 +74,7 @@ class player_turn(GridLayout):
         self.ability_older.add_widget(self.abil_learning)
 
         self.main_content.add_widget(self.ability_older)
-        inventory_btn = Button(text="inventory", size_hint=(None, None), width=100, height=50)
+        inventory_btn = Button(text="inventory", size_hint=(None, None), width=150, height=50)
         self.popup_display_gear = popup_display_gear.popup_display_gear(battle_field.current_player)
         inventory_btn.bind(on_release=self.popup_display_gear.open)
         self.main_content.add_widget(inventory_btn)

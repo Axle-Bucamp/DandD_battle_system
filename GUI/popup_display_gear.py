@@ -18,10 +18,9 @@ class popup_display_gear(Popup):
         self.title = "Inventory"
         self.entity = entity
 
-        popup_main_grid = GridLayout(cols=1)
-        self.add_widget(popup_main_grid)
-
         self.layout = GridLayout(cols=1)
+        self.action_layout = GridLayout(cols=3, size_hint=(1, None), height=60)
+        self.add_widget(self.layout)
         self.accor_item = Accordion()
         self.layout.add_widget(self.accor_item)
 
@@ -29,7 +28,7 @@ class popup_display_gear(Popup):
 
         loot_btn = Button(text="loot item")
         loot_btn.bind(on_release=lambda x: [self.loot_item_popup_open()])
-        self.layout.add_widget(loot_btn)
+        self.action_layout.add_widget(loot_btn)
 
         self.pop_loot = popup_battle_draw.popup_battle_draw(title="Loot Item",
                                                             action_name="Loot",
@@ -39,7 +38,7 @@ class popup_display_gear(Popup):
 
         drop_btn = Button(text="drop item")
         drop_btn.bind(on_release=lambda x: [self.drop_item_popup_open()])
-        self.layout.add_widget(drop_btn)
+        self.action_layout.add_widget(drop_btn)
 
         self.pop_drop = popup_battle_draw.popup_battle_draw(title="Drop Item",
                                                             action_name="Drop",
@@ -49,7 +48,10 @@ class popup_display_gear(Popup):
 
         close_btn = Button(text="close")
         close_btn.bind(on_release=lambda x: [self.dismiss()])
-        self.layout.add_widget(close_btn)
+        self.action_layout.add_widget(close_btn)
+
+        self.layout.add_widget(self.action_layout)
+
 
     def drop_item_popup_open(self):
         self.pop_drop = popup_battle_draw.popup_battle_draw(title="Drop Item",

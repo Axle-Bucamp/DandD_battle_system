@@ -4,6 +4,9 @@ from kivy.uix.popup import Popup
 from kivy.uix.accordion import Accordion, AccordionItem
 from kivy.uix.label import Label
 from GUI import popup_details_ability
+from GUI import popup_battle_draw
+from BattleSystem.Item_manager import Item_manager
+from BattleSystem.BattleField import battle_field
 
 
 class popup_gear_creation(Popup):
@@ -13,6 +16,7 @@ class popup_gear_creation(Popup):
         self.size_hint = (None, None)
         self.size = (1600, 1000)
         self.title = "Inventory"
+        self.entity = entity
 
         popup_main_grid = GridLayout(cols=1)
         self.add_widget(popup_main_grid)
@@ -23,10 +27,59 @@ class popup_gear_creation(Popup):
 
         self.draw_item_list(entity)
 
+        loot_btn = Button(text="loot item")
+        loot_btn.bind(on_release=lambda x: [self.loot_item_popup_open()])
+        self.layout.add_widget(loot_btn)
+
+        self.pop_loot = popup_battle_draw.popup_battle_draw(title="Loot Item",
+                                                            action_name="Loot",
+                                                            call=self.loot_item,
+                                                            list1=Item_manager.gears,
+                                                            name1="items")
+
+        drop_btn = Button(text="drop item")
+        drop_btn.bind(on_release=lambda x: [self.drop_item_popup_open()])
+        self.layout.add_widget(drop_btn)
+
+        self.pop_drop = popup_battle_draw.popup_battle_draw(title="Drop Item",
+                                                            action_name="Drop",
+                                                            call=self.drop_item,
+                                                            list1=self.entity.gears,
+                                                            name1="items")
+
         close_btn = Button(text="close")
         close_btn.bind(on_release=lambda x: [self.dismiss()])
         self.layout.add_widget(close_btn)
 
+    def drop_item_popup_open(self):
+        self.pop_drop = popup_battle_draw.popup_battle_draw(title="Drop Item",
+                                                            action_name="Drop",
+                                                            call=self.drop_item,
+                                                            list1=self.entity.gears,
+                                                            name1="items")
+        self.pop_drop.open()
+
+    def loot_item_popup_open(self):
+        self.pop_loot = popup_battle_draw.popup_battle_draw(title="Loot Item",
+                                                            action_name="Loot",
+                                                            call=self.loot_item,
+                                                            list1=Item_manager.gears,
+                                                            name1="items")
+        self.pop_loot.open()
+
+    def drop_item(self, selected1, selected2):
+        if selected1 is not None:
+            ind = battle_field.entities.index(self.entity)
+            battle_field.entities[ind].gear.remove(selected1)
+
+        self.pop_drop.dismiss()
+
+    def loot_item(self, selected1, selected2):
+        if selected1 is not None:
+            ind = battle_field.entities.index(self.entity)
+            battle_field.entities[ind].gear.append(selected1)
+
+        self.pop_loot.dismiss()
 
     def draw_item_list(self, entity):
         for item in entity.gear:

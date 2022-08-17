@@ -165,7 +165,7 @@ class Action_menu(Accordion):
         items_options.add_widget(self.items_create_option)
 
         self.items_remove_option = Button(text="Remove Item", size_hint_y=None, height=44)
-        items_options.add_widget(self.items_remove_option
+        items_options.add_widget(self.items_remove_option)
 
         self.items_load_option = Button(text="Load Item", size_hint_y=None, height=44)
         items_options.add_widget(self.items_load_option)

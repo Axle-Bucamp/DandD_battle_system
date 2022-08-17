@@ -76,14 +76,14 @@ class popup_display_gear(Popup):
     def drop_item(self, selected1, selected2):
         if selected1 is not None:
             ind = battle_field.entities.index(self.entity)
-            battle_field.entities[ind].gear.remove(selected1)
+            selected1.on_drop(battle_field.entities[ind])
 
         self.pop_drop.dismiss()
 
     def loot_item(self, selected1, selected2):
         if selected1 is not None:
             ind = battle_field.entities.index(self.entity)
-            battle_field.entities[ind].gear.append(selected1)
+            selected1.on_hold(battle_field.entities[ind])
 
         self.pop_loot.dismiss()
 

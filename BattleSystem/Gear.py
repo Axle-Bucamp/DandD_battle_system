@@ -18,7 +18,7 @@ class Gear:
 
     def on_hold(self, entity):
         entity.gear.append(self)
-        for key, value in self.charact_bonus:
+        for key, value in self.charact_bonus.items():
             if key == "stre":
                 entity.strength += value
             if key == "const":
@@ -35,7 +35,7 @@ class Gear:
                 entity.armor_class += value
 
         for ability in self.abilities:
-            entity.append(ability)
+            entity.ability.append(ability)
 
     def on_drop(self, entity):
         entity.gear.remvoe(self)
@@ -56,7 +56,7 @@ class Gear:
                 entity.armor_class -= value
 
         for ability in self.abilities:
-            entity.remove(ability)
+            entity.ability.remove(ability)
 
     @staticmethod
     def to_simple_dict(obj):

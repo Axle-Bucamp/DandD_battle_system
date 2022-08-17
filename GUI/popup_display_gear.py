@@ -57,6 +57,8 @@ class popup_gear_creation(Popup):
                                                             call=self.drop_item,
                                                             list1=self.entity.gears,
                                                             name1="items")
+        self.accor_item.clear_widgets()
+        self.draw_item_list(self.entity)
         self.pop_drop.open()
 
     def loot_item_popup_open(self):
@@ -65,6 +67,8 @@ class popup_gear_creation(Popup):
                                                             call=self.loot_item,
                                                             list1=Item_manager.gears,
                                                             name1="items")
+        self.accor_item.clear_widgets()
+        self.draw_item_list(self.entity)
         self.pop_loot.open()
 
     def drop_item(self, selected1, selected2):

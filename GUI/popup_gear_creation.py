@@ -35,7 +35,7 @@ class popup_gear_creation(Popup):
         self.name = TextInput(size_hint_y=None, height=60)
         self.layout.add_widget(self.name)
 
-        self.layout.add_widget(Label(text="Description:", size_hint_y=None, height=300))
+        self.layout.add_widget(Label(text="Description:", size_hint_y=None, height=250))
         self.desc = TextInput(size_hint_y=None, height=300)
         self.layout.add_widget(self.desc )
 
@@ -43,7 +43,7 @@ class popup_gear_creation(Popup):
         self.consum = Switch(active=True, size_hint_y=None, height=60)
         self.layout.add_widget(self.consum)
 
-        self.layout.add_widget(Label(text="number of use before fading:", size_hint_y=None, height=60))
+        self.layout.add_widget(Label(text="number of use:", size_hint_y=None, height=60))
         self.slide_usage = Slider(min=1, max=10, value=1, step=1)
         self.slide_usage.bind(value=self.set_slider_value)
         self.layout.add_widget(self.slide_usage)
@@ -111,8 +111,8 @@ class popup_gear_creation(Popup):
         action.add_widget(cancel)
         cancel.bind(on_release=self.dismiss)
 
-    def set_slider_value(self, instance):
-        self.value_display.text = instance.min + " < " + instance.value + " < " + instance.max
+    def set_slider_value(self, instance, value):
+        self.value_display.text = str(instance.min) + " < " + str(value) + " < " + str(instance.max)
 
     def add_ability(self, x, instance):
         ability_button = Button(text=instance.text, size_hint=(1, None), height=50)

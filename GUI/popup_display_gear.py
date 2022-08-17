@@ -44,7 +44,7 @@ class popup_display_gear(Popup):
         self.pop_drop = popup_battle_draw.popup_battle_draw(title="Drop Item",
                                                             action_name="Drop",
                                                             call=self.drop_item,
-                                                            list1=self.entity.gears,
+                                                            list1=self.entity.gear,
                                                             name1="items")
 
         close_btn = Button(text="close")

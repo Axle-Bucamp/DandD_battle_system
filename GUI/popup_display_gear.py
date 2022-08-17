@@ -21,7 +21,7 @@ class popup_display_gear(Popup):
         self.layout = GridLayout(cols=1)
         self.action_layout = GridLayout(cols=3, size_hint=(1, None), height=60)
         self.add_widget(self.layout)
-        self.accor_item = Accordion()
+        self.accor_item = Accordion(orientation='vertical')
         self.layout.add_widget(self.accor_item)
 
         self.draw_item_list(entity)
@@ -98,7 +98,7 @@ class popup_display_gear(Popup):
             if type == 2:
                 item_layout.add_widget(Label(text="[color=000000]" + str(item.nb_use) + "[/color]",
                                              markup=True, size_hint=(1, None), height=60))
-            for key, bonus in item.charact_bonus:
+            for key, bonus in item.charact_bonus.items():
                 item_layout.add_widget(Label(text="[color=000000]" + str(key) + ": " + str(bonus) + "[/color]",
                                              markup=True, size_hint=(1, None), height=60))
 

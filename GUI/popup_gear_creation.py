@@ -22,12 +22,12 @@ class popup_gear_creation(Popup):
         self.add_widget(popup_main_grid)
 
         self.layout = GridLayout(cols=2)
-        self.list_effects = GridLayout(cols=1)
+        self.list_ability = GridLayout(cols=1)
         sep = GridLayout(cols=2)
         action = GridLayout(cols=3, size_hint=(1, None), height=50)
 
         sep.add_widget(self.layout)
-        sep.add_widget(self.list_effects)
+        sep.add_widget(self.list_ability)
         popup_main_grid.add_widget(sep)
         popup_main_grid.add_widget(action)
 

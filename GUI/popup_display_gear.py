@@ -9,7 +9,7 @@ from BattleSystem.Item_manager import Item_manager
 from BattleSystem.BattleField import battle_field
 
 
-class popup_gear_creation(Popup):
+class popup_display_gear(Popup):
     def __init__(self, entity, **kwargs):
         super().__init__(**kwargs)
         self.pop_ability = None

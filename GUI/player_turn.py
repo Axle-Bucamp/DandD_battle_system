@@ -9,7 +9,7 @@ from GUI import popup_details_ability
 from GUI import popup_battle_draw
 from GUI import end_battle_popup
 from kivy.utils import get_color_from_hex
-
+from GUI import popup_display_gear
 
 class ability_list_layout(GridLayout):
     pass
@@ -72,7 +72,12 @@ class player_turn(GridLayout):
         self.ability_older = GridLayout(cols=1)
         self.ability_older.add_widget(self.ability)
         self.ability_older.add_widget(self.abil_learning)
+
         self.main_content.add_widget(self.ability_older)
+        inventory_btn = Button(text="inventory", size_hint=(None, None), width=100, height=50)
+        self.popup_display_gear = popup_display_gear.popup_display_gear(battle_field.current_player)
+        inventory_btn.bind(on_release=self.popup_display_gear.open)
+        self.main_content.add_widget(inventory_btn)
 
         action_button = self.action_widget(battle_field.current_player)
 

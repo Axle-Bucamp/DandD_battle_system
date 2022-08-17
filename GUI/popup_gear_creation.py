@@ -146,7 +146,7 @@ class popup_gear_creation(Popup):
 
     def create_list_ability(self):
         self.drop_ability.clear_widgets()
-        for ability in Ability_manager.ability:
+        for ability in Ability_manager.abilities:
             btn = Button(text=ability.name, size_hint_y=None, height=60)
             btn.value = ability
             btn.bind(on_release=lambda btn_call: self.drop_ability.select(btn_call))

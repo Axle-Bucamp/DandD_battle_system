@@ -123,7 +123,7 @@ class popup_gear_creation(Popup):
     def generate(self, btn):
         name = self.name.text
         description = self.desc.text
-        consomable = self.consum.value
+        consomable = self.consum.active
         nb_usage = self.slide_usage.value
         strength = self.slide_str.value
         dext = self.slide_dext.value

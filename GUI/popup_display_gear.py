@@ -5,10 +5,11 @@ from kivy.uix.accordion import Accordion, AccordionItem
 from kivy.uix.label import Label
 from GUI import popup_details_ability
 
+
 class popup_gear_creation(Popup):
     def __init__(self, entity, **kwargs):
         super().__init__(**kwargs)
-
+        self.pop_ability = None
         self.size_hint = (None, None)
         self.size = (1600, 1000)
         self.title = "Inventory"

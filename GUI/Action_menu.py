@@ -27,6 +27,8 @@ class Action_menu(Accordion):
         self.add_widget(bestiary)
         ability_management = AccordionItem(title="Ability")
         self.add_widget(ability_management)
+        item_management = AccordionItem(title="Item")
+        self.add_widget(item_management)
         file_management = AccordionItem(title="File")
         self.add_widget(file_management)
         dice_management = AccordionItem(title="Dice")
@@ -152,9 +154,23 @@ class Action_menu(Accordion):
         ability_management.add_widget(ability_options)
 
         # drawing gear panel :
-        # create
-        # remove
-        # load
+        items_options = GridLayout(cols=1)
+        self.items_loot_option = Button(text="Loot Item", size_hint_y=None, height=44)
+        items_options.add_widget(self.items_loot_option)
+
+        self.items_drop_option = Button(text="drop Item", size_hint_y=None, height=44)
+        items_options.add_widget(self.items_drop_option)
+
+        self.items_create_option = Button(text="Create Item", size_hint_y=None, height=44)
+        items_options.add_widget(self.items_create_option)
+
+        self.items_remove_option = Button(text="Remove Item", size_hint_y=None, height=44)
+        items_options.add_widget(self.items_remove_option
+
+        self.items_load_option = Button(text="Load Item", size_hint_y=None, height=44)
+        items_options.add_widget(self.items_load_option)
+
+        item_management.add_widget(items_options)
 
         # drawing file pannel :
         file_options = GridLayout(cols=1)

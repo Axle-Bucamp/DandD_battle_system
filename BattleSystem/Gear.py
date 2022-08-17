@@ -38,7 +38,7 @@ class Gear:
             entity.ability.append(ability)
 
     def on_drop(self, entity):
-        entity.gear.remvoe(self)
+        entity.gear.remove(self)
         for key, value in self.charact_bonus:
             if key == "stre":
                 entity.strength -= value

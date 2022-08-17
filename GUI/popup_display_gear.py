@@ -59,8 +59,6 @@ class popup_display_gear(Popup):
                                                             call=self.drop_item,
                                                             list1=self.entity.gear,
                                                             name1="items")
-        self.accor_item.clear_widgets()
-        self.draw_item_list(self.entity)
         self.pop_drop.open()
 
     def loot_item_popup_open(self):
@@ -69,22 +67,22 @@ class popup_display_gear(Popup):
                                                             call=self.loot_item,
                                                             list1=Item_manager.gears,
                                                             name1="items")
-        self.accor_item.clear_widgets()
-        self.draw_item_list(self.entity)
         self.pop_loot.open()
 
     def drop_item(self, selected1, selected2):
         if selected1 is not None:
             ind = battle_field.entities.index(self.entity)
             selected1.on_drop(battle_field.entities[ind])
-
+        self.accor_item.clear_widgets()
+        self.draw_item_list(self.entity)
         self.pop_drop.dismiss()
 
     def loot_item(self, selected1, selected2):
         if selected1 is not None:
             ind = battle_field.entities.index(self.entity)
             selected1.on_hold(battle_field.entities[ind])
-
+        self.accor_item.clear_widgets()
+        self.draw_item_list(self.entity)
         self.pop_loot.dismiss()
 
     def draw_item_list(self, entity):

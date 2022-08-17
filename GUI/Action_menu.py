@@ -169,9 +169,12 @@ class Action_menu(Accordion):
         items_options.add_widget(self.items_create_option)
 
         self.items_remove_option = Button(text="Remove Item", size_hint_y=None, height=44)
-        self.popup_remove_item = popup_battle_draw.popup_battle_draw(title="Remove item", action_name="Remove",
-                                                                        call=self.remove_item, name1="item list",
-                                                                        list1=Item_manager.gears)
+        self.popup_remove_item = popup_battle_draw.popup_battle_draw(title="Remove item",
+                                                                     action_name="Remove",
+                                                                     call=self.remove_item,
+                                                                     name1="item list",
+                                                                     list1=Item_manager.gears)
+
         self.items_remove_option.bind(on_release=lambda x: [self.popup_remove_item_redraw(), self.popup_remove_item.open()])
         items_options.add_widget(self.items_remove_option)
 
@@ -227,6 +230,10 @@ class Action_menu(Accordion):
         self.popup_remove_item = popup_battle_draw.popup_battle_draw(title="Remove item", action_name="Remove",
                                                                      call=self.remove_item, name1="item list",
                                                                      list1=Item_manager.gears)
+
+    def remove_item(self, select1, select2):
+        if select1 is not None and select1 in Item_manager.gears:
+            Item_manager.gears.remove(select1)
 
     def remove_entity(self, select1, select2):
         if select1 is not None:

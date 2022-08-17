@@ -8,9 +8,11 @@ from GUI import popup_effect_creation
 from GUI import popup_ability_creation
 from GUI import popup_battle_draw
 from GUI import popup_load_json
+from GUI import popup_gear_creation
 from BattleSystem.BattleField import battle_field
 from BattleSystem.Bestiary import Bestiary
 from BattleSystem.Ability_manager import Ability_manager
+from BattleSystem.Item_manager import Item_manager
 from kivy.uix.popup import Popup
 from BattleSystem.Dice import Dice
 import json
@@ -162,12 +164,19 @@ class Action_menu(Accordion):
         items_options.add_widget(self.items_drop_option)
 
         self.items_create_option = Button(text="Create Item", size_hint_y=None, height=44)
+        self.popup_creation_item = popup_gear_creation.popup_gear_creation()
+        self.items_create_option.bind(on_release=self.popup_creation_item.open)
         items_options.add_widget(self.items_create_option)
 
         self.items_remove_option = Button(text="Remove Item", size_hint_y=None, height=44)
+        self.popup_remove_item = popup_battle_draw.popup_battle_draw(title="Remove item", action_name="Remove",
+                                                                        call=self.remove_item, name1="item list",
+                                                                        list1=Item_manager.gears)
+        self.items_remove_option.bind(on_release=lambda x: [self.popup_remove_item_redraw(), self.popup_remove_item.open()])
         items_options.add_widget(self.items_remove_option)
 
         self.items_load_option = Button(text="Load Item", size_hint_y=None, height=44)
+        self.items_load_option.bind(on_press=self.loading_file.open)
         items_options.add_widget(self.items_load_option)
 
         item_management.add_widget(items_options)
@@ -213,6 +222,11 @@ class Action_menu(Accordion):
         dice_options.add_widget(self.throw_100dice)
 
         dice_management.add_widget(dice_options)
+
+    def popup_remove_item_redraw(self):
+        self.popup_remove_item = popup_battle_draw.popup_battle_draw(title="Remove item", action_name="Remove",
+                                                                     call=self.remove_item, name1="item list",
+                                                                     list1=Item_manager.gears)
 
     def remove_entity(self, select1, select2):
         if select1 is not None:

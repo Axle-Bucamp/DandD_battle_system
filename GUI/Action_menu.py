@@ -157,12 +157,6 @@ class Action_menu(Accordion):
 
         # drawing gear panel :
         items_options = GridLayout(cols=1)
-        self.items_loot_option = Button(text="Loot Item", size_hint_y=None, height=44)
-        items_options.add_widget(self.items_loot_option)
-
-        self.items_drop_option = Button(text="drop Item", size_hint_y=None, height=44)
-        items_options.add_widget(self.items_drop_option)
-
         self.items_create_option = Button(text="Create Item", size_hint_y=None, height=44)
         self.popup_creation_item = popup_gear_creation.popup_gear_creation()
         self.items_create_option.bind(on_release=self.popup_creation_item.open)

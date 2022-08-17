@@ -7,7 +7,7 @@ from GUI import popup_details_ability
 from GUI import popup_battle_draw
 from BattleSystem.Item_manager import Item_manager
 from BattleSystem.BattleField import battle_field
-
+from GUI import Main_window
 
 class party_member_box(GridLayout):
     pass
@@ -86,6 +86,7 @@ class popup_display_gear(Popup):
             selected1.on_hold(battle_field.entities[ind])
         self.accor_item.clear_widgets()
         self.draw_item_list(self.entity)
+        Main_window.Main_window.refresh()
         self.pop_loot.dismiss()
 
     def draw_item_list(self, entity):

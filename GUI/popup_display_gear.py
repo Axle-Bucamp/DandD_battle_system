@@ -78,6 +78,7 @@ class popup_display_gear(Popup):
             selected1.on_drop(battle_field.entities[ind])
         self.accor_item.clear_widgets()
         self.draw_item_list(self.entity)
+        Main_window.Main_window.refresh()
         self.pop_drop.dismiss()
 
     def loot_item(self, selected1, selected2):

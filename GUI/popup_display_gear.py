@@ -9,6 +9,10 @@ from BattleSystem.Item_manager import Item_manager
 from BattleSystem.BattleField import battle_field
 
 
+class party_member_box(GridLayout):
+    pass
+
+
 class popup_display_gear(Popup):
     def __init__(self, entity, **kwargs):
         super().__init__(**kwargs)
@@ -52,7 +56,6 @@ class popup_display_gear(Popup):
 
         self.layout.add_widget(self.action_layout)
 
-
     def drop_item_popup_open(self):
         self.pop_drop = popup_battle_draw.popup_battle_draw(title="Drop Item",
                                                             action_name="Drop",
@@ -87,15 +90,17 @@ class popup_display_gear(Popup):
 
     def draw_item_list(self, entity):
         for item in entity.gear:
-            type = int(item.is_consumable) + 1
-            item_layout = AccordionItem(title=item.name,
-                                        background_normal='images/acordeon/image_when_collapsed_party_'
-                                              + str(type) + '.png')
+            type_item = int(item.is_consumable) + 1
+            item_box = AccordionItem(title=item.name,
+                                     background_normal='images/acordeon/image_when_collapsed_party_'
+                                                       + str(type_item) + '.png')
+            item_layout = party_member_box(cols=1)
+            item_box.add_widget(item_layout)
 
             item_layout.add_widget(Label(text="[color=000000]" + item.description + "[/color]",
                                          markup=True, size_hint=(1, None), height=100))
 
-            if type == 2:
+            if type_item == 2:
                 item_layout.add_widget(Label(text="[color=000000]" + str(item.nb_use) + "[/color]",
                                              markup=True, size_hint=(1, None), height=60))
             for key, bonus in item.charact_bonus.items():
@@ -105,12 +110,13 @@ class popup_display_gear(Popup):
             for ability in item.abilities:
                 if ability in entity.ability:
                     ability_btn = Button(text="[color=000000]" + str(ability.name) + "[/color]",
-                           markup=True, size_hint=(1, None), height=60)
+                                         markup=True, size_hint=(1, None), height=60)
+
                     ability_btn.value = ability
                     ability_btn.bind(on_press=self.get_detail)
                     item_layout.add_widget(ability_btn)
 
-            self.accor_item.add_widget(item_layout)
+            self.accor_item.add_widget(item_box)
 
     def get_detail(self, btn):
         self.pop_ability = popup_details_ability.popup_details_ability(btn.value)
